@@ -15,7 +15,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/apps/platform",
+            "outputPath": "dist/platform/browser",
             "index": "apps/platform/src/index.html",
             "main": "apps/platform/src/main.ts",
             "polyfills": "apps/platform/src/polyfills.ts",
@@ -87,6 +87,53 @@
           "options": {
             "jestConfig": "apps/platform/jest.config.js",
             "passWithNoTests": true
+          }
+        },
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "outputPath": "dist/platform/server",
+            "main": "apps/platform/server.ts",
+            "tsConfig": "apps/platform/tsconfig.server.json"
+          },
+          "configurations": {
+            "production": {
+              "outputHashing": "media",
+              "fileReplacements": [
+                {
+                  "replace": "apps/platform/src/environments/environment.ts",
+                  "with": "apps/platform/src/environments/environment.prod.ts"
+                }
+              ],
+              "sourceMap": false,
+              "optimization": true
+            }
+          }
+        },
+        "serve-ssr": {
+          "builder": "@nguniversal/builders:ssr-dev-server",
+          "options": {
+            "browserTarget": "platform:build",
+            "serverTarget": "platform:server"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "platform:build:production",
+              "serverTarget": "platform:server:production"
+            }
+          }
+        },
+        "prerender": {
+          "builder": "@nguniversal/builders:prerender",
+          "options": {
+            "browserTarget": "platform:build:production",
+            "serverTarget": "platform:server:production",
+            "routes": [
+              "/"
+            ]
+          },
+          "configurations": {
+            "production": {}
           }
         }
       }
