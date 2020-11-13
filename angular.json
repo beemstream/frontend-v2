@@ -14,8 +14,8 @@
       "prefix": "frontend-v2",
       "architect": {
         "build": {
-            "builder": "@angular-builders/custom-webpack:browser",
-            "options": {
+          "builder": "@angular-builders/custom-webpack:browser",
+          "options": {
             "outputPath": "dist/platform/browser",
             "index": "apps/platform/src/index.html",
             "main": "apps/platform/src/main.ts",
@@ -26,8 +26,13 @@
               "apps/platform/src/favicon.ico",
               "apps/platform/src/assets"
             ],
-            "styles": ["apps/platform/src/styles.scss"],
-            "scripts": []
+            "styles": [
+              "apps/platform/src/styles.scss"
+            ],
+            "scripts": [],
+            "customWebpackConfig": {
+                "path": "./webpack.config.js"
+            }
           },
           "configurations": {
             "production": {
@@ -37,9 +42,6 @@
                   "with": "apps/platform/src/environments/environment.prod.ts"
                 }
               ],
-              "customWebpackConfig": {
-                "path": "./custom.webpack.config.js"
-              },
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -64,8 +66,9 @@
           }
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "ngx-build-plus:dev-server",
           "options": {
+            "extraWebpackConfig": "webpack.config.js",
             "browserTarget": "platform:build"
           },
           "configurations": {
@@ -83,7 +86,9 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["apps/platform/src/**/*.ts"]
+            "lintFilePatterns": [
+              "apps/platform/src/**/*.ts"
+            ]
           }
         },
         "test": {
@@ -163,7 +168,9 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["apps/platform-e2e/**/*.{js,ts}"]
+            "lintFilePatterns": [
+              "apps/platform-e2e/**/*.{js,ts}"
+            ]
           }
         }
       }
