@@ -5,7 +5,8 @@
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
-          "style": "scss"
+          "style": "scss",
+          "strict": true
         }
       },
       "root": "apps/platform",
@@ -13,8 +14,8 @@
       "prefix": "frontend-v2",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
-          "options": {
+            "builder": "@angular-builders/custom-webpack:browser",
+            "options": {
             "outputPath": "dist/platform/browser",
             "index": "apps/platform/src/index.html",
             "main": "apps/platform/src/main.ts",
@@ -36,6 +37,9 @@
                   "with": "apps/platform/src/environments/environment.prod.ts"
                 }
               ],
+              "customWebpackConfig": {
+                "path": "./custom.webpack.config.js"
+              },
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
