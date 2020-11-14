@@ -28,9 +28,8 @@
     "help": "nx help",
     "dev:ssr": "ng run platform:serve-ssr",
     "serve:ssr": "node dist/platform/server/main.js",
-    "build:ssr": "ng build --prod && ng run platform:server:production",
-    "prerender": "ng run platform:prerender",
-    "build:prod": "NODE_ENV=production ng build --prod"
+    "build:ssr": "NODE_ENV=production ng build --prod && ng run platform:server:production",
+    "prerender": "ng run platform:prerender"
   },
   "private": true,
   "dependencies": {
@@ -74,13 +73,7 @@
     "eslint-plugin-cypress": "^2.10.3",
     "jest": "26.2.2",
     "jest-preset-angular": "8.3.1",
-    "ngx-build-plus": "latest",
-    "ngx-tailwind": "^0.5.1",
-    "postcss-import": "12.0.1",
-    "postcss-loader": "latest",
-    "postcss-scss": "latest",
     "prettier": "2.0.4",
-    "tailwindcss": "latest",
     "ts-jest": "26.4.0",
     "ts-node": "~7.0.0",
     "tslint": "~6.0.0",
