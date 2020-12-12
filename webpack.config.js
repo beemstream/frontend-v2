@@ -5,6 +5,7 @@ module.exports = {
         test: /\.scss$/,
         loader: 'postcss-loader',
         options: {
+        sourceMap: false,
           postcssOptions: {
             ident: 'postcss',
             syntax: 'postcss-scss',
