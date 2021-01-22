@@ -5,10 +5,10 @@
       "projectType": "application",
       "root": "apps/platform",
       "sourceRoot": "apps/platform/src",
-      "prefix": "frontend-v2",
+      "prefix": "nbp",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-builders/custom-webpack:browser",
           "options": {
             "outputPath": "dist/apps/platform",
             "index": "apps/platform/src/index.html",
@@ -20,8 +20,13 @@
               "apps/platform/src/favicon.ico",
               "apps/platform/src/assets"
             ],
-            "styles": ["apps/platform/src/styles.css"],
-            "scripts": []
+            "styles": [
+              "apps/platform/src/styles.css"
+            ],
+            "scripts": [],
+            "customWebpackConfig": {
+              "path": "webpack.config.js"
+            }
           },
           "configurations": {
             "production": {
@@ -54,7 +59,7 @@
           }
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "@angular-builders/custom-webpack:dev-server",
           "options": {
             "browserTarget": "platform:build"
           },
@@ -81,7 +86,9 @@
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/platform"],
+          "outputs": [
+            "coverage/apps/platform"
+          ],
           "options": {
             "jestConfig": "apps/platform/jest.config.js",
             "passWithNoTests": true
@@ -110,14 +117,17 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["apps/platform-e2e/**/*.{js,ts}"]
+            "lintFilePatterns": [
+              "apps/platform-e2e/**/*.{js,ts}"
+            ]
           }
         }
       }
     }
   },
   "cli": {
-    "defaultCollection": "@nrwl/angular"
+    "defaultCollection": "@nrwl/angular",
+    "analytics": "b288945f-da49-4161-ad56-2414fee314e3"
   },
   "schematics": {
     "@nrwl/angular": {
