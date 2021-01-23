@@ -6,10 +6,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { NavbarComponent } from './navbar/navbar.component';
 import { NavButtonComponent } from './navbar/nav-button/nav-button.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { LinkModule } from '@frontend-v2/shared-ui';
 
 @NgModule({
   declarations: [AppComponent, NavbarComponent, NavButtonComponent],
-  imports: [BrowserModule, AppRoutingModule, FontAwesomeModule],
+  imports: [BrowserModule, AppRoutingModule, FontAwesomeModule, LinkModule],
   providers: [],
   bootstrap: [AppComponent],
 })

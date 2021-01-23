@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SharedUiModule } from '@frontend-v2/shared-ui';
+import { LinkModule, StreamCardModule } from '@frontend-v2/shared-ui';
 
 import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './home.component';
@@ -11,7 +11,8 @@ import { HomeComponent } from './home.component';
   imports: [
     CommonModule,
     HomeRoutingModule,
-    SharedUiModule,
+    StreamCardModule,
+    LinkModule
   ]
 })
 export class HomeModule { }

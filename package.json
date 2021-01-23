@@ -25,7 +25,9 @@
     "update": "nx migrate latest",
     "workspace-generator": "nx workspace-generator",
     "dep-graph": "nx dep-graph",
-    "help": "nx help"
+    "help": "nx help",
+    "bundle:analyze": "npm run bundle:build && webpack-bundle-analyzer dist/apps/platform/stats.json",
+    "bundle:build": "nx build --prod --stats-json"
   },
   "private": true,
   "dependencies": {
@@ -83,6 +85,7 @@
     "ts-jest": "26.4.0",
     "ts-node": "~9.1.1",
     "tslint": "~6.1.0",
-    "typescript": "~4.0.3"
+    "typescript": "~4.0.3",
+    "webpack-bundle-analyzer": "^4.4.0"
   }
 }

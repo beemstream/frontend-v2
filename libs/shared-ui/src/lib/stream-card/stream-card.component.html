@@ -1,18 +1,22 @@
-<div class="mx-auto mt-10 overflow-hidden rounded ring-2 ring-gray-50 ring-opacity-10 space-y-4">
-  <img
-    class="object-cover object-center w-full h-64"
-    [src]="img"
-    [alt]="username"
-  />
+<div class="mx-auto mt-10 overflow-hidden rounded space-y-4">
+    <a [routerLink]="streamId">
+      <img
+        class="object-cover object-center w-full h-64"
+        [src]="img"
+        [alt]="username"
+      />
+    </a>
 
+  <div class="px-6">
+      <div class="container font-bold text-white truncate hover:text-red-800">
+          <ui-link [routerLink]="streamId" [linkName]="streamTitle"></ui-link>
+      </div>
+  </div>
   <div class="pl-6 pr-6">
     <div class="text-sm text-white grid grid-cols-2">
-        <span>username {{username}}</span>
-        <span class="text-right">{{viewerNo}}</span>
+        <span><fa-icon [icon]="faUser"></fa-icon> {{username}}</span>
+        <span class="text-right"><fa-icon [icon]="faEye"></fa-icon> {{viewerNo}}</span>
     </div>
-  </div>
-  <div class="px-6">
-      <div class="container font-bold text-white truncate text-md">{{streamTitle}}</div>
   </div>
   <div class="px-6">
     <ui-stream-tag *ngFor="let tag of tags" [tag]="tag"></ui-stream-tag>
