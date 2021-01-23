@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faTimes, faGift } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'nbp-navbar',
@@ -11,6 +11,7 @@ export class NavbarComponent implements OnInit {
   isNavActive = false;
   faBars = faBars;
   faTimes = faTimes;
+  faGift = faGift;
 
   get icon() {
     return this.isNavActive ? this.faTimes : this.faBars;

@@ -9,7 +9,8 @@ export class NavButtonComponent implements OnInit {
 
   @Input() routeName: string;
   @Input() routerLink: string;
-  @Input() navOptions: { exact: boolean };
+  @Input() icon: string;
+  @Input() navOptions?: { exact: boolean } = { exact: false };
 
   constructor() { }
 

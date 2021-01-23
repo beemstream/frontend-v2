@@ -20,9 +20,7 @@
               "apps/platform/src/favicon.ico",
               "apps/platform/src/assets"
             ],
-            "styles": [
-              "apps/platform/src/styles.css"
-            ],
+            "styles": ["apps/platform/src/styles.css"],
             "scripts": [],
             "customWebpackConfig": {
               "path": "webpack.config.js"
@@ -86,9 +84,7 @@
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/apps/platform"
-          ],
+          "outputs": ["coverage/apps/platform"],
           "options": {
             "jestConfig": "apps/platform/jest.config.js",
             "passWithNoTests": true
@@ -117,9 +113,32 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
+            "lintFilePatterns": ["apps/platform-e2e/**/*.{js,ts}"]
+          }
+        }
+      }
+    },
+    "shared-ui": {
+      "projectType": "library",
+      "root": "libs/shared-ui",
+      "sourceRoot": "libs/shared-ui/src",
+      "prefix": "ui",
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
             "lintFilePatterns": [
-              "apps/platform-e2e/**/*.{js,ts}"
+              "libs/shared-ui/src/**/*.ts",
+              "libs/shared-ui/src/**/*.html"
             ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/shared-ui"],
+          "options": {
+            "jestConfig": "libs/shared-ui/jest.config.js",
+            "passWithNoTests": true
           }
         }
       }
