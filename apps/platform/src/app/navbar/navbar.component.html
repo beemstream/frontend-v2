@@ -24,10 +24,10 @@
       </div>
     </div>
     <div [class.hidden]="!isNavActive" class="text-white sm:hidden">
-        <ul>
-            <li class="p-3"><a routerLink="/">Discover</a></li>
-            <li class="p-3"><a routerLink="/browse">Browse</a></li>
-            <li class="p-3"><a routerLink="/random">Surprise Me!</a></li>
+        <ul class="font-semibold">
+            <li class="p-3"><ui-link routerLink="/" linkName="Discover"></ui-link></li>
+            <li class="p-3"><ui-link routerLink="/browse" linkName="Browse"></ui-link></li>
+            <li class="p-3"><ui-link routerLink="/random" linkName="Surprise Me!"></ui-link></li>
         </ul>
     </div>
   </div>
