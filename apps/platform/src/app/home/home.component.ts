@@ -9,9 +9,14 @@ export class HomeComponent implements OnInit {
 
   constructor() { }
 
-  foo = [1,2,3,4,5];
+  foo = [];
 
   ngOnInit(): void {
+      let a = [];
+      for (let i = 0; i < 200; i++) {
+          a.push({ bleh: i });
+      }
+      this.foo = a;
   }
 
 }
