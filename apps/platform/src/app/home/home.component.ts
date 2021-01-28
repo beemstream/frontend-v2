@@ -15,7 +15,9 @@ export class HomeComponent implements OnInit {
     share()
   );
 
-  templateStreams = this.streams;
+  templateStreams = this.streams.pipe(
+      map(s => s)
+  );
 
   needsLoveStreams = this.streams.pipe(
       map(stream => stream.sort((a, b) => a.viewer_count - b.viewer_count )),
