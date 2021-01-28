@@ -1,9 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'ui-stream-tag',
   templateUrl: './stream-tag.component.html',
-  styleUrls: ['./stream-tag.component.css']
+  styleUrls: ['./stream-tag.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StreamTagComponent implements OnInit {
 
