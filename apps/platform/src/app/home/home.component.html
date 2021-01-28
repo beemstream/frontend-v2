@@ -1,8 +1,8 @@
 <div class="w-full">
     <div class="mt-10 mb-10">
     <input (input)="filterStreams($event)" type="text" class="h-8 mr-2 rounded-md" />
-    <button class="p-2 mr-2 text-sm text-white bg-red-700 rounded-md" (click)="getMostPopularStreams()">Most Popular</button>
-    <button class="p-2 text-sm text-white bg-red-700 rounded-md" (click)="getNeedsLoveStreams()">Needs Love</button>
+    <button class="p-1 pl-2 pr-2 mr-2 text-sm text-white border-2 border-pink-800 active:bg-pink-800 hover:bg-pink-800 rounded-md" (click)="getMostPopularStreams()">Most Popular</button>
+    <button class="p-1 pl-2 pr-2 text-sm text-white border-2 border-pink-800 active:bg-pink-800 hover:bg-pink-800 rounded-md" (click)="getNeedsLoveStreams()">Needs Love</button>
     </div>
 
     <virtual-scroller #scroll [enableUnequalChildrenSizes]="true" [items]="templateStreams | async">

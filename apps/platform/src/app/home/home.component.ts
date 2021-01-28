@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { StreamCollectionService } from '../stream-collection.service';
-import { filter, flatMap, map, mergeMap, reduce, share } from 'rxjs/operators';
+import { filter, flatMap, map, reduce, share } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { StreamInfo } from '../stream-info';
 
@@ -33,15 +33,19 @@ export class HomeComponent implements OnInit {
   }
 
   filterStreams(event: KeyboardEvent): void {
-      const inputValue = (event.target as HTMLInputElement).value;
-      this.filteredStreams = this.streams.pipe(
-          flatMap(stream => stream),
-          filter(stream => stream.title.includes(inputValue)),
-          reduce((acc, val) => {
-            acc.push(val);
-            return acc;
-          }, [])
-      );
+      const inputValue = (event.target as HTMLInputElement).value.toLowerCase().trim();
+      if (!!inputValue) {
+          this.templateStreams = this.streams.pipe(
+              flatMap(stream => stream),
+              filter(stream => stream.title.toLowerCase().includes(inputValue)),
+              reduce((acc, val) => {
+                  acc.push(val);
+                  return acc;
+              }, [])
+          );
+      } else {
+          this.templateStreams = this.streams;
+      }
   }
 
   getMostPopularStreams(): void {
