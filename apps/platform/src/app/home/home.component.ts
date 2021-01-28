@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { StreamCollectionService } from '../stream-collection.service';
-import { filter, flatMap, map, reduce, share } from 'rxjs/operators';
-import { Observable, of } from 'rxjs';
-import { StreamInfo } from '../stream-info';
+import { debounceTime, distinctUntilChanged, filter, flatMap, map, reduce, switchMap } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'nbp-home',
@@ -11,9 +10,9 @@ import { StreamInfo } from '../stream-info';
 })
 export class HomeComponent implements OnInit {
 
-  streams = this.streamColllectionService.getStreams().pipe(
-    share()
-  );
+  searchValue = new BehaviorSubject<string>('');
+
+  streams = this.streamColllectionService.getStreams();
 
   templateStreams = this.streams.pipe(
       map(s => s)
@@ -27,7 +26,13 @@ export class HomeComponent implements OnInit {
       map(stream => stream.sort((a, b) => b.viewer_count - a.viewer_count )),
   );
 
-  filteredStreams: Observable<StreamInfo[]> = of([])
+  filteredStreams = this.searchValue.pipe(
+    debounceTime(200),
+    distinctUntilChanged(),
+    switchMap(searchTerm => {
+      return this.streamColllectionService.searchByTitle(searchTerm);
+    })
+  );
 
   constructor(private readonly streamColllectionService: StreamCollectionService) { }
 
@@ -36,18 +41,8 @@ export class HomeComponent implements OnInit {
 
   filterStreams(event: KeyboardEvent): void {
       const inputValue = (event.target as HTMLInputElement).value.toLowerCase().trim();
-      if (!!inputValue) {
-          this.templateStreams = this.streams.pipe(
-              flatMap(stream => stream),
-              filter(stream => stream.title.toLowerCase().includes(inputValue)),
-              reduce((acc, val) => {
-                  acc.push(val);
-                  return acc;
-              }, [])
-          );
-      } else {
-          this.templateStreams = this.streams;
-      }
+      this.searchValue.next(inputValue);
+      this.templateStreams = this.filteredStreams;
   }
 
   getMostPopularStreams(): void {
