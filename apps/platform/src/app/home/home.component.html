@@ -1,15 +1,19 @@
 <div class="w-full">
-    <!-- <div class="h-full"> -->
-        <virtual-scroller #scroll [items]="foo">
-            <ui-stream-card
-                *ngFor="let item of scroll.viewPortItems"
-                class="inline-block p-3 lg:w-1/5 md:w-1/3 h-px-50"
-                [username]="item.bleh"
-                [viewerNo]="123123"
-                [img]="'https://source.unsplash.com/random'"
-                [streamTitle]="'Angular w/ Tailwind this is really long text and like some more long text'"
-                [tags]="['webdev', 'game dev', 'programming']"
-                ></ui-stream-card>
-        </virtual-scroller>
-    <!-- </div> -->
+    <div class="mt-10 mb-10">
+    <input (input)="filterStreams($event)" type="text" class="h-8 mr-2 rounded-md" />
+    <button class="p-2 mr-2 text-sm text-white bg-red-700 rounded-md" (click)="getMostPopularStreams()">Most Popular</button>
+    <button class="p-2 text-sm text-white bg-red-700 rounded-md" (click)="getNeedsLoveStreams()">Needs Love</button>
+    </div>
+
+    <virtual-scroller #scroll [enableUnequalChildrenSizes]="true" [items]="templateStreams | async">
+        <ui-stream-card
+            *ngFor="let item of scroll.viewPortItems"
+            class="inline-block p-3 lg:w-1/5 md:w-1/3 h-px-50"
+            [username]="item.user_name"
+            [viewerNo]="item.viewer_count"
+            [img]="item.thumbnail_url.replace('{width}', '340').replace('{height}', '256')"
+            [streamTitle]="item.title"
+            [tags]="['webdev', 'game dev', 'programming']"
+            ></ui-stream-card>
+    </virtual-scroller>
 </div>

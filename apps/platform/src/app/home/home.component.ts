@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { StreamCollectionService } from '../stream-collection.service';
+import { filter, flatMap, map, mergeMap, reduce, share } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { StreamInfo } from '../stream-info';
 
 @Component({
   selector: 'nbp-home',
@@ -7,16 +11,45 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  streams = this.streamColllectionService.getStreams().pipe(
+    share()
+  );
 
-  foo = [];
+  templateStreams = this.streams;
+
+  needsLoveStreams = this.streams.pipe(
+      map(stream => stream.sort((a, b) => a.viewer_count - b.viewer_count )),
+  );
+
+  mostPopularStreams = this.streams.pipe(
+      map(stream => stream.sort((a, b) => b.viewer_count - a.viewer_count )),
+  );
+
+  filteredStreams: Observable<StreamInfo[]> = of([])
+
+  constructor(private readonly streamColllectionService: StreamCollectionService) { }
 
   ngOnInit(): void {
-      let a = [];
-      for (let i = 0; i < 200; i++) {
-          a.push({ bleh: i });
-      }
-      this.foo = a;
+  }
+
+  filterStreams(event: KeyboardEvent): void {
+      const inputValue = (event.target as HTMLInputElement).value;
+      this.filteredStreams = this.streams.pipe(
+          flatMap(stream => stream),
+          filter(stream => stream.title.includes(inputValue)),
+          reduce((acc, val) => {
+            acc.push(val);
+            return acc;
+          }, [])
+      );
+  }
+
+  getMostPopularStreams(): void {
+    this.templateStreams = this.mostPopularStreams;
+  }
+
+  getNeedsLoveStreams(): void {
+    this.templateStreams = this.needsLoveStreams;
   }
 
 }

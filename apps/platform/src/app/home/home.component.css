@@ -1,4 +1,4 @@
 virtual-scroller {
-    min-height: 100vh;
+    min-height: 800px;
     scrollbar-width: none;
 }
