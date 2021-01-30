@@ -12,7 +12,7 @@ import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [AppComponent, NavbarComponent, NavButtonComponent, FooterComponent],
-  imports: [BrowserModule, HttpClientModule, AppRoutingModule, FontAwesomeModule, LinkModule,],
+  imports: [BrowserModule, HttpClientModule, AppRoutingModule, FontAwesomeModule, LinkModule],
   providers: [],
   bootstrap: [AppComponent],
 })

@@ -1,30 +1,55 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { StreamInfo } from './stream-info';
-import { Observable } from 'rxjs';
-import { filter, flatMap, reduce, share } from 'rxjs/operators';
+import { concat, interval, Observable, Subject } from 'rxjs';
+import { flatMap, map, retry, shareReplay, takeUntil } from 'rxjs/operators';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class StreamCollectionService {
+@Injectable()
+export class StreamCollectionService implements OnDestroy {
 
-  constructor(private httpClient: HttpClient) { }
+  streams: Observable<StreamInfo[]>;
 
-  getStreams(): Observable<StreamInfo[]> {
-      return this.httpClient.get<StreamInfo[]>('http://localhost/streams').pipe(share());
+  stopPolling = new Subject();
+
+  constructor(private httpClient: HttpClient) { 
+    const a = this.httpClient.get<StreamInfo[]>('http://localhost/streams').pipe(
+      shareReplay(1),
+    );
+    const b = interval(60 * 1000 * 5).pipe(
+      flatMap(() => this.httpClient.get<StreamInfo[]>('http://localhost/streams')),
+      retry(),
+      shareReplay(1),
+      takeUntil(this.stopPolling)
+    );
+
+    this.streams = concat(a, b);
   }
 
-  searchByTitle(searchTerm: string): Observable<StreamInfo[]> {
+  ngOnDestroy(): void {
+    this.stopPolling.next();
+    this.stopPolling.complete();
+  }
+
+  getStreams(): Observable<StreamInfo[]> {
+    return this.streams;
+  }
+
+  search(searchTerm: string): Observable<StreamInfo[]> {
     return this.getStreams().pipe(
-      flatMap(stream => stream),
-      filter(stream => {
-        return !!searchTerm ? stream.title.toLowerCase().includes(searchTerm) : true
-      }),
-      reduce((acc, val) => {
-        acc.push(val);
-        return acc;
-      }, [])
+      map(stream => stream.filter(stream => {
+        const doesContainTitle = this.compareStr(stream.title, searchTerm);
+        const doesContainUser = this.compareStr(stream.user_name, searchTerm);
+        const doesContainTag = stream.tag_ids.includes(searchTerm.toLowerCase());
+
+        return !!searchTerm ? doesContainTitle || doesContainTag || doesContainUser : true;
+      })),
     )
+  }
+
+  compareStr(a: string, b: string): boolean {
+    const normalizedA = a.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    const normalizedB = b.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+    return normalizedA.toLowerCase().includes(normalizedB.toLowerCase())
   }
 }

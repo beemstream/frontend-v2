@@ -10,6 +10,8 @@ export class ButtonComponent implements OnInit {
 
   @Input() value: string;
 
+  @Input() active: boolean = false;
+
   @Output() clicked: EventEmitter<void> = new EventEmitter();
 
   constructor() { }

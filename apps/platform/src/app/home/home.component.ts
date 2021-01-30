@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { StreamCollectionService } from '../stream-collection.service';
-import { debounceTime, distinctUntilChanged, filter, flatMap, map, reduce, switchMap } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, map, switchMap } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'nbp-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.css'],
+  providers: [StreamCollectionService]
 })
 export class HomeComponent implements OnInit {
 
@@ -15,22 +16,22 @@ export class HomeComponent implements OnInit {
   streams = this.streamColllectionService.getStreams();
 
   templateStreams = this.streams.pipe(
-      map(s => s)
+    map(s => s)
   );
 
   needsLoveStreams = this.streams.pipe(
-      map(stream => stream.sort((a, b) => a.viewer_count - b.viewer_count )),
+    map(stream => stream.sort((a, b) => a.viewer_count - b.viewer_count )),
   );
 
   mostPopularStreams = this.streams.pipe(
-      map(stream => stream.sort((a, b) => b.viewer_count - a.viewer_count )),
+    map(stream => stream.sort((a, b) => b.viewer_count - a.viewer_count )),
   );
 
   filteredStreams = this.searchValue.pipe(
     debounceTime(200),
     distinctUntilChanged(),
     switchMap(searchTerm => {
-      return this.streamColllectionService.searchByTitle(searchTerm);
+      return this.streamColllectionService.search(searchTerm);
     })
   );
 
@@ -40,17 +41,29 @@ export class HomeComponent implements OnInit {
   }
 
   filterStreams(event: KeyboardEvent): void {
-      const inputValue = (event.target as HTMLInputElement).value.toLowerCase().trim();
-      this.searchValue.next(inputValue);
-      this.templateStreams = this.filteredStreams;
+    const inputValue = (event.target as HTMLInputElement).value.trim();
+    this.searchValue.next(inputValue);
+    this.templateStreams = this.filteredStreams;
+    this.resetFilters();
+    this.filters.fitler;
   }
 
   getMostPopularStreams(): void {
     this.templateStreams = this.mostPopularStreams;
+    this.resetFilters();
+    this.filters.popular = true;
   }
 
   getNeedsLoveStreams(): void {
     this.templateStreams = this.needsLoveStreams;
+    this.resetFilters();
+    this.filters.needsLove = true;
   }
+  
+  resetFilters() {
+    this.filters = { popular: false, needsLove: false, fitler: false };
+  }
+
+  filters = { popular: false, needsLove: false, fitler: false };
 
 }
