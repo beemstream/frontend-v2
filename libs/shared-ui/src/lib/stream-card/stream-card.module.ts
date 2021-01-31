@@ -11,11 +11,11 @@ import { StreamUrlPipe } from '../stream-url.pipe';
   declarations: [StreamCardComponent, StreamUrlPipe],
   imports: [
     CommonModule,
-    FontAwesomeModule, 
+    FontAwesomeModule,
     RouterModule,
     LinkModule,
-    StreamTagModule
+    StreamTagModule,
   ],
-  exports: [StreamCardComponent]
+  exports: [StreamCardComponent],
 })
-export class StreamCardModule { }
+export class StreamCardModule {}

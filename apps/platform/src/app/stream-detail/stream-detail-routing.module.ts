@@ -3,10 +3,12 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { StreamDetailComponent } from './stream-detail.component';
 
-const routes: Routes = [{ path: '', children: [ { path: ':id', component: StreamDetailComponent } ], }];
+const routes: Routes = [
+  { path: '', children: [{ path: ':id', component: StreamDetailComponent }] },
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class StreamDetailRoutingModule { }
+export class StreamDetailRoutingModule {}

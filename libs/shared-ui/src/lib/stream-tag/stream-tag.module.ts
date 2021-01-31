@@ -4,9 +4,7 @@ import { StreamTagComponent } from './stream-tag.component';
 
 @NgModule({
   declarations: [StreamTagComponent],
-  imports: [
-    CommonModule
-  ],
+  imports: [CommonModule],
   exports: [StreamTagComponent],
 })
-export class StreamTagModule { }
+export class StreamTagModule {}

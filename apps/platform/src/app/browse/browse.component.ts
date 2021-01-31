@@ -1,15 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'nbp-browse',
   templateUrl: './browse.component.html',
-  styleUrls: ['./browse.component.css']
+  styleUrls: ['./browse.component.css'],
 })
-export class BrowseComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
-}
+export class BrowseComponent {}

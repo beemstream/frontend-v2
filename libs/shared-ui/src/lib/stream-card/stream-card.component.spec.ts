@@ -8,9 +8,8 @@ describe('StreamCardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ StreamCardComponent ]
-    })
-    .compileComponents();
+      declarations: [StreamCardComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

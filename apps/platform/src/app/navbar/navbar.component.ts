@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { faBars, faTimes, faGift } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'nbp-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+  styleUrls: ['./navbar.component.css'],
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent {
   navOptions = { exact: true };
   isNavActive = false;
   faBars = faBars;
@@ -17,13 +17,7 @@ export class NavbarComponent implements OnInit {
     return this.isNavActive ? this.faTimes : this.faBars;
   }
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
   toggleMobileNav() {
     this.isNavActive = !this.isNavActive;
   }
-
 }

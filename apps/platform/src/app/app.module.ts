@@ -11,8 +11,19 @@ import { LinkModule } from '@frontend-v2/shared-ui';
 import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
-  declarations: [AppComponent, NavbarComponent, NavButtonComponent, FooterComponent],
-  imports: [BrowserModule, HttpClientModule, AppRoutingModule, FontAwesomeModule, LinkModule],
+  declarations: [
+    AppComponent,
+    NavbarComponent,
+    NavButtonComponent,
+    FooterComponent,
+  ],
+  imports: [
+    BrowserModule,
+    HttpClientModule,
+    AppRoutingModule,
+    FontAwesomeModule,
+    LinkModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })

@@ -4,12 +4,8 @@ import { CommonModule } from '@angular/common';
 import { StreamDetailRoutingModule } from './stream-detail-routing.module';
 import { StreamDetailComponent } from './stream-detail.component';
 
-
 @NgModule({
   declarations: [StreamDetailComponent],
-  imports: [
-    CommonModule,
-    StreamDetailRoutingModule
-  ]
+  imports: [CommonModule, StreamDetailRoutingModule],
 })
-export class StreamDetailModule { }
+export class StreamDetailModule {}

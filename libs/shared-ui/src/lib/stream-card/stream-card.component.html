@@ -1,22 +1,29 @@
-<div class="block m-auto mt-10 overflow-hidden rounded lg:mx-auto lg:mt-10 md:mx-auto md:mt-10 lg:w-auto md:w-auto space-y-4 w-88">
-    <a [routerLink]="streamId | streamUrl" [title]="streamTitle">
-      <img
-        class="object-cover object-center w-full h-64"
-        [src]="img"
-        [alt]="username"
-        loading="lazy"
-      />
-    </a>
+<div
+  class="block m-auto mt-10 overflow-hidden rounded lg:mx-auto lg:mt-10 md:mx-auto md:mt-10 lg:w-auto md:w-auto space-y-4 w-88"
+>
+  <a [routerLink]="streamId | streamUrl" [title]="streamTitle">
+    <img
+      class="object-cover object-center w-full h-64"
+      [src]="img"
+      [alt]="username"
+      loading="lazy"
+    />
+  </a>
 
   <div class="px-6">
-      <div class="container font-bold text-white truncate hover:text-red-800">
-          <ui-link [routerLink]="streamId | streamUrl" [linkName]="streamTitle"></ui-link>
-      </div>
+    <div class="container font-bold text-white truncate hover:text-red-800">
+      <ui-link
+        [routerLink]="streamId | streamUrl"
+        [linkName]="streamTitle"
+      ></ui-link>
+    </div>
   </div>
   <div class="pl-6 pr-6">
     <div class="text-sm text-white grid grid-cols-2">
-        <span><fa-icon [icon]="faUser"></fa-icon> {{username}}</span>
-        <span class="text-right"><fa-icon [icon]="faEye"></fa-icon> {{viewerNo}}</span>
+      <span><fa-icon [icon]="faUser"></fa-icon> {{ username }}</span>
+      <span class="text-right"
+        ><fa-icon [icon]="faEye"></fa-icon> {{ viewerNo }}</span
+      >
     </div>
   </div>
   <div class="px-6">

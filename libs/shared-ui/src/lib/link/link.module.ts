@@ -4,9 +4,7 @@ import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [LinkComponent],
-  imports: [
-    RouterModule
-  ],
-  exports: [LinkComponent]
+  imports: [RouterModule],
+  exports: [LinkComponent],
 })
-export class LinkModule { }
+export class LinkModule {}

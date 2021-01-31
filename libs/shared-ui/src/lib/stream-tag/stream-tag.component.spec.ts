@@ -8,9 +8,8 @@ describe('StreamTagComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ StreamTagComponent ]
-    })
-    .compileComponents();
+      declarations: [StreamTagComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

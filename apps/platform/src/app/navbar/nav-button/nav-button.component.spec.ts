@@ -8,9 +8,8 @@ describe('NavButtonComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ NavButtonComponent ]
-    })
-    .compileComponents();
+      declarations: [NavButtonComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
