@@ -47,7 +47,7 @@ export class HomeComponent {
     private readonly streamColllectionService: StreamCollectionService
   ) {}
 
-  filterStreams(event: KeyboardEvent): void {
+  filterStreams(event: Event): void {
     const inputValue = (event.target as HTMLInputElement).value.trim();
     if (inputValue) {
       this.templateStreams = this.filteredStreams;

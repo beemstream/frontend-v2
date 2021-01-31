@@ -12,8 +12,8 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LinkComponent implements OnInit {
-  @Input() routerLink: string;
-  @Input() linkName: string;
+  @Input() routerLink?: string;
+  @Input() linkName?: string;
 
   constructor() {}
 

@@ -13,12 +13,12 @@ import { faEye, faUser } from '@fortawesome/free-solid-svg-icons';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StreamCardComponent implements OnInit {
-  @Input() tags: string[];
-  @Input() streamTitle: string;
-  @Input() streamId: string;
-  @Input() img: string;
-  @Input() username: string;
-  @Input() viewerNo: number;
+  @Input() tags?: string[];
+  @Input() streamTitle?: string;
+  @Input() streamId?: string;
+  @Input() img?: string;
+  @Input() username?: string;
+  @Input() viewerNo?: number;
   faUser = faUser;
   faEye = faEye;
 

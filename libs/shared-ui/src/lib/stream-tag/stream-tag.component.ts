@@ -12,8 +12,8 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StreamTagComponent implements OnInit {
-  @Input() tag: string;
-  @Input() tagId: string;
+  @Input() tag?: string;
+  @Input() tagId?: string;
 
   constructor() {}
 

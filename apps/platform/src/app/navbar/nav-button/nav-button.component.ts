@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
 @Component({
   selector: 'nbp-nav-button',
@@ -6,8 +7,8 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./nav-button.component.css'],
 })
 export class NavButtonComponent {
-  @Input() routeName: string;
-  @Input() routerLink: string;
-  @Input() icon: string;
-  @Input() navOptions?: { exact: boolean } = { exact: false };
+  @Input() routeName?: string;
+  @Input() routerLink?: string;
+  @Input() icon?: IconProp;
+  @Input() navOptions: { exact: boolean } = { exact: false };
 }
