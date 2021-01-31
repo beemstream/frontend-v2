@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { StreamInfo } from './stream-info';
 import { concat, interval, Observable, Subject } from 'rxjs';
 import { flatMap, map, retry, shareReplay, takeUntil } from 'rxjs/operators';
+import { environment } from '../environments/environment';
 
 @Injectable()
 export class StreamCollectionService implements OnDestroy {
@@ -12,11 +13,11 @@ export class StreamCollectionService implements OnDestroy {
 
   constructor(private httpClient: HttpClient) {
     const a = this.httpClient
-      .get<StreamInfo[]>('http://localhost/streams')
+      .get<StreamInfo[]>(`${environment.streamCollectionUrl}/streams`)
       .pipe(shareReplay(1));
     const b = interval(60 * 1000 * 5).pipe(
       flatMap(() =>
-        this.httpClient.get<StreamInfo[]>('http://localhost/streams')
+        this.httpClient.get<StreamInfo[]>(`${environment.streamCollectionUrl}/streams`)
       ),
       retry(),
       shareReplay(1),

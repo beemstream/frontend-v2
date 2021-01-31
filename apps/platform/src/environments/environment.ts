@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  streamCollectionApiUrl: 'http://localhost',
+  streamCollectionUrl: 'http://localhost/stream-collection',
 };
 
 /*
