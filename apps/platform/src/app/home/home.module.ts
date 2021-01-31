@@ -4,6 +4,7 @@ import { ButtonModule, LinkModule, StreamCardModule } from '@frontend-v2/shared-
 
 import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './home.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 
 @NgModule({
@@ -14,7 +15,7 @@ import { HomeComponent } from './home.component';
     StreamCardModule,
     LinkModule,
     ButtonModule,
-
+    FontAwesomeModule
   ]
 })
 export class HomeModule { }

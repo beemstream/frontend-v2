@@ -5,9 +5,10 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { RouterModule } from '@angular/router';
 import { LinkModule } from '../link/link.module';
 import { StreamTagModule } from '../stream-tag/stream-tag.module';
+import { StreamUrlPipe } from '../stream-url.pipe';
 
 @NgModule({
-  declarations: [StreamCardComponent],
+  declarations: [StreamCardComponent, StreamUrlPipe],
   imports: [
     CommonModule,
     FontAwesomeModule, 
