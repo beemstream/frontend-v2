@@ -7,7 +7,7 @@ import {
   switchMap,
 } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs';
-import { faHeart, faFire } from '@fortawesome/free-solid-svg-icons';
+import { FilterEventPayload, FilterEvents } from '../filters/filters.component';
 
 @Component({
   selector: 'nbp-home',
@@ -16,11 +16,6 @@ import { faHeart, faFire } from '@fortawesome/free-solid-svg-icons';
   providers: [StreamCollectionService],
 })
 export class HomeComponent {
-  faHeart = faHeart;
-  faFire = faFire;
-
-  filters = { popular: true, needsLove: false, fitler: false };
-
   searchValue = new BehaviorSubject<string>('');
 
   streams = this.streamColllectionService.getStreams();
@@ -47,31 +42,22 @@ export class HomeComponent {
     private readonly streamColllectionService: StreamCollectionService
   ) {}
 
-  filterStreams(event: Event): void {
-    const inputValue = (event.target as HTMLInputElement).value.trim();
-    if (inputValue) {
-      this.templateStreams = this.filteredStreams;
-      this.searchValue.next(inputValue);
-    } else {
-      this.templateStreams = this.streams;
+  filterStreams(event: FilterEventPayload): void {
+    switch(event.type) {
+      case FilterEvents.NeedsLove:
+        this.templateStreams = this.needsLoveStreams;
+        break;
+      case FilterEvents.MostPopular:
+        this.templateStreams = this.mostPopularStreams;
+        break;
+      case FilterEvents.Search:
+        this.templateStreams = this.filteredStreams;
+        if (event.value) {
+          this.searchValue.next(event.value)
+        } else {
+          this.templateStreams = this.streams;
+        }
+        break;
     }
-    this.resetFilters();
-    this.filters.fitler = !this.filters.fitler;
-  }
-
-  getMostPopularStreams(): void {
-    this.templateStreams = this.mostPopularStreams;
-    this.resetFilters();
-    this.filters.popular = !this.filters.popular;
-  }
-
-  getNeedsLoveStreams(): void {
-    this.templateStreams = this.needsLoveStreams;
-    this.resetFilters();
-    this.filters.needsLove = !this.filters.needsLove;
-  }
-
-  resetFilters() {
-    this.filters = { popular: false, needsLove: false, fitler: false };
   }
 }

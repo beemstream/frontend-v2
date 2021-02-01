@@ -1,24 +1,25 @@
 <div class="w-full min-h-screen">
-  <div class="mt-10 mb-10">
-    <input
-      (click)="filterStreams($event)"
-      (input)="filterStreams($event)"
-      type="text"
-      class="w-full h-8 mb-2 mr-2 lg:w-auto md:w-auto lg:mb-0 md:mb-0 rounded-md"
-    />
-    <ui-button
-      [active]="filters.popular"
-      (clicked)="getMostPopularStreams()"
-      value="Most Popular"
-      ><fa-icon [icon]="faFire"></fa-icon
-    ></ui-button>
-    <ui-button
-      [active]="filters.needsLove"
-      (clicked)="getNeedsLoveStreams()"
-      value="Needs Love"
-      ><fa-icon [icon]="faHeart"></fa-icon
-    ></ui-button>
-  </div>
+  <nbp-filters (filterChanged)="filterStreams($event)"></nbp-filters>
+  <!-- <div class="mt-10 mb-10"> -->
+  <!--   <input -->
+  <!--     (click)="filterStreams($event)" -->
+  <!--     (input)="filterStreams($event)" -->
+  <!--     type="text" -->
+  <!--     class="w-full h-8 mb-2 mr-2 lg:w-auto md:w-auto lg:mb-0 md:mb-0 rounded-md" -->
+  <!--   /> -->
+  <!--   <ui-button -->
+  <!--     [active]="filters.popular" -->
+  <!--     (clicked)="getMostPopularStreams()" -->
+  <!--     value="Most Popular" -->
+  <!--     ><fa-icon [icon]="faFire"></fa-icon -->
+  <!--   ></ui-button> -->
+  <!--   <ui-button -->
+  <!--     [active]="filters.needsLove" -->
+  <!--     (clicked)="getNeedsLoveStreams()" -->
+  <!--     value="Needs Love" -->
+  <!--     ><fa-icon [icon]="faHeart"></fa-icon -->
+  <!--   ></ui-button> -->
+  <!-- </div> -->
 
   <div class="grid lg:grid-cols-5 md:grid-cols-3 sm:grid-cols-1 gap-x-6">
     <ui-stream-card
