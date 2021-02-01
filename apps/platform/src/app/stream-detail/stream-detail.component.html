@@ -1,1 +1,13 @@
-<p>stream-detail works!</p>
+<div *ngIf="streamDetail | async as streamDetail">
+  <div class="flex w-full pt-10 pb-10 text-xl font-semibold text-white">
+    <div class="flex-1">{{ streamDetail.stream_info.title }}</div>
+    <div class="text-base text-right">
+      <img class="float-right w-12 rounded-full" [src]="streamDetail.user_info.profile_image_url" />
+      <div class="float-right pr-2">
+        <div class="mr-1">{{ streamDetail.user_info.display_name }} <fa-icon [icon]="faUser"></fa-icon></div>
+        <div>{{ streamDetail.user_info.view_count }} <fa-icon [icon]="faTv"></fa-icon></div>
+      </div>
+    </div>
+  </div>
+  <nbp-stream-view [channel]="streamDetail.user_info.login"></nbp-stream-view>
+</div>

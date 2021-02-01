@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 import { StreamDetailService } from '../stream-detail.service';
+import { faTv, faUser } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'nbp-stream-detail',
@@ -13,6 +14,10 @@ export class StreamDetailComponent {
   streamDetail = this.route.params.pipe(
     switchMap(param => this.streamDetailService.getStreamDetails(param.id))
   );
+
+  faTv = faTv;
+
+  faUser = faUser;
 
   constructor(private readonly route: ActivatedRoute, private readonly streamDetailService: StreamDetailService) {
   }
