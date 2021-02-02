@@ -1,8 +1,8 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { StreamInfo } from './stream-info';
-import { concat, interval, Observable, Subject } from 'rxjs';
-import { flatMap, map, retry, shareReplay, takeUntil } from 'rxjs/operators';
+import { Observable, Subject, timer } from 'rxjs';
+import { map, retry, shareReplay, switchMap, takeUntil } from 'rxjs/operators';
 import { environment } from '../environments/environment';
 
 @Injectable()
@@ -12,11 +12,8 @@ export class StreamCollectionService implements OnDestroy {
   stopPolling = new Subject();
 
   constructor(private httpClient: HttpClient) {
-    const a = this.httpClient
-      .get<StreamInfo[]>(`${environment.streamCollectionUrl}/streams`)
-      .pipe(shareReplay(1));
-    const b = interval(60 * 1000 * 5).pipe(
-      flatMap(() =>
+    const poll = timer(0, 5000).pipe(
+      switchMap(() =>
         this.httpClient.get<StreamInfo[]>(`${environment.streamCollectionUrl}/streams`)
       ),
       retry(),
@@ -24,7 +21,7 @@ export class StreamCollectionService implements OnDestroy {
       takeUntil(this.stopPolling)
     );
 
-    this.streams = concat(a, b);
+    this.streams = poll;
   }
 
   ngOnDestroy(): void {
@@ -34,6 +31,10 @@ export class StreamCollectionService implements OnDestroy {
 
   getStreams(): Observable<StreamInfo[]> {
     return this.streams;
+  }
+
+  getNewStreams(): Observable<StreamInfo[]> {
+    return this.httpClient.get<StreamInfo[]>(`${environment.streamCollectionUrl}/streams`);
   }
 
   search(searchTerm: string): Observable<StreamInfo[]> {

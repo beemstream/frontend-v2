@@ -8,6 +8,7 @@ import {
 } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs';
 import { FilterEventPayload, FilterEvents } from '../filters/filters.component';
+import { StreamInfo } from '../stream-info';
 
 @Component({
   selector: 'nbp-home',
@@ -20,7 +21,7 @@ export class HomeComponent {
 
   streams = this.streamColllectionService.getStreams();
 
-  templateStreams = this.streams.pipe(map((s) => s));
+  templateStreams = this.streams;
 
   needsLoveStreams = this.streams.pipe(
     map((stream) => stream.sort((a, b) => a.viewer_count - b.viewer_count))
@@ -59,5 +60,12 @@ export class HomeComponent {
         }
         break;
     }
+  }
+
+  forceRefresh() {
+  }
+
+  trackStream(_index: number, item: StreamInfo) {
+    return item.id;
   }
 }

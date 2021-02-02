@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { faHeart, faFire } from '@fortawesome/free-solid-svg-icons';
+import { faHeart, faFire, faSync } from '@fortawesome/free-solid-svg-icons';
 
 export enum FilterEvents {
   MostPopular = 'mostPopular',
@@ -21,6 +21,8 @@ export class FiltersComponent {
 
   @Output() filterChanged = new EventEmitter<FilterEventPayload>();
 
+  @Output() refreshStream = new EventEmitter();
+
   filters: { [key: string]: boolean } = { ...this.initFilters(), [FilterEvents.MostPopular]: true };
 
   events = FilterEvents;
@@ -28,6 +30,8 @@ export class FiltersComponent {
   faHeart = faHeart;
 
   faFire = faFire;
+
+  faSync = faSync;
 
   emit(event: FilterEvents, elemEvent?: Event) {
     this.resetFilters();
