@@ -16,9 +16,9 @@ export class StreamCollectionService implements OnDestroy {
   constructor(private httpClient: HttpClient) {
     const poll = timer(0, this.refreshTime).pipe(
       switchMap(() => this.getNewStreams()),
+      takeUntil(this.stopPolling),
       retry(),
       shareReplay(1),
-      takeUntil(this.stopPolling)
     );
 
     this.streams = poll;
@@ -27,6 +27,16 @@ export class StreamCollectionService implements OnDestroy {
   ngOnDestroy(): void {
     this.stopPolling.next();
     this.stopPolling.complete();
+  }
+
+  poll() {
+    this.stopPolling = new Subject();
+    return timer(0, this.refreshTime).pipe(
+      switchMap(() => this.getNewStreams()),
+      takeUntil(this.stopPolling),
+      retry(),
+      shareReplay(1),
+    )
   }
 
   getStreams(): Observable<StreamInfo[]> {

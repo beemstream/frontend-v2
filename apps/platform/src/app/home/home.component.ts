@@ -63,7 +63,8 @@ export class HomeComponent {
   }
 
   forceRefresh() {
-    this.templateStreams = this.streamColllectionService.getNewStreams();
+    this.streamColllectionService.ngOnDestroy();
+    this.templateStreams = this.streamColllectionService.poll();
   }
 
   trackStream(_index: number, item: StreamInfo) {
