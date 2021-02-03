@@ -11,11 +11,11 @@ export class StreamCollectionService implements OnDestroy {
 
   stopPolling = new Subject();
 
+  refreshTime = 30000;
+
   constructor(private httpClient: HttpClient) {
-    const poll = timer(0, 5000).pipe(
-      switchMap(() =>
-        this.httpClient.get<StreamInfo[]>(`${environment.streamCollectionUrl}/streams`)
-      ),
+    const poll = timer(0, this.refreshTime).pipe(
+      switchMap(() => this.getNewStreams()),
       retry(),
       shareReplay(1),
       takeUntil(this.stopPolling)

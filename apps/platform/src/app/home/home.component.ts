@@ -63,9 +63,10 @@ export class HomeComponent {
   }
 
   forceRefresh() {
+    this.templateStreams = this.streamColllectionService.getNewStreams();
   }
 
   trackStream(_index: number, item: StreamInfo) {
-    return item.id;
+    return `${item.id}-${item.viewer_count}`;
   }
 }

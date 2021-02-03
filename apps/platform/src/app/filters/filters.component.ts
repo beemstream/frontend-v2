@@ -33,7 +33,7 @@ export class FiltersComponent {
 
   faSync = faSync;
 
-  emit(event: FilterEvents, elemEvent?: Event) {
+  emitFilter(event: FilterEvents, elemEvent?: Event) {
     this.resetFilters();
     this.selectFilter(event);
     const elem = elemEvent?.target as HTMLInputElement;
