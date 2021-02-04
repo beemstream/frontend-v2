@@ -1,0 +1,8 @@
+<div class="grid grid-cols-2">
+  <div>
+    <h2 class="mb-5 font-semibold"><fa-icon class="text-xl" *ngIf="titleIcon" [icon]="titleIcon"></fa-icon> {{ title }}</h2>
+  </div>
+  <div class="absolute right-10">
+    <ui-button [routerLink]="link"><fa-icon [icon]="faArrowRight"></fa-icon></ui-button>
+  </div>
+</div>

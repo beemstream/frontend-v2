@@ -1,30 +1,36 @@
 <div class="h-full" *ngIf="allCategories | async as category">
-  <h1 class="mt-10 mb-5 text-lg">Browse Programming Cateogories</h1>
+  <h1 class="mt-10 mb-5 text-lg font-extrabold">Browse Programming Categories</h1>
   <div class="leading-6">
-    <h2 class="mb-5 font-semibold"><fa-icon class="text-xl" [icon]="faGamepad"></fa-icon> Game Development</h2>
-    Browse from the most popular React. To a true open source VueJs. To the enterprise grade Angular streams!
-    Maybe even finding a framework that was made 12 hours ago!
+    <nbp-category-header [title]="'Game Development'" [titleIcon]="faGamepad"></nbp-category-header>
+    From Unity development to storyboarding to full on game engine development.
+    Developers seem to share everything these days with all the nitty gritty details!
     <nbp-stream-category-list [streamList]="category[0]"></nbp-stream-category-list>
   </div>
 
+  <div class="w-full mb-10 border border-gray-700"></div>
+
   <div class="leading-6">
-    <h2 class="mb-5 font-semibold"><fa-icon [icon]="faLaptop"></fa-icon> Web Development</h2>
+    <nbp-category-header [title]="'Web Development'" [titleIcon]="faLaptop"></nbp-category-header>
     Browse from the most popular React. To a true open source VueJs. To the enterprise grade Angular streams!
     Maybe even finding a framework that was made 12 hours ago!
     <nbp-stream-category-list [streamList]="category[1]"></nbp-stream-category-list>
   </div>
 
+  <div class="w-full mb-10 border border-gray-700"></div>
+
   <div class="leading-6">
-    <h2 class="mb-5 font-semibold"><fa-icon [icon]="faMobileAlt"></fa-icon> Mobile Development</h2>
-    Browse from the most popular React. To a true open source VueJs. To the enterprise grade Angular streams!
-    Maybe even finding a framework that was made 12 hours ago!
+    <nbp-category-header [title]="'Mobile Development'" [titleIcon]="faMobileAlt"></nbp-category-header>
+    Are you a classic Java developer? Or a hipster Kotlin developer? Maybe you 1UP everyone by knowing
+    Swift. Mobile developers and all the native goodness are here.
     <nbp-stream-category-list [streamList]="category[2]"></nbp-stream-category-list>
   </div>
 
+  <div class="w-full mb-10 border border-gray-700"></div>
+
   <div class="leading-6">
-    <h2 class="mb-5 font-semibold"><fa-icon [icon]="faKeyboard"></fa-icon> General Prorgamming</h2>
-    Browse from the most popular React. To a true open source VueJs. To the enterprise grade Angular streams!
-    Maybe even finding a framework that was made 12 hours ago!
+    <nbp-category-header [title]="'General Programming'" [titleIcon]="faKeyboard"></nbp-category-header>
+    Clearly these tags are general enough to suit the common developer. Compuer Science/Engineering is a big world.
+    All the out of topic developers are here!
     <nbp-stream-category-list [streamList]="category[3]"></nbp-stream-category-list>
   </div>
 </div>

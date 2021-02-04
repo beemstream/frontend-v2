@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { StreamInfo } from '../stream-info';
 
 @Component({
@@ -7,14 +7,8 @@ import { StreamInfo } from '../stream-info';
   styleUrls: ['./stream-category-list.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class StreamCategoryListComponent implements OnInit {
+export class StreamCategoryListComponent {
 
   @Input() streamList?: StreamInfo[] | null;
-
-  foo = [1,2,3,4,5];
-
-  constructor() { }
-
-  ngOnInit(): void {}
 
 }
