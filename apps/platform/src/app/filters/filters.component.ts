@@ -39,6 +39,12 @@ export class FiltersComponent {
     const elem = elemEvent?.target as HTMLInputElement;
     this.filterChanged.emit({ type: event, ...(elemEvent && { value: elem.value }) });
   }
+  
+  emitRefresh() {
+    this.refreshStream.emit();
+    this.resetFilters();
+    this.selectFilter(FilterEvents.MostPopular);
+  }
 
   selectFilter(event: FilterEvents) {
     this.filters = { ...this.filters, [event]: true };
