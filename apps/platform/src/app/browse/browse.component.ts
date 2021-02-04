@@ -56,6 +56,8 @@ export class BrowseComponent {
 
   faArrowRight = faArrowRight;
 
+  streamCategory = StreamCategory;
+
   constructor(private streamService: StreamCategoryService) {}
 
   limitTo(stream: Observable<StreamInfo[]>, limit: number) {

@@ -12,6 +12,7 @@ export class CategoryHeaderComponent implements OnInit {
   @Input() titleIcon?: IconProp;
   @Input() title?: string;
   @Input() link?: string;
+  @Input() showLink: boolean = true;
 
   faArrowRight = faArrowRight;
 
