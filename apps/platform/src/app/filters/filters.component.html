@@ -1,7 +1,9 @@
 <div class="mt-10 mb-10 grid grid-cols-3">
   <div class="col-span-2">
     <input
+      aria-label="Search"
       (click)="emitFilter(events.Search, $event)"
+      (keydown.enter)="emitFilter(events.Search, $event)"
       (input)="emitFilter(events.Search, $event)"
       type="text"
       class="w-full h-8 mb-2 mr-2 lg:w-auto md:w-auto lg:mb-0 md:mb-0 rounded-md"
