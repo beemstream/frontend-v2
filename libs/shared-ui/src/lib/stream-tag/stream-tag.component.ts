@@ -14,6 +14,7 @@ import {
 export class StreamTagComponent implements OnInit {
   @Input() tag?: string;
   @Input() tagId?: string;
+  @Input() link?: string;
 
   constructor() {}
 

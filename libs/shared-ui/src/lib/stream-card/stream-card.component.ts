@@ -6,6 +6,13 @@ import {
 } from '@angular/core';
 import { faEye, faUser } from '@fortawesome/free-solid-svg-icons';
 
+const TagLink = {
+  'web dev': '/browse/webdevelopment',
+  'game dev': '/browse/gamedevelopment',
+  'mobile dev': '/browse/mobiledevelopment',
+  'programming': '/browse/programming'
+}
+
 @Component({
   selector: 'ui-stream-card',
   templateUrl: './stream-card.component.html',
@@ -21,6 +28,7 @@ export class StreamCardComponent implements OnInit {
   @Input() viewerNo?: number;
   faUser = faUser;
   faEye = faEye;
+  tagLink = TagLink;
 
   constructor() {}
 

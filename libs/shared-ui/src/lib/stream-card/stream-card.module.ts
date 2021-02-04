@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { LinkModule } from '../link/link.module';
 import { StreamTagModule } from '../stream-tag/stream-tag.module';
 import { StreamUrlPipe } from '../stream-url.pipe';
+import { SharedUiModule } from '../shared-ui.module';
 
 @NgModule({
   declarations: [StreamCardComponent, StreamUrlPipe],
@@ -15,6 +16,7 @@ import { StreamUrlPipe } from '../stream-url.pipe';
     RouterModule,
     LinkModule,
     StreamTagModule,
+    SharedUiModule,
   ],
   exports: [StreamCardComponent],
 })

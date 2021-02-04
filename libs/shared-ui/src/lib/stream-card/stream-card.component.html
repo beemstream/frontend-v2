@@ -28,7 +28,7 @@
     </div>
   </div>
   <div class="px-6">
-    <ui-stream-tag *ngFor="let tag of tags" [tag]="tag"></ui-stream-tag>
+    <ui-stream-tag *ngFor="let tag of tags" [link]="tag | mapTo:tagLink" [tag]="tag"></ui-stream-tag>
   </div>
   <div class="pb-2"></div>
 </div>
