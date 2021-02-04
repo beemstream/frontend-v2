@@ -3,17 +3,17 @@ import { CommonModule } from '@angular/common';
 import {
   ButtonModule,
   LinkModule,
+  SharedUiModule,
   StreamCardModule,
 } from '@frontend-v2/shared-ui';
 
 import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './home.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { ImgSizePipe } from '../img-size.pipe';
 import { FiltersComponent } from '../filters/filters.component';
 
 @NgModule({
-  declarations: [HomeComponent, ImgSizePipe, FiltersComponent],
+  declarations: [HomeComponent, FiltersComponent],
   imports: [
     CommonModule,
     HomeRoutingModule,
@@ -21,6 +21,7 @@ import { FiltersComponent } from '../filters/filters.component';
     LinkModule,
     ButtonModule,
     FontAwesomeModule,
+    SharedUiModule
   ],
 })
 export class HomeModule {}
