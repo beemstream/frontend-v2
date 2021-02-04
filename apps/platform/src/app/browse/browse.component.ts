@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
+import { faGamepad, faKeyboard, faLaptop, faMobileAlt } from '@fortawesome/free-solid-svg-icons';
 import { forkJoin, Observable } from 'rxjs';
-import { flatMap, map, reduce, take } from 'rxjs/operators';
+import { flatMap, reduce, take } from 'rxjs/operators';
 import { StreamCategoryService, StreamCategory } from '../stream-category.service';
 import { StreamInfo } from '../stream-info';
 
@@ -16,6 +17,14 @@ export class BrowseComponent {
   readonly mobile = this.limitTo(this.streamService.getStreamByCategory(StreamCategory.MobileDevelopment), this.limit);
   readonly game = this.limitTo(this.streamService.getStreamByCategory(StreamCategory.GameDevelopment), this.limit);
   readonly programming = this.limitTo(this.streamService.getStreamByCategory(StreamCategory.Programming), this.limit);
+
+  faGamepad = faGamepad;
+
+  faMobileAlt = faMobileAlt;
+
+  faLaptop = faLaptop;
+
+  faKeyboard = faKeyboard;
 
   allCategories = forkJoin([this.web, this.mobile, this.game, this.programming]);
 

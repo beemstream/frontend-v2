@@ -1,28 +1,28 @@
-<div  *ngIf="allCategories | async as category">
+<div class="h-full" *ngIf="allCategories | async as category">
   <h1 class="mt-10 mb-5 text-lg">Browse Programming Cateogories</h1>
   <div class="leading-6">
-    <h2 class="mb-5">Game Development</h2>
+    <h2 class="mb-5 font-semibold"><fa-icon class="text-xl" [icon]="faGamepad"></fa-icon> Game Development</h2>
     Browse from the most popular React. To a true open source VueJs. To the enterprise grade Angular streams!
     Maybe even finding a framework that was made 12 hours ago!
     <nbp-stream-category-list [streamList]="category[0]"></nbp-stream-category-list>
   </div>
 
   <div class="leading-6">
-    <h2 class="mb-5">Web Development</h2>
+    <h2 class="mb-5 font-semibold"><fa-icon [icon]="faLaptop"></fa-icon> Web Development</h2>
     Browse from the most popular React. To a true open source VueJs. To the enterprise grade Angular streams!
     Maybe even finding a framework that was made 12 hours ago!
     <nbp-stream-category-list [streamList]="category[1]"></nbp-stream-category-list>
   </div>
 
   <div class="leading-6">
-    <h2 class="mb-5">Mobile Development</h2>
+    <h2 class="mb-5 font-semibold"><fa-icon [icon]="faMobileAlt"></fa-icon> Mobile Development</h2>
     Browse from the most popular React. To a true open source VueJs. To the enterprise grade Angular streams!
     Maybe even finding a framework that was made 12 hours ago!
     <nbp-stream-category-list [streamList]="category[2]"></nbp-stream-category-list>
   </div>
 
   <div class="leading-6">
-    <h2 class="mb-5">General Prorgamming</h2>
+    <h2 class="mb-5 font-semibold"><fa-icon [icon]="faKeyboard"></fa-icon> General Prorgamming</h2>
     Browse from the most popular React. To a true open source VueJs. To the enterprise grade Angular streams!
     Maybe even finding a framework that was made 12 hours ago!
     <nbp-stream-category-list [streamList]="category[3]"></nbp-stream-category-list>
