@@ -40,9 +40,9 @@ export class BrowseComponent {
   );
 
   readonly allCategories = forkJoin([
+    this.game,
     this.web,
     this.mobile,
-    this.game,
     this.programming,
   ]);
 
