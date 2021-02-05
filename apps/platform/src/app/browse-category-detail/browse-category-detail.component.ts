@@ -51,4 +51,12 @@ export class BrowseCategoryDetailComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
+  filterStreams(event: unknown) {
+    console.log(event)
+  }
+
+  forceRefresh() {
+    console.log('clicked')
+  }
 }

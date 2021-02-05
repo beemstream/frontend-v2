@@ -8,9 +8,10 @@ import { StreamCategoryListComponent } from '../stream-category-list/stream-cate
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CategoryHeaderComponent } from '../category-header/category-header.component';
 import { BrowseCategoryDetailComponent } from '../browse-category-detail/browse-category-detail.component';
+import { FiltersModule } from '../filters/filters.module';
 
 @NgModule({
   declarations: [BrowseComponent, StreamCategoryListComponent, CategoryHeaderComponent, BrowseCategoryDetailComponent],
-  imports: [CommonModule, BrowseRoutingModule, StreamCardModule, SharedUiModule, FontAwesomeModule, ButtonModule, LinkModule],
+  imports: [CommonModule, BrowseRoutingModule, StreamCardModule, SharedUiModule, FontAwesomeModule, ButtonModule, LinkModule, FiltersModule],
 })
 export class BrowseModule {}

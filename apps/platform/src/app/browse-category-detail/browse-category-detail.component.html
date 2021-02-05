@@ -1,6 +1,7 @@
 <div class="min-h-screen mt-10" *ngIf="streamCategoryList | async as streamCategoryList">
   <nbp-category-header *ngIf="category" [title]="templateCategory[category]" [showLink]="false"></nbp-category-header>
   <div class="leading-6" *ngIf="category">{{ templateDesciption[category] }}</div>
+  <nbp-filters (filterChanged)="filterStreams($event)" (refreshStream)="forceRefresh()"></nbp-filters>
   <div class="grid lg:grid-cols-5 md:grid-cols-3 sm:grid-cols-1 gap-x-6">
     <div *ngFor="let item of streamCategoryList">
       <ui-stream-card

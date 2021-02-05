@@ -10,10 +10,10 @@ import {
 import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './home.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { FiltersComponent } from '../filters/filters.component';
+import { FiltersModule } from '../filters/filters.module';
 
 @NgModule({
-  declarations: [HomeComponent, FiltersComponent],
+  declarations: [HomeComponent],
   imports: [
     CommonModule,
     HomeRoutingModule,
@@ -21,7 +21,8 @@ import { FiltersComponent } from '../filters/filters.component';
     LinkModule,
     ButtonModule,
     FontAwesomeModule,
-    SharedUiModule
+    SharedUiModule,
+    FiltersModule
   ],
 })
 export class HomeModule {}
