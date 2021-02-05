@@ -4,6 +4,7 @@ import { StreamInfo } from './stream-info';
 import { Observable, Subject, timer } from 'rxjs';
 import { map, retry, shareReplay, switchMap, takeUntil } from 'rxjs/operators';
 import { environment } from '../environments/environment';
+import { filterStreamBySearchTerm } from './utils/filterStreamBySearchTerm';
 
 @Injectable()
 export class StreamCollectionService implements OnDestroy {
@@ -49,26 +50,7 @@ export class StreamCollectionService implements OnDestroy {
 
   search(searchTerm: string): Observable<StreamInfo[]> {
     return this.getStreams().pipe(
-      map((stream) =>
-        stream.filter((stream) => {
-          const doesContainTitle = this.compareStr(stream.title, searchTerm);
-          const doesContainUser = this.compareStr(stream.user_name, searchTerm);
-          const doesContainTag = stream.tag_ids.includes(
-            searchTerm.toLowerCase()
-          );
-
-          return searchTerm
-            ? doesContainTitle || doesContainTag || doesContainUser
-            : true;
-        })
-      )
+      map((stream) => filterStreamBySearchTerm(stream, searchTerm))
     );
-  }
-
-  compareStr(a: string, b: string): boolean {
-    const normalizedA = a.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-    const normalizedB = b.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-
-    return normalizedA.toLowerCase().includes(normalizedB.toLowerCase());
   }
 }

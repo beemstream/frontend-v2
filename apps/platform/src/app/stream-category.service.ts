@@ -4,6 +4,8 @@ import { Observable, of } from 'rxjs';
 import { map, shareReplay, tap } from 'rxjs/operators';
 import { environment } from '../environments/environment';
 import { StreamInfo } from './stream-info';
+import { compareStr } from './utils/compareStr';
+import { filterStreamBySearchTerm } from './utils/filterStreamBySearchTerm';
 
 export enum StreamCategory {
   WebDevelopment = 'webdevelopment',
@@ -31,26 +33,7 @@ export class StreamCategoryService {
 
   search(category: StreamCategory, searchTerm: string) {
     return this.getStreamByCategory(category).pipe(
-      map((stream) =>
-          stream.filter((stream) => {
-        const doesContainTitle = this.compareStr(stream.title, searchTerm);
-        const doesContainUser = this.compareStr(stream.user_name, searchTerm);
-        const doesContainTag = stream.tag_ids.includes(
-          searchTerm.toLowerCase()
-        );
-
-        return searchTerm
-          ? doesContainTitle || doesContainTag || doesContainUser
-          : true;
-      })
-         )
+      map((stream) => filterStreamBySearchTerm(stream, searchTerm))
     );
-  }
-
-  compareStr(a: string, b: string): boolean {
-    const normalizedA = a.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-    const normalizedB = b.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-
-    return normalizedA.toLowerCase().includes(normalizedB.toLowerCase());
   }
 }
