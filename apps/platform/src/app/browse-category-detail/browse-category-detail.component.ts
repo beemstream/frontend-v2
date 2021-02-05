@@ -47,7 +47,7 @@ export class BrowseCategoryDetailComponent {
 
   streamCategoryList = this.route.params.pipe(
     tap((query) => this.category = query.category),
-    switchMap((query) => this.categoryService.getStreamByCategory(query.category))
+    switchMap((query) => this.categoryService.getStreamByCategory(query.category, { force: true }))
   );
 
   templateStreams = this.streamCategoryList;
