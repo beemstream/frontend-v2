@@ -91,6 +91,6 @@ export class BrowseCategoryDetailComponent {
   }
 
   forceRefresh() {
-    console.log('clicked')
+    this.templateStreams = this.categoryService.getStreamByCategory(this.category!, { force: true });
   }
 }

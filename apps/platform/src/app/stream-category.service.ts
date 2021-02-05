@@ -4,7 +4,6 @@ import { Observable, of } from 'rxjs';
 import { map, shareReplay, tap } from 'rxjs/operators';
 import { environment } from '../environments/environment';
 import { StreamInfo } from './stream-info';
-import { compareStr } from './utils/compareStr';
 import { filterStreamBySearchTerm } from './utils/filterStreamBySearchTerm';
 
 export enum StreamCategory {
@@ -23,8 +22,8 @@ export class StreamCategoryService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getStreamByCategory(category: StreamCategory): Observable<StreamInfo[]> {
-    return this.streams ? of(this.streams) :
+  getStreamByCategory(category: StreamCategory, options?: { force: boolean }): Observable<StreamInfo[]> {
+    return this.streams && !options?.force ? of(this.streams) :
       this.httpClient.get<StreamInfo[]>(`${environment.streamCollectionUrl}/streams?category=${category}`).pipe(
         tap((streams) => this.streams = streams),
         shareReplay(1)
