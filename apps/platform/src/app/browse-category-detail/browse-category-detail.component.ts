@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { switchMap, tap } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
+import { FilterEventPayload, FilterEvents } from '../filters/filters.component';
 import { StreamCategory, StreamCategoryService } from '../stream-category.service';
 
 enum TemplateCategory {
@@ -34,7 +36,8 @@ enum TemplateDescription {
   templateUrl: './browse-category-detail.component.html',
   styleUrls: ['./browse-category-detail.component.css']
 })
-export class BrowseCategoryDetailComponent implements OnInit {
+export class BrowseCategoryDetailComponent {
+  searchValue = new BehaviorSubject<string>('');
 
   category?: StreamCategory;
 
@@ -47,13 +50,44 @@ export class BrowseCategoryDetailComponent implements OnInit {
     switchMap((query) => this.categoryService.getStreamByCategory(query.category))
   );
 
+  templateStreams = this.streamCategoryList;
+
   constructor(private route: ActivatedRoute, private categoryService: StreamCategoryService) {}
 
-  ngOnInit(): void {
-  }
+  needsLoveStreams = this.streamCategoryList.pipe(
+    map((stream) => stream.sort((a, b) => a.viewer_count - b.viewer_count))
+  );
 
-  filterStreams(event: unknown) {
-    console.log(event)
+  mostPopularStreams = this.streamCategoryList.pipe(
+    map((stream) => stream.sort((a, b) => b.viewer_count - a.viewer_count))
+  );
+
+  filteredStreams = this.searchValue.pipe(
+    debounceTime(200),
+    distinctUntilChanged(),
+    switchMap((searchTerm) => {
+      return this.categoryService.search(this.category!, searchTerm);
+    })
+  );
+
+
+  filterStreams(event: FilterEventPayload) {
+    switch(event.type) {
+      case FilterEvents.NeedsLove:
+        this.templateStreams = this.needsLoveStreams;
+        break;
+      case FilterEvents.MostPopular:
+        this.templateStreams = this.mostPopularStreams;
+        break;
+      case FilterEvents.Search:
+        this.templateStreams = this.filteredStreams;
+        if (event.value) {
+          this.searchValue.next(event.value)
+        } else {
+          this.templateStreams = this.streamCategoryList;
+        }
+        break;
+    }
   }
 
   forceRefresh() {
