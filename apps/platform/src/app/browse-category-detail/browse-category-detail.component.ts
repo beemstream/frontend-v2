@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap } from 'rxjs/operators';
 import { FilterEventPayload, FilterEvents } from '../filters/filters.component';
 import { StreamCategory, StreamCategoryService } from '../stream-category.service';
 
@@ -47,20 +47,13 @@ export class BrowseCategoryDetailComponent {
 
   streamCategoryList = this.route.params.pipe(
     tap((query) => this.category = query.category),
-    switchMap((query) => this.categoryService.getStreamByCategory(query.category, { force: true }))
+    switchMap((query) => this.categoryService.getStreamByCategory(query.category, { force: true })),
+    shareReplay(1)
   );
 
   templateStreams = this.streamCategoryList;
 
   constructor(private route: ActivatedRoute, private categoryService: StreamCategoryService) {}
-
-  needsLoveStreams = this.streamCategoryList.pipe(
-    map((stream) => stream.sort((a, b) => a.viewer_count - b.viewer_count))
-  );
-
-  mostPopularStreams = this.streamCategoryList.pipe(
-    map((stream) => stream.sort((a, b) => b.viewer_count - a.viewer_count))
-  );
 
   filteredStreams = this.searchValue.pipe(
     debounceTime(200),
@@ -69,26 +62,6 @@ export class BrowseCategoryDetailComponent {
       return this.categoryService.search(this.category!, searchTerm);
     })
   );
-
-
-  filterStreams(event: FilterEventPayload) {
-    switch(event.type) {
-      case FilterEvents.NeedsLove:
-        this.templateStreams = this.needsLoveStreams;
-        break;
-      case FilterEvents.MostPopular:
-        this.templateStreams = this.mostPopularStreams;
-        break;
-      case FilterEvents.Search:
-        this.templateStreams = this.filteredStreams;
-        if (event.value) {
-          this.searchValue.next(event.value)
-        } else {
-          this.templateStreams = this.streamCategoryList;
-        }
-        break;
-    }
-  }
 
   forceRefresh() {
     this.templateStreams = this.categoryService.getStreamByCategory(this.category!, { force: true });

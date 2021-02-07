@@ -31,6 +31,7 @@ export class StreamCollectionService implements OnDestroy {
   }
 
   poll() {
+    this.ngOnDestroy();
     this.stopPolling = new Subject();
     return timer(0, this.refreshTime).pipe(
       switchMap(() => this.getNewStreams()),

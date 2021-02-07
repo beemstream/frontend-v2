@@ -32,7 +32,8 @@ export class StreamCategoryService {
 
   search(category: StreamCategory, searchTerm: string) {
     return this.getStreamByCategory(category).pipe(
-      map((stream) => filterStreamBySearchTerm(stream, searchTerm))
+      map((stream) => filterStreamBySearchTerm(stream, searchTerm)),
+      shareReplay(1)
     );
   }
 }

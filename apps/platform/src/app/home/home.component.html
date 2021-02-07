@@ -1,15 +1,8 @@
 <div class="w-full min-h-screen">
-  <nbp-filters (filterChanged)="filterStreams($event)" (refreshStream)="forceRefresh()"></nbp-filters>
-
-  <div class="grid lg:grid-cols-5 md:grid-cols-3 sm:grid-cols-1 gap-x-6">
-    <ui-stream-card
-      *ngFor="let item of templateStreams | async; trackBy:trackStream"
-      [username]="item.user_name"
-      [viewerNo]="item.viewer_count"
-      [img]="item.thumbnail_url | imgSize:320:200"
-      [streamTitle]="item.title"
-      [streamId]="item.user_id"
-      [tags]="item.tag_ids"
-      ></ui-stream-card>
-  </div>
+  <nbp-filter-stream-list
+    [streamCategoryList]="templateStreams"
+    [filteredStreams]="filteredStreams"
+    (refreshStream)="forceRefresh()"
+    (searchStream)="searchValue.next($event)"
+    ></nbp-filter-stream-list>
 </div>
