@@ -8,6 +8,10 @@ const routes: Routes = [
   },
   {
     path: 'browse',
+    data: {
+      title: 'BeemStream browse programming categories',
+      description: 'Explore live coding livestreams of different programming categories. Browse between game development, web development, mobile development and other engineering/computer science streams.',
+    },
     loadChildren: () =>
       import('./browse/browse.module').then((m) => m.BrowseModule),
   },
@@ -26,7 +30,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { scrollPositionRestoration: 'enabled' })],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}
