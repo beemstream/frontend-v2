@@ -27,6 +27,10 @@ export class FilterStreamListComponent implements OnInit, OnChanges {
 
   mostPopularStreams?: Observable<StreamInfo[]>;
 
+  marathonRunners?: Observable<StreamInfo[]>;
+
+  starters?: Observable<StreamInfo[]>;
+
   ngOnInit(): void {
     this.reassignStreams();
   }
@@ -46,6 +50,14 @@ export class FilterStreamListComponent implements OnInit, OnChanges {
       this.mostPopularStreams = this.streamCategoryList.pipe(
         map((stream) => stream.sort((a, b) => b.viewer_count - a.viewer_count))
       );
+
+      this.marathonRunners = this.streamCategoryList.pipe(
+        map((stream) => stream.sort((a, b) => new Date(a.started_at).getTime() - new Date(b.started_at).getTime()))
+      );
+
+      this.starters = this.streamCategoryList.pipe(
+        map((stream) => stream.sort((a, b) => new Date(b.started_at).getTime() - new Date(a.started_at).getTime()))
+      );
     }
   }
 
@@ -64,6 +76,12 @@ export class FilterStreamListComponent implements OnInit, OnChanges {
       } else {
         this.templateStreams = this.streamCategoryList;
       }
+      break;
+      case FilterEvents.MarathonRunners:
+        this.templateStreams = this.marathonRunners;
+      break;
+      case FilterEvents.Starters:
+        this.templateStreams = this.starters;
       break;
     }
   }

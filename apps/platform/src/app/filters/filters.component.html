@@ -20,6 +20,20 @@
       value="Needs Love"
       ><fa-icon [icon]="faHeart"></fa-icon
       ></ui-button>
+    <ui-button
+      class="block pt-2 lg:inline-flex md:inline-grid lg:pt-0 md:pt-0"
+      [active]="filters.marathonRunners"
+      (clicked)="emitFilter(events.MarathonRunners)"
+      value="Marathon Runners"
+      ><fa-icon [icon]="faRunning"></fa-icon
+      ></ui-button>
+    <ui-button
+      class="block pt-2 lg:inline-flex md:inline-grid lg:pt-0"
+      [active]="filters.starters"
+      (clicked)="emitFilter(events.Starters)"
+      value="Slow Starters"
+      ><fa-icon [icon]="faMale"></fa-icon
+      ></ui-button>
   </div>
   <div class="text-right">
     <ui-button (clicked)="emitRefresh()">

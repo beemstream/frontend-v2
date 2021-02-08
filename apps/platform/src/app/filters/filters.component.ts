@@ -1,10 +1,12 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { faHeart, faFire, faSync } from '@fortawesome/free-solid-svg-icons';
+import { faHeart, faFire, faSync, faRunning, faMale } from '@fortawesome/free-solid-svg-icons';
 
 export enum FilterEvents {
   MostPopular = 'mostPopular',
   NeedsLove = 'needsLove',
-  Search = 'search'
+  Search = 'search',
+  MarathonRunners = 'marathonRunners',
+  Starters = 'starters',
 }
 
 export interface FilterEventPayload {
@@ -32,6 +34,10 @@ export class FiltersComponent {
   faFire = faFire;
 
   faSync = faSync;
+
+  faRunning = faRunning
+
+  faMale = faMale;
 
   emitFilter(event: FilterEvents, elemEvent?: Event) {
     this.resetFilters();
