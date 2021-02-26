@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, EventEmitter, OnChanges, OnInit } from '@angul
 import { Component, Input, Output } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { FilterEventPayload, FilterEvents } from '../filters/filters.component';
+import { FilterEventPayload, FilterEvents, Layout } from '../filters/filters.component';
 import { StreamInfo } from '../stream-info';
 
 @Component({
@@ -30,6 +30,10 @@ export class FilterStreamListComponent implements OnInit, OnChanges {
   marathonRunners?: Observable<StreamInfo[]>;
 
   starters?: Observable<StreamInfo[]>;
+
+  layout = Layout;
+
+  layoutSetting = Layout.Default;
 
   ngOnInit(): void {
     this.reassignStreams();
@@ -84,6 +88,10 @@ export class FilterStreamListComponent implements OnInit, OnChanges {
         this.templateStreams = this.starters;
       break;
     }
+  }
+
+  changeLayout(layout: Layout) {
+    this.layoutSetting = layout;
   }
 
   forceRefresh() {

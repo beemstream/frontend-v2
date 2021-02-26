@@ -9,6 +9,11 @@ export enum FilterEvents {
   Starters = 'starters',
 }
 
+export enum Layout {
+  Default,
+  TextOnly,
+}
+
 export interface FilterEventPayload {
    type: FilterEvents;
    value?: string;
@@ -25,9 +30,13 @@ export class FiltersComponent {
 
   @Output() refreshStream = new EventEmitter();
 
+  @Output() layoutChanged = new EventEmitter<Layout>();
+
   filters: { [key: string]: boolean } = { ...this.initFilters(), [FilterEvents.MostPopular]: true };
 
   events = FilterEvents;
+
+  layout = Layout;
 
   faHeart = faHeart;
 

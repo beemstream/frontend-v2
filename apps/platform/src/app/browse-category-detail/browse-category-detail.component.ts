@@ -1,9 +1,17 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap } from 'rxjs/operators';
-import { FilterEventPayload, FilterEvents } from '../filters/filters.component';
-import { StreamCategory, StreamCategoryService } from '../stream-category.service';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  shareReplay,
+  switchMap,
+  tap,
+} from 'rxjs/operators';
+import {
+  StreamCategory,
+  StreamCategoryService,
+} from '../stream-category.service';
 
 enum TemplateCategory {
   webdevelopment = 'Web Development',
@@ -34,36 +42,44 @@ enum TemplateDescription {
 @Component({
   selector: 'nbp-browse-category-detail',
   templateUrl: './browse-category-detail.component.html',
-  styleUrls: ['./browse-category-detail.component.css']
+  styleUrls: ['./browse-category-detail.component.css'],
 })
 export class BrowseCategoryDetailComponent {
   searchValue = new BehaviorSubject<string>('');
 
-  category?: StreamCategory;
+  category!: StreamCategory;
 
   templateCategory = TemplateCategory;
 
   templateDesciption = TemplateDescription;
 
   streamCategoryList = this.route.params.pipe(
-    tap((query) => this.category = query.category),
-    switchMap((query) => this.categoryService.getStreamByCategory(query.category, { force: true })),
+    tap((query) => (this.category = query.category)),
+    switchMap((query) =>
+      this.categoryService.getStreamByCategory(query.category, { force: true })
+    ),
     shareReplay(1)
   );
 
   templateStreams = this.streamCategoryList;
 
-  constructor(private route: ActivatedRoute, private categoryService: StreamCategoryService) {}
+  constructor(
+    private route: ActivatedRoute,
+    private categoryService: StreamCategoryService
+  ) {}
 
   filteredStreams = this.searchValue.pipe(
     debounceTime(200),
     distinctUntilChanged(),
     switchMap((searchTerm) => {
-      return this.categoryService.search(this.category!, searchTerm);
+      return this.categoryService.search(this.category, searchTerm);
     })
   );
 
   forceRefresh() {
-    this.templateStreams = this.categoryService.getStreamByCategory(this.category!, { force: true });
+    this.templateStreams = this.categoryService.getStreamByCategory(
+      this.category,
+      { force: true }
+    );
   }
 }

@@ -12,6 +12,7 @@ import { HomeComponent } from './home.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FiltersModule } from '../filters/filters.module';
 import { FilterStreamListModule } from '../filter-stream-list/filter-stream.module';
+import { SeoService } from '../seo.service';
 
 @NgModule({
   declarations: [HomeComponent],
@@ -26,5 +27,6 @@ import { FilterStreamListModule } from '../filter-stream-list/filter-stream.modu
     FiltersModule,
     FilterStreamListModule,
   ],
+  providers: [SeoService],
 })
 export class HomeModule {}

@@ -1,20 +1,21 @@
 <div
   class="block m-auto mt-10 overflow-hidden rounded lg:mx-auto lg:mt-10 md:mx-auto md:mt-10 lg:w-auto md:w-auto space-y-4 w-88"
 >
-  <a [routerLink]="streamId | streamUrl" [title]="streamTitle">
+  <a [routerLink]="username | streamUrl" [title]="streamTitle">
     <img
       class="object-cover object-center w-full h-88"
+      *ngIf="shouldDisplayImage"
       [src]="img"
       [alt]="username"
       loading="lazy"
-      style="width: 320px"
+      style="width: 320px; box-shadow: 0 -5px 15px 0 #EF4444"
     />
   </a>
 
   <div class="px-6">
-    <div class="container font-bold text-white truncate hover:text-red-800">
+    <div class="container font-bold text-white hover:text-red-800" [class.truncate]="shouldDisplayImage">
       <ui-link
-        [routerLink]="streamId | streamUrl"
+        [routerLink]="username | streamUrl"
         [linkName]="streamTitle"
       ></ui-link>
     </div>

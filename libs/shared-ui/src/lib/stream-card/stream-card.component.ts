@@ -26,6 +26,7 @@ export class StreamCardComponent implements OnInit {
   @Input() img?: string;
   @Input() username?: string;
   @Input() viewerNo?: number;
+  @Input() shouldDisplayImage?: boolean = true;
   faUser = faUser;
   faEye = faEye;
   tagLink = TagLink;

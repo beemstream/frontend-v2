@@ -9,6 +9,7 @@ import { NavButtonComponent } from './navbar/nav-button/nav-button.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { LinkModule } from '@frontend-v2/shared-ui';
 import { FooterComponent } from './footer/footer.component';
+import { SeoService } from './seo.service';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,7 @@ import { FooterComponent } from './footer/footer.component';
     FontAwesomeModule,
     LinkModule,
   ],
-  providers: [],
+  providers: [SeoService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

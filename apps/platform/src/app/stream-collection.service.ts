@@ -49,6 +49,10 @@ export class StreamCollectionService implements OnDestroy {
     return this.httpClient.get<StreamInfo[]>(`${environment.streamCollectionUrl}/streams`);
   }
 
+  getAvailableLanguages(): Observable<string[]> {
+
+  }
+
   search(searchTerm: string): Observable<StreamInfo[]> {
     return this.getStreams().pipe(
       map((stream) => filterStreamBySearchTerm(stream, searchTerm))

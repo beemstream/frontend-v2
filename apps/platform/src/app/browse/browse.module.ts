@@ -12,7 +12,22 @@ import { FiltersModule } from '../filters/filters.module';
 import { FilterStreamListModule } from '../filter-stream-list/filter-stream.module';
 
 @NgModule({
-  declarations: [BrowseComponent, StreamCategoryListComponent, CategoryHeaderComponent, BrowseCategoryDetailComponent],
-  imports: [CommonModule, BrowseRoutingModule, StreamCardModule, SharedUiModule, FontAwesomeModule, ButtonModule, LinkModule, FiltersModule, FilterStreamListModule],
+  declarations: [
+    BrowseComponent,
+    StreamCategoryListComponent,
+    CategoryHeaderComponent,
+    BrowseCategoryDetailComponent
+  ],
+  imports: [
+    CommonModule,
+    BrowseRoutingModule,
+    StreamCardModule,
+    SharedUiModule,
+    FontAwesomeModule,
+    ButtonModule,
+    LinkModule,
+    FiltersModule,
+    FilterStreamListModule
+  ],
 })
 export class BrowseModule {}

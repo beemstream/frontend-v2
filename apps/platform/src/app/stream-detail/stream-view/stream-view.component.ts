@@ -17,8 +17,6 @@ export class StreamViewComponent implements AfterViewInit  {
 
   @ViewChild('twitchEmbed') twitchEmbedElem?: ElementRef;
 
-  constructor() { }
-
   ngAfterViewInit(): void {
     if (this.channel) {
       new Twitch.Embed(this.twitchEmbedElem?.nativeElement, { width: '100%', height: '100%', channel: this.channel, theme: 'dark' })

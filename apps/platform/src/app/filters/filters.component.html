@@ -36,6 +36,12 @@
       ></ui-button>
   </div>
   <div class="text-right">
+    <ui-button (clicked)="layoutChanged.emit(layout.Default)">
+      Default
+    </ui-button>
+    <ui-button (clicked)="layoutChanged.emit(layout.TextOnly)">
+      Text Only
+    </ui-button>
     <ui-button (clicked)="emitRefresh()">
       <fa-icon class="text-white" [icon]="faSync"></fa-icon>
     </ui-button>
