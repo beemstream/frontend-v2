@@ -17,9 +17,13 @@ export class FilterStreamListComponent implements OnInit, OnChanges {
 
   @Input() filteredStreams?: Observable<StreamInfo[]>;
 
+  @Input() availableLanguages?: Observable<string[]>;
+
   @Output() searchStream = new EventEmitter<string>();
 
   @Output() refreshStream = new EventEmitter<string>();
+
+  @Output() changeLanguage = new EventEmitter<string>();
 
   templateStreams?: Observable<StreamInfo[]>;
 

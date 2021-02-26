@@ -2,6 +2,7 @@
   <nbp-filter-stream-list
     [streamCategoryList]="templateStreams"
     [filteredStreams]="filteredStreams"
+    [availableLanguages]="availableLanguages"
     (refreshStream)="forceRefresh()"
     (searchStream)="searchValue.next($event)"
     ></nbp-filter-stream-list>

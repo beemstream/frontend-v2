@@ -18,6 +18,8 @@ export class HomeComponent {
 
   streams = this.streamColllectionService.getStreams();
 
+  availableLanguages = this.streamColllectionService.getAvailableLanguages();
+
   templateStreams = this.streams;
 
   filteredStreams = this.searchValue.pipe(

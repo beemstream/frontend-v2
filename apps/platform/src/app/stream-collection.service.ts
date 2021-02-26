@@ -1,8 +1,8 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { StreamInfo } from './stream-info';
-import { Observable, Subject, timer } from 'rxjs';
-import { map, retry, shareReplay, switchMap, takeUntil } from 'rxjs/operators';
+import { BehaviorSubject, Observable, Subject, timer } from 'rxjs';
+import { map, mergeMap, reduce, retry, shareReplay, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { environment } from '../environments/environment';
 import { filterStreamBySearchTerm } from './utils/filterStreamBySearchTerm';
 
@@ -11,6 +11,8 @@ export class StreamCollectionService implements OnDestroy {
   streams: Observable<StreamInfo[]>;
 
   stopPolling = new Subject();
+
+  languages = new BehaviorSubject<StreamInfo[]>([]);
 
   refreshTime = 30000;
 
@@ -35,6 +37,7 @@ export class StreamCollectionService implements OnDestroy {
     this.stopPolling = new Subject();
     return timer(0, this.refreshTime).pipe(
       switchMap(() => this.getNewStreams()),
+      tap(s => this.languages.next(s)),
       takeUntil(this.stopPolling),
       retry(),
       shareReplay(1),
@@ -50,7 +53,20 @@ export class StreamCollectionService implements OnDestroy {
   }
 
   getAvailableLanguages(): Observable<string[]> {
-
+    return this.languages.asObservable().pipe(
+      mergeMap(s => {
+        return s;
+      }),
+      reduce((arr, curr) => {
+        arr.push(curr.language);
+        return arr;
+      }, [] as string[]),
+      map(s => {
+        console.log(s);
+        return [...new Set(s)]
+      }),
+      shareReplay(1)
+    );
   }
 
   search(searchTerm: string): Observable<StreamInfo[]> {
