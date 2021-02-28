@@ -8,7 +8,5 @@ import { StreamInfo } from '../stream-info';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StreamCategoryListComponent {
-
   @Input() streamList?: StreamInfo[] | null;
-
 }

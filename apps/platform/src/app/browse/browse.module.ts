@@ -3,7 +3,12 @@ import { CommonModule } from '@angular/common';
 
 import { BrowseRoutingModule } from './browse-routing.module';
 import { BrowseComponent } from './browse.component';
-import { ButtonModule, LinkModule, SharedUiModule, StreamCardModule } from '@frontend-v2/shared-ui';
+import {
+  ButtonModule,
+  LinkModule,
+  SharedUiModule,
+  StreamCardModule,
+} from '@frontend-v2/shared-ui';
 import { StreamCategoryListComponent } from '../stream-category-list/stream-category-list.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CategoryHeaderComponent } from '../category-header/category-header.component';
@@ -16,7 +21,7 @@ import { FilterStreamListModule } from '../filter-stream-list/filter-stream.modu
     BrowseComponent,
     StreamCategoryListComponent,
     CategoryHeaderComponent,
-    BrowseCategoryDetailComponent
+    BrowseCategoryDetailComponent,
   ],
   imports: [
     CommonModule,
@@ -27,7 +32,7 @@ import { FilterStreamListModule } from '../filter-stream-list/filter-stream.modu
     ButtonModule,
     LinkModule,
     FiltersModule,
-    FilterStreamListModule
+    FilterStreamListModule,
   ],
 })
 export class BrowseModule {}

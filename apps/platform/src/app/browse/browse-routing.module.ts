@@ -6,7 +6,7 @@ import { BrowseCategoryDetailComponent } from '../browse-category-detail/browse-
 
 const routes: Routes = [
   { path: '', component: BrowseComponent },
-  { path: ':category', component: BrowseCategoryDetailComponent }
+  { path: ':category', component: BrowseCategoryDetailComponent },
 ];
 
 @NgModule({

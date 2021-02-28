@@ -8,9 +8,8 @@ describe('BrowseCategoryDetailComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ BrowseCategoryDetailComponent ]
-    })
-    .compileComponents();
+      declarations: [BrowseCategoryDetailComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

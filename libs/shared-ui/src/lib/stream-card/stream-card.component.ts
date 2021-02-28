@@ -10,8 +10,8 @@ const TagLink = {
   'web dev': '/browse/webdevelopment',
   'game dev': '/browse/gamedevelopment',
   'mobile dev': '/browse/mobiledevelopment',
-  'programming': '/browse/programming'
-}
+  programming: '/browse/programming',
+};
 
 @Component({
   selector: 'ui-stream-card',

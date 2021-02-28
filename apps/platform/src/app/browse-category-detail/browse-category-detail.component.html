@@ -1,6 +1,15 @@
-<div class="min-h-screen mt-10" *ngIf="streamCategoryList | async as streamCategoryList">
-  <nbp-category-header *ngIf="category" [title]="templateCategory[category]" [showLink]="false"></nbp-category-header>
-  <div class="leading-6" *ngIf="category">{{ templateDesciption[category] }}</div>
+<div
+  class="min-h-screen mt-10"
+  *ngIf="streamCategoryList | async as streamCategoryList"
+>
+  <nbp-category-header
+    *ngIf="category"
+    [title]="templateCategory[category]"
+    [showLink]="false"
+  ></nbp-category-header>
+  <div class="leading-6" *ngIf="category">
+    {{ templateDesciption[category] }}
+  </div>
 
   <nbp-filter-stream-list
     [streamCategoryList]="templateStreams"
@@ -8,5 +17,5 @@
     (refreshStream)="forceRefresh()"
     (searchStream)="searchValue.next($event)"
     [availableLanguages]="availableLanguages"
-    ></nbp-filter-stream-list>
+  ></nbp-filter-stream-list>
 </div>

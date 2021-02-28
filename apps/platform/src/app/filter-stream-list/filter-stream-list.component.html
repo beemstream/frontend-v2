@@ -1,14 +1,20 @@
-<nbp-filters [languages]="availableLanguages" (languageChanged)="filterLanguage($event)" (filterChanged)="filterStreams($event)" (refreshStream)="forceRefresh()" (layoutChanged)="changeLayout($event)"></nbp-filters>
+<nbp-filters
+  [languages]="availableLanguages"
+  (languageChanged)="filterLanguage($event)"
+  (filterChanged)="filterStreams($event)"
+  (refreshStream)="forceRefresh()"
+  (layoutChanged)="changeLayout($event)"
+></nbp-filters>
 <div class="grid lg:grid-cols-5 md:grid-cols-3 sm:grid-cols-1 gap-x-6">
-  <div *ngFor="let item of (templateStreams | async);trackBy:trackStream">
+  <div *ngFor="let item of templateStreams | async; trackBy: trackStream">
     <ui-stream-card
       [username]="item.user_name"
       [viewerNo]="item.viewer_count"
-      [img]="item.thumbnail_url | imgSize:320:200"
+      [img]="item.thumbnail_url | imgSize: 320:200"
       [streamTitle]="item.title"
       [streamId]="item.user_id"
       [tags]="item.tag_ids"
       [shouldDisplayImage]="layoutSetting !== layout.TextOnly"
-      ></ui-stream-card>
+    ></ui-stream-card>
   </div>
 </div>

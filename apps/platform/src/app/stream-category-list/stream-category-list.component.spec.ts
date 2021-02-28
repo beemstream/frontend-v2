@@ -8,9 +8,8 @@ describe('StreamCategoryListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ StreamCategoryListComponent ]
-    })
-    .compileComponents();
+      declarations: [StreamCategoryListComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

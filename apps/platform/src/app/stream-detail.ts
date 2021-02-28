@@ -3,5 +3,5 @@ import { UserInfo } from './user-info';
 
 export interface StreamDetail {
   stream_info: StreamInfo;
-  user_info: UserInfo
+  user_info: UserInfo;
 }

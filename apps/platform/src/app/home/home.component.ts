@@ -1,10 +1,6 @@
 import { Component } from '@angular/core';
 import { StreamCollectionService } from '../stream-collection.service';
-import {
-  debounceTime,
-  distinctUntilChanged,
-  switchMap,
-} from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({

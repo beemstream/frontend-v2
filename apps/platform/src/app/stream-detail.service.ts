@@ -9,6 +9,8 @@ export class StreamDetailService {
   constructor(private httpClient: HttpClient) {}
 
   getStreamDetails(username: string): Observable<StreamDetail> {
-    return this.httpClient.get<StreamDetail>(`${environment.streamCollectionUrl}/stream/${username}`);
+    return this.httpClient.get<StreamDetail>(
+      `${environment.streamCollectionUrl}/stream/${username}`
+    );
   }
 }

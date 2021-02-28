@@ -8,12 +8,15 @@
       [src]="img"
       [alt]="username"
       loading="lazy"
-      style="width: 320px; box-shadow: 0 -5px 15px 0 #EF4444"
+      style="width: 320px; box-shadow: 0 -5px 15px 0 #ef4444"
     />
   </a>
 
   <div class="px-6">
-    <div class="container font-bold text-white hover:text-red-800" [class.truncate]="shouldDisplayImage">
+    <div
+      class="container font-bold text-white hover:text-red-800"
+      [class.truncate]="shouldDisplayImage"
+    >
       <ui-link
         [routerLink]="username | streamUrl"
         [linkName]="streamTitle"
@@ -29,7 +32,11 @@
     </div>
   </div>
   <div class="px-6">
-    <ui-stream-tag *ngFor="let tag of tags" [link]="tag | mapTo:tagLink" [tag]="tag"></ui-stream-tag>
+    <ui-stream-tag
+      *ngFor="let tag of tags"
+      [link]="tag | mapTo: tagLink"
+      [tag]="tag"
+    ></ui-stream-tag>
   </div>
   <div class="pb-2"></div>
 </div>

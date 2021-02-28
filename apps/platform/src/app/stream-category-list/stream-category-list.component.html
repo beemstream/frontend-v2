@@ -4,21 +4,21 @@
       *ngIf="i <= 2"
       [username]="item.user_name"
       [viewerNo]="item.viewer_count"
-      [img]="item.thumbnail_url | imgSize:320:200"
+      [img]="item.thumbnail_url | imgSize: 320:200"
       [streamTitle]="item.title"
       [streamId]="item.user_id"
       [tags]="item.tag_ids"
-      ></ui-stream-card>
+    ></ui-stream-card>
 
     <ui-stream-card
       *ngIf="i > 2"
       class="hidden md:hidden lg:block"
       [username]="item.user_name"
       [viewerNo]="item.viewer_count"
-      [img]="item.thumbnail_url | imgSize:320:200"
+      [img]="item.thumbnail_url | imgSize: 320:200"
       [streamTitle]="item.title"
       [streamId]="item.user_id"
       [tags]="item.tag_ids"
-      ></ui-stream-card>
+    ></ui-stream-card>
   </div>
 </div>

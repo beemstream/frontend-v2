@@ -7,199 +7,240 @@
       (input)="emitFilter(events.Search, $event)"
       type="text"
       class="w-full h-8 mb-2 mr-2 bg-gray-800 lg:w-auto md:w-auto lg:mb-0 md:mb-0 rounded-md"
-      />
+    />
     <ui-button
       [active]="filters.mostPopular"
       (clicked)="emitFilter(events.MostPopular)"
       value="Most Popular"
       ><fa-icon [icon]="faFire"></fa-icon
-      ></ui-button>
+    ></ui-button>
     <ui-button
       [active]="filters.needsLove"
       (clicked)="emitFilter(events.NeedsLove)"
       value="Needs Love"
       ><fa-icon [icon]="faHeart"></fa-icon
-      ></ui-button>
+    ></ui-button>
     <ui-button
       class="block pt-2 lg:inline-flex md:inline-grid lg:pt-0 md:pt-0"
       [active]="filters.marathonRunners"
       (clicked)="emitFilter(events.MarathonRunners)"
       value="Marathon Runners"
       ><fa-icon [icon]="faRunning"></fa-icon
-      ></ui-button>
+    ></ui-button>
     <ui-button
       class="block pt-2 lg:inline-flex md:inline-grid lg:pt-0"
       [active]="filters.starters"
       (clicked)="emitFilter(events.Starters)"
       value="Slow Starters"
       ><fa-icon [icon]="faMale"></fa-icon
-      ></ui-button>
+    ></ui-button>
   </div>
   <div class="flex justify-end">
     <ui-button (clicked)="layoutChanged.emit(layout.Default)">
-      <div style="height: 19px;">
-    <svg
-      width="14"
-      height="20"
-      viewBox="0 0 135.46667 135.46667"
-      version="1.1"
-      id="svg5"
-      inkscape:version="1.1-alpha (a1a1b4c, 2021-01-30)"
-      sodipodi:docname="layout-default.svg"
-      xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-      xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-      xmlns="http://www.w3.org/2000/svg"
-      xmlns:svg="http://www.w3.org/2000/svg">
-      <defs
-        id="defs2" />
-      <g
-        inkscape:label="Layer 1"
-        inkscape:groupmode="layer"
-        id="layer1">
-      <rect
-        style="fill:#fff;stroke-width:0.264583"
-        id="rect31"
-        width="123.41795"
-        height="84.341026"
-        x="5.5358977"
-        y="6.1871796"
-        rx="21.916418"
-        ry="1.5194545" />
-      <rect
-        style="fill:#fff;stroke-width:0.28111"
-        id="rect33"
-        width="122.77625"
-        height="8.4666672"
-        x="5.5263114"
-        y="101.08362"
-        rx="24.739923"
-        ry="1.5194545" />
-      <rect
-        style="fill:#fff;stroke-width:0.264583"
-        id="rect35-3"
-        width="38.751282"
-        height="6.8384614"
-        x="47.762283"
-        y="120.2667"
-        rx="21.916418"
-        ry="1.5194545" />
-      <rect
-        style="fill:#fff;stroke-width:0.26064"
-        id="rect35-3-2"
-        width="37.604954"
-        height="6.8384614"
-        x="91.342316"
-        y="120.2667"
-        rx="21.268095"
-        ry="1.5194545" />
-      <rect
-        style="fill:#fff;stroke-width:0.26064"
-        id="rect35-3-2-9"
-        width="37.604954"
-        height="6.8384614"
-        x="5.5263114"
-        y="120.2667"
-        rx="21.268095"
-        ry="1.5194545" />
-      <path
-        style="fill:#fff;fill-opacity:1;stroke:#fff;stroke-width:0.870285;stroke-opacity:1"
-        d="m 67.447108,341.10017 c -19.990677,-0.68956 -37.543832,-2.12944 -42.861549,-3.51594 l -3.26357,-0.85092 v -153.9483 c 0,-145.859262 0.08002,-153.972851 1.522999,-154.4155 2.904804,-0.891081 13.768446,-2.258023 25.890987,-3.257793 16.860806,-1.390543 347.226395,-2.096542 385.101235,-0.82297 27.80126,0.934841 43.90778,2.114974 49.82383,3.650621 l 3.26357,0.847135 v 153.973407 153.9734 l -3.26357,0.84828 c -5.50772,1.43159 -21.47075,2.67935 -45.54172,3.5598 -26.48,0.96857 -342.416521,0.93343 -370.672212,-0.0412 z"
-        id="path3877"
-        transform="scale(0.26458334)" />
-      <path
-        style="fill:#fff;fill-opacity:1;stroke:#fff;stroke-width:0.870285;stroke-opacity:1"
-        d="m 57.438828,412.45461 c -16.413518,-0.83259 -31.02489,-2.31178 -33.99676,-3.44169 -2.083391,-0.7921 -2.120079,-0.98607 -2.120079,-11.20931 v -10.40326 l 4.568998,-0.9123 c 17.198508,-3.43406 65.618457,-4.37004 226.491743,-4.37816 161.89427,-0.008 209.85007,0.91682 227.36202,4.38546 l 4.569,0.905 v 10.73823 10.73823 l -5.87442,0.97443 c -16.76489,2.78089 -27.85411,2.94063 -216.91861,3.12463 -104.58653,0.10179 -196.423382,-0.13278 -204.081892,-0.52126 z"
-        id="path3916"
-        transform="scale(0.26458334)" />
-      <path
-        style="fill:#fff;fill-opacity:1;stroke:#fff;stroke-width:0.870285;stroke-opacity:1"
-        d="m 67.447108,479.47067 c -21.254214,-0.61851 -36.668393,-1.87904 -42.861549,-3.50512 l -3.26357,-0.85688 v -7.33326 c 0,-6.09654 0.256848,-7.46932 1.522999,-8.14002 5.790472,-3.06728 40.38876,-4.84025 81.589242,-4.18099 31.74579,0.50797 43.40141,1.2174 53.30497,3.24445 l 4.569,0.93517 v 7.73733 7.73732 l -3.26357,0.84504 c -8.09003,2.09475 -17.85276,2.72118 -60.267252,3.86705 -5.504554,0.14871 -19.603176,-0.009 -31.33027,-0.35009 z"
-        id="path3955"
-        transform="scale(0.26458334)" />
-      <path
-        style="fill:#fff;fill-opacity:1;stroke:#fff;stroke-width:0.870285;stroke-opacity:1"
-        d="m 228.88503,479.48013 c -22.65754,-0.62414 -39.60901,-2.04211 -44.8194,-3.7491 l -3.04629,-0.99801 v -7.39363 -7.39363 l 4.3136,-1.06449 c 10.08558,-2.48889 26.53535,-3.27767 68.35522,-3.27767 41.81986,0 58.26963,0.78878 68.35521,3.27767 l 4.31361,1.06449 0.25007,7.5204 0.25007,7.5204 -4.16635,0.9644 c -6.95728,1.61044 -19.02184,2.68156 -35.49663,3.15149 -32.69996,0.93275 -37.11961,0.96138 -58.30911,0.37768 z"
-        id="path3994"
-        transform="scale(0.26458334)" />
-      <path
-        style="fill:#fff;fill-opacity:1;stroke:#fff;stroke-width:0.870285;stroke-opacity:1"
-        d="m 391.62837,479.46727 c -21.29127,-0.60453 -35.89591,-1.8129 -42.42641,-3.51033 l -3.26357,-0.84827 v -7.73732 -7.73733 l 4.569,-0.93517 c 20.47532,-4.19086 101.64772,-4.69953 127.27922,-0.7976 9.21665,1.40306 9.138,1.31807 9.138,9.87416 v 7.33326 l -3.26357,0.8546 c -5.40162,1.41448 -19.41678,2.68032 -34.83441,3.14621 -30.57283,0.92387 -36.05339,0.95815 -57.19826,0.35779 z"
-        id="path4033"
-        transform="scale(0.26458334)"
-        inkscape:export-xdpi="300"
-        inkscape:export-ydpi="300" />
-      </g>
-    </svg>
+      <div style="height: 19px">
+        <svg
+          width="14"
+          height="20"
+          viewBox="0 0 135.46667 135.46667"
+          version="1.1"
+          id="svg5"
+          inkscape:version="1.1-alpha (a1a1b4c, 2021-01-30)"
+          sodipodi:docname="layout-default.svg"
+          xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+          xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+          xmlns="http://www.w3.org/2000/svg"
+          xmlns:svg="http://www.w3.org/2000/svg"
+        >
+          <defs id="defs2" />
+          <g inkscape:label="Layer 1" inkscape:groupmode="layer" id="layer1">
+            <rect
+              style="fill: #fff; stroke-width: 0.264583"
+              id="rect31"
+              width="123.41795"
+              height="84.341026"
+              x="5.5358977"
+              y="6.1871796"
+              rx="21.916418"
+              ry="1.5194545"
+            />
+            <rect
+              style="fill: #fff; stroke-width: 0.28111"
+              id="rect33"
+              width="122.77625"
+              height="8.4666672"
+              x="5.5263114"
+              y="101.08362"
+              rx="24.739923"
+              ry="1.5194545"
+            />
+            <rect
+              style="fill: #fff; stroke-width: 0.264583"
+              id="rect35-3"
+              width="38.751282"
+              height="6.8384614"
+              x="47.762283"
+              y="120.2667"
+              rx="21.916418"
+              ry="1.5194545"
+            />
+            <rect
+              style="fill: #fff; stroke-width: 0.26064"
+              id="rect35-3-2"
+              width="37.604954"
+              height="6.8384614"
+              x="91.342316"
+              y="120.2667"
+              rx="21.268095"
+              ry="1.5194545"
+            />
+            <rect
+              style="fill: #fff; stroke-width: 0.26064"
+              id="rect35-3-2-9"
+              width="37.604954"
+              height="6.8384614"
+              x="5.5263114"
+              y="120.2667"
+              rx="21.268095"
+              ry="1.5194545"
+            />
+            <path
+              style="
+                fill: #fff;
+                fill-opacity: 1;
+                stroke: #fff;
+                stroke-width: 0.870285;
+                stroke-opacity: 1;
+              "
+              d="m 67.447108,341.10017 c -19.990677,-0.68956 -37.543832,-2.12944 -42.861549,-3.51594 l -3.26357,-0.85092 v -153.9483 c 0,-145.859262 0.08002,-153.972851 1.522999,-154.4155 2.904804,-0.891081 13.768446,-2.258023 25.890987,-3.257793 16.860806,-1.390543 347.226395,-2.096542 385.101235,-0.82297 27.80126,0.934841 43.90778,2.114974 49.82383,3.650621 l 3.26357,0.847135 v 153.973407 153.9734 l -3.26357,0.84828 c -5.50772,1.43159 -21.47075,2.67935 -45.54172,3.5598 -26.48,0.96857 -342.416521,0.93343 -370.672212,-0.0412 z"
+              id="path3877"
+              transform="scale(0.26458334)"
+            />
+            <path
+              style="
+                fill: #fff;
+                fill-opacity: 1;
+                stroke: #fff;
+                stroke-width: 0.870285;
+                stroke-opacity: 1;
+              "
+              d="m 57.438828,412.45461 c -16.413518,-0.83259 -31.02489,-2.31178 -33.99676,-3.44169 -2.083391,-0.7921 -2.120079,-0.98607 -2.120079,-11.20931 v -10.40326 l 4.568998,-0.9123 c 17.198508,-3.43406 65.618457,-4.37004 226.491743,-4.37816 161.89427,-0.008 209.85007,0.91682 227.36202,4.38546 l 4.569,0.905 v 10.73823 10.73823 l -5.87442,0.97443 c -16.76489,2.78089 -27.85411,2.94063 -216.91861,3.12463 -104.58653,0.10179 -196.423382,-0.13278 -204.081892,-0.52126 z"
+              id="path3916"
+              transform="scale(0.26458334)"
+            />
+            <path
+              style="
+                fill: #fff;
+                fill-opacity: 1;
+                stroke: #fff;
+                stroke-width: 0.870285;
+                stroke-opacity: 1;
+              "
+              d="m 67.447108,479.47067 c -21.254214,-0.61851 -36.668393,-1.87904 -42.861549,-3.50512 l -3.26357,-0.85688 v -7.33326 c 0,-6.09654 0.256848,-7.46932 1.522999,-8.14002 5.790472,-3.06728 40.38876,-4.84025 81.589242,-4.18099 31.74579,0.50797 43.40141,1.2174 53.30497,3.24445 l 4.569,0.93517 v 7.73733 7.73732 l -3.26357,0.84504 c -8.09003,2.09475 -17.85276,2.72118 -60.267252,3.86705 -5.504554,0.14871 -19.603176,-0.009 -31.33027,-0.35009 z"
+              id="path3955"
+              transform="scale(0.26458334)"
+            />
+            <path
+              style="
+                fill: #fff;
+                fill-opacity: 1;
+                stroke: #fff;
+                stroke-width: 0.870285;
+                stroke-opacity: 1;
+              "
+              d="m 228.88503,479.48013 c -22.65754,-0.62414 -39.60901,-2.04211 -44.8194,-3.7491 l -3.04629,-0.99801 v -7.39363 -7.39363 l 4.3136,-1.06449 c 10.08558,-2.48889 26.53535,-3.27767 68.35522,-3.27767 41.81986,0 58.26963,0.78878 68.35521,3.27767 l 4.31361,1.06449 0.25007,7.5204 0.25007,7.5204 -4.16635,0.9644 c -6.95728,1.61044 -19.02184,2.68156 -35.49663,3.15149 -32.69996,0.93275 -37.11961,0.96138 -58.30911,0.37768 z"
+              id="path3994"
+              transform="scale(0.26458334)"
+            />
+            <path
+              style="
+                fill: #fff;
+                fill-opacity: 1;
+                stroke: #fff;
+                stroke-width: 0.870285;
+                stroke-opacity: 1;
+              "
+              d="m 391.62837,479.46727 c -21.29127,-0.60453 -35.89591,-1.8129 -42.42641,-3.51033 l -3.26357,-0.84827 v -7.73732 -7.73733 l 4.569,-0.93517 c 20.47532,-4.19086 101.64772,-4.69953 127.27922,-0.7976 9.21665,1.40306 9.138,1.31807 9.138,9.87416 v 7.33326 l -3.26357,0.8546 c -5.40162,1.41448 -19.41678,2.68032 -34.83441,3.14621 -30.57283,0.92387 -36.05339,0.95815 -57.19826,0.35779 z"
+              id="path4033"
+              transform="scale(0.26458334)"
+              inkscape:export-xdpi="300"
+              inkscape:export-ydpi="300"
+            />
+          </g>
+        </svg>
       </div>
     </ui-button>
     <ui-button (clicked)="layoutChanged.emit(layout.TextOnly)">
-      <div style="height: 19px;">
-      <svg
-        width="14"
-        height="20"
-        viewBox="0 0 135.46666 135.46667"
-        version="1.1">
-        <defs id="defs4072" />
-        <g
-          inkscape:label="Layer 1"
-          inkscape:groupmode="layer"
-          id="layer1">
-        <rect
-          style="fill:#fff;stroke:#fff;stroke-width:0.264583"
-          id="rect4101"
-          width="122.08413"
-          height="9.9951916"
-          x="7.1394248"
-          y="10.352163"
-          rx="24.739918"
-          ry="1.5194544" />
-        <rect
-          style="fill:#fff;stroke:#fff;stroke-width:0.264583"
-          id="rect4101-3"
-          width="122.08413"
-          height="9.9951916"
-          x="7.1394248"
-          y="30.69952"
-          rx="24.739918"
-          ry="1.5194544" />
-        <rect
-          style="fill:#fff;stroke:#fff;stroke-width:0.265652"
-          id="rect4101-37"
-          width="122.12301"
-          height="10.072941"
-          x="7.1005507"
-          y="53.863766"
-          rx="24.747797"
-          ry="1.5312737" />
-        <rect
-          style="fill:#fff;stroke:#fff;stroke-width:0.133056"
-          id="rect4101-37-6-8"
-          width="30.474068"
-          height="10.126718"
-          x="8.144577"
-          y="114.87895"
-          rx="6.1754622"
-          ry="1.5394489" />
-        <rect
-          style="fill:#fff;stroke:#fff;stroke-width:0.133056"
-          id="rect4101-37-6-8-1"
-          width="30.474068"
-          height="10.126718"
-          x="44.734119"
-          y="114.87895"
-          rx="6.1754622"
-          ry="1.5394489" />
-        <rect
-          style="fill:#fff;stroke:#fff;stroke-width:0.264583"
-          id="rect4101-3-1"
-          width="122.08413"
-          height="9.9951916"
-          x="7.1005502"
-          y="95.668266"
-          rx="24.739918"
-          ry="1.5194544" />
-        </g>
-      </svg>
+      <div style="height: 19px">
+        <svg
+          width="14"
+          height="20"
+          viewBox="0 0 135.46666 135.46667"
+          version="1.1"
+        >
+          <defs id="defs4072" />
+          <g inkscape:label="Layer 1" inkscape:groupmode="layer" id="layer1">
+            <rect
+              style="fill: #fff; stroke: #fff; stroke-width: 0.264583"
+              id="rect4101"
+              width="122.08413"
+              height="9.9951916"
+              x="7.1394248"
+              y="10.352163"
+              rx="24.739918"
+              ry="1.5194544"
+            />
+            <rect
+              style="fill: #fff; stroke: #fff; stroke-width: 0.264583"
+              id="rect4101-3"
+              width="122.08413"
+              height="9.9951916"
+              x="7.1394248"
+              y="30.69952"
+              rx="24.739918"
+              ry="1.5194544"
+            />
+            <rect
+              style="fill: #fff; stroke: #fff; stroke-width: 0.265652"
+              id="rect4101-37"
+              width="122.12301"
+              height="10.072941"
+              x="7.1005507"
+              y="53.863766"
+              rx="24.747797"
+              ry="1.5312737"
+            />
+            <rect
+              style="fill: #fff; stroke: #fff; stroke-width: 0.133056"
+              id="rect4101-37-6-8"
+              width="30.474068"
+              height="10.126718"
+              x="8.144577"
+              y="114.87895"
+              rx="6.1754622"
+              ry="1.5394489"
+            />
+            <rect
+              style="fill: #fff; stroke: #fff; stroke-width: 0.133056"
+              id="rect4101-37-6-8-1"
+              width="30.474068"
+              height="10.126718"
+              x="44.734119"
+              y="114.87895"
+              rx="6.1754622"
+              ry="1.5394489"
+            />
+            <rect
+              style="fill: #fff; stroke: #fff; stroke-width: 0.264583"
+              id="rect4101-3-1"
+              width="122.08413"
+              height="9.9951916"
+              x="7.1005502"
+              y="95.668266"
+              rx="24.739918"
+              ry="1.5194544"
+            />
+          </g>
+        </svg>
       </div>
     </ui-button>
     <ui-button (clicked)="emitRefresh()">
@@ -207,6 +248,10 @@
     </ui-button>
   </div>
 </div>
-<div class="flex inline-flex" *ngFor="let language of (languages | async)">
-  <ui-button [active]="languageFilter[language]" (clicked)="emitLanguage(language)" [value]="language | uppercase"></ui-button>
+<div class="flex inline-flex" *ngFor="let language of languages | async">
+  <ui-button
+    [active]="languageFilter[language]"
+    (clicked)="emitLanguage(language)"
+    [value]="language | uppercase"
+  ></ui-button>
 </div>

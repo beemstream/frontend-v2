@@ -11,10 +11,7 @@ export enum SeoTag {
   providedIn: 'root',
 })
 export class SeoService {
-  constructor(
-    private pageTitle: Title,
-    private meta: Meta,
-  ) {}
+  constructor(private pageTitle: Title, private meta: Meta) {}
 
   addTitle(title: string) {
     this.pageTitle.setTitle(title);

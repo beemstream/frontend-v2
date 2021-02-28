@@ -1,5 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { faHeart, faFire, faSync, faRunning, faMale } from '@fortawesome/free-solid-svg-icons';
+import {
+  faHeart,
+  faFire,
+  faSync,
+  faRunning,
+  faMale,
+} from '@fortawesome/free-solid-svg-icons';
 import { Observable, of } from 'rxjs';
 
 export enum FilterEvents {
@@ -16,8 +22,8 @@ export enum Layout {
 }
 
 export interface FilterEventPayload {
-   type: FilterEvents;
-   value?: string;
+  type: FilterEvents;
+  value?: string;
 }
 
 @Component({
@@ -26,7 +32,6 @@ export interface FilterEventPayload {
   styleUrls: ['./filters.component.css'],
 })
 export class FiltersComponent {
-
   @Input() languages?: Observable<string[]> = of([]);
 
   @Output() filterChanged = new EventEmitter<FilterEventPayload>();
@@ -37,7 +42,10 @@ export class FiltersComponent {
 
   @Output() layoutChanged = new EventEmitter<Layout>();
 
-  filters: { [key: string]: boolean } = { ...this.initFilters(), [FilterEvents.MostPopular]: true };
+  filters: { [key: string]: boolean } = {
+    ...this.initFilters(),
+    [FilterEvents.MostPopular]: true,
+  };
 
   languageFilter: { [key: string]: boolean } = {};
 
@@ -51,7 +59,7 @@ export class FiltersComponent {
 
   faSync = faSync;
 
-  faRunning = faRunning
+  faRunning = faRunning;
 
   faMale = faMale;
 
@@ -59,7 +67,10 @@ export class FiltersComponent {
     this.resetFilters();
     this.selectFilter(event);
     const elem = elemEvent?.target as HTMLInputElement;
-    this.filterChanged.emit({ type: event, ...(elemEvent && { value: elem.value }) });
+    this.filterChanged.emit({
+      type: event,
+      ...(elemEvent && { value: elem.value }),
+    });
   }
 
   emitLanguage(language: string) {
@@ -67,10 +78,13 @@ export class FiltersComponent {
       this.languageFilter = { ...this.languageFilter, [language]: false };
       this.languageChanged.emit('');
     } else {
-      this.languageFilter = Object.keys(this.languageFilter).reduce((acc, curr) => {
-        acc[curr] = false;
-        return acc;
-      }, {} as { [key: string]: boolean  })
+      this.languageFilter = Object.keys(this.languageFilter).reduce(
+        (acc, curr) => {
+          acc[curr] = false;
+          return acc;
+        },
+        {} as { [key: string]: boolean }
+      );
 
       this.languageFilter = { ...this.languageFilter, [language]: true };
       this.languageChanged.emit(language);
@@ -95,7 +109,6 @@ export class FiltersComponent {
     return Object.values(FilterEvents).reduce((acc, curr) => {
       acc[curr] = false;
       return acc;
-    }, {} as { [key: string]: boolean  })
+    }, {} as { [key: string]: boolean });
   }
-
 }

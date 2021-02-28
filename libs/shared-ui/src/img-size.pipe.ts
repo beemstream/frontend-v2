@@ -1,12 +1,12 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'imgSize'
+  name: 'imgSize',
 })
 export class ImgSizePipe implements PipeTransform {
-
   transform(value: string, width: number, height: number): string {
-    return value.replace('{width}', `${width}`).replace('{height}', `${height}`);
+    return value
+      .replace('{width}', `${width}`)
+      .replace('{height}', `${height}`);
   }
-
 }

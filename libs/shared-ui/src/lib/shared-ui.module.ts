@@ -6,6 +6,6 @@ import { MapToPipe } from '../map-to.pipe';
 @NgModule({
   imports: [CommonModule],
   declarations: [ImgSizePipe, MapToPipe],
-  exports: [ImgSizePipe, MapToPipe]
+  exports: [ImgSizePipe, MapToPipe],
 })
 export class SharedUiModule {}

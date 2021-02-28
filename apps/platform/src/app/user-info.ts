@@ -7,5 +7,5 @@ export interface UserInfo {
   type: string;
   offline_image_url: string;
   profile_image_url: string;
-  view_count: number
+  view_count: number;
 }

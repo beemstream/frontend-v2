@@ -58,14 +58,16 @@ export class BrowseCategoryDetailComponent {
     switchMap((query) =>
       this.categoryService.getStreamByCategory(query.category, { force: true })
     ),
-    tap(() => this.availableLanguages = this.categoryService.getAvailableLanguages()),
+    tap(
+      () =>
+        (this.availableLanguages = this.categoryService.getAvailableLanguages())
+    ),
     shareReplay(1)
   );
 
   availableLanguages?: Observable<string[]>;
 
   templateStreams = this.streamCategoryList;
-
 
   constructor(
     private route: ActivatedRoute,

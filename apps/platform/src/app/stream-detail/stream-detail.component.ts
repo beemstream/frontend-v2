@@ -11,9 +11,10 @@ import { faTv, faUser } from '@fortawesome/free-solid-svg-icons';
   providers: [StreamDetailService],
 })
 export class StreamDetailComponent {
-
   streamDetail = this.route.params.pipe(
-    switchMap(param => this.streamDetailService.getStreamDetails(param.username)),
+    switchMap((param) =>
+      this.streamDetailService.getStreamDetails(param.username)
+    )
   );
 
   faTv = faTv;
@@ -22,6 +23,6 @@ export class StreamDetailComponent {
 
   constructor(
     private readonly route: ActivatedRoute,
-    private readonly streamDetailService: StreamDetailService  ) {}
-
+    private readonly streamDetailService: StreamDetailService
+  ) {}
 }

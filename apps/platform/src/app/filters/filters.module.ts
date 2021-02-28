@@ -11,4 +11,3 @@ import { CommonModule } from '@angular/common';
   exports: [FiltersComponent],
 })
 export class FiltersModule {}
-

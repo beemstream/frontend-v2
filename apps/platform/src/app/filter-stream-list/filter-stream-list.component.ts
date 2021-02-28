@@ -1,18 +1,26 @@
-import { ChangeDetectionStrategy, EventEmitter, OnChanges, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  EventEmitter,
+  OnChanges,
+  OnInit,
+} from '@angular/core';
 import { Component, Input, Output } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { FilterEventPayload, FilterEvents, Layout } from '../filters/filters.component';
+import {
+  FilterEventPayload,
+  FilterEvents,
+  Layout,
+} from '../filters/filters.component';
 import { StreamInfo } from '../stream-info';
 
 @Component({
   selector: 'nbp-filter-stream-list',
   templateUrl: './filter-stream-list.component.html',
   styleUrls: ['./filter-stream-list.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FilterStreamListComponent implements OnInit, OnChanges {
-
   @Input() streamCategoryList: Observable<StreamInfo[]> = of([]);
 
   @Input() filteredStreams?: Observable<StreamInfo[]>;
@@ -51,52 +59,66 @@ export class FilterStreamListComponent implements OnInit, OnChanges {
 
   reassignStreams() {
     const searchByLanguage = this.language.pipe(
-      switchMap(language => this.streamCategoryList.pipe(
-        map(stream => stream.filter(s => language ? s.language === language : true)),
-      )),
+      switchMap((language) =>
+        this.streamCategoryList.pipe(
+          map((stream) =>
+            stream.filter((s) => (language ? s.language === language : true))
+          )
+        )
+      )
     );
 
     this.templateStreams = searchByLanguage;
 
     this.needsLoveStreams = searchByLanguage.pipe(
-      map((stream) => stream.sort((a, b) => a.viewer_count - b.viewer_count)),
+      map((stream) => stream.sort((a, b) => a.viewer_count - b.viewer_count))
     );
 
     this.mostPopularStreams = searchByLanguage.pipe(
-      map((stream) => stream.sort((a, b) => b.viewer_count - a.viewer_count)),
+      map((stream) => stream.sort((a, b) => b.viewer_count - a.viewer_count))
     );
 
     this.marathonRunners = searchByLanguage.pipe(
-      map((stream) => stream.sort((a, b) => new Date(a.started_at).getTime() - new Date(b.started_at).getTime())),
+      map((stream) =>
+        stream.sort(
+          (a, b) =>
+            new Date(a.started_at).getTime() - new Date(b.started_at).getTime()
+        )
+      )
     );
 
     this.starters = searchByLanguage.pipe(
-      map((stream) => stream.sort((a, b) => new Date(b.started_at).getTime() - new Date(a.started_at).getTime())),
+      map((stream) =>
+        stream.sort(
+          (a, b) =>
+            new Date(b.started_at).getTime() - new Date(a.started_at).getTime()
+        )
+      )
     );
   }
 
   filterStreams(event: FilterEventPayload) {
-    switch(event.type) {
+    switch (event.type) {
       case FilterEvents.NeedsLove:
         this.templateStreams = this.needsLoveStreams;
-      break;
+        break;
       case FilterEvents.MostPopular:
         this.templateStreams = this.mostPopularStreams;
-      break;
+        break;
       case FilterEvents.Search:
         this.templateStreams = this.filteredStreams;
-      if (event.value) {
-        this.searchStream.emit(event.value);
-      } else {
-        this.templateStreams = this.streamCategoryList;
-      }
-      break;
+        if (event.value) {
+          this.searchStream.emit(event.value);
+        } else {
+          this.templateStreams = this.streamCategoryList;
+        }
+        break;
       case FilterEvents.MarathonRunners:
         this.templateStreams = this.marathonRunners;
-      break;
+        break;
       case FilterEvents.Starters:
         this.templateStreams = this.starters;
-      break;
+        break;
     }
   }
 

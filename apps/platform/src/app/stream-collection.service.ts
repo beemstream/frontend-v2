@@ -2,7 +2,15 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { StreamInfo } from './stream-info';
 import { Observable, of, Subject, timer } from 'rxjs';
-import { map, mergeMap, retry, scan, share, shareReplay, switchMap, takeUntil } from 'rxjs/operators';
+import {
+  map,
+  mergeMap,
+  retry,
+  scan,
+  shareReplay,
+  switchMap,
+  takeUntil,
+} from 'rxjs/operators';
 import { environment } from '../environments/environment';
 import { filterStreamBySearchTerm } from './utils/filterStreamBySearchTerm';
 
@@ -39,8 +47,8 @@ export class StreamCollectionService implements OnDestroy {
       switchMap(() => this.getNewStreams()),
       takeUntil(this.stopPolling),
       retry(),
-      shareReplay(1),
-    )
+      shareReplay(1)
+    );
   }
 
   getStreams(): Observable<StreamInfo[]> {
@@ -48,21 +56,20 @@ export class StreamCollectionService implements OnDestroy {
   }
 
   getNewStreams(): Observable<StreamInfo[]> {
-    return this.httpClient.get<StreamInfo[]>(`${environment.streamCollectionUrl}/streams`)
-      .pipe(
-        shareReplay(1),
-      );
+    return this.httpClient
+      .get<StreamInfo[]>(`${environment.streamCollectionUrl}/streams`)
+      .pipe(shareReplay(1));
   }
 
   getAvailableLanguages(): Observable<string[]> {
     return this.streams.pipe(
       switchMap(() => this.getNewStreams()),
-      mergeMap(s => s),
+      mergeMap((s) => s),
       scan((arr, curr) => {
         arr.push(curr.language);
         return arr;
       }, [] as string[]),
-      map(s => [...new Set(s)]),
+      map((s) => [...new Set(s)]),
       shareReplay(1)
     );
   }
