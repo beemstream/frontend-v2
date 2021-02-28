@@ -16,14 +16,14 @@ export class RandomComponent implements OnDestroy {
   constructor(private streamColllectionService: StreamCollectionService, private route: Router) {
     this.subscription = this.streamColllectionService.getNewStreams().pipe(
       flatMap(s => s),
-      map(s => s.user_id),
+      map(s => s.user_name),
       reduce((acc, value) => {
         acc.push(value);
         return acc;
       }, [] as string[]),
     ).subscribe(ids => {
       const randomStream = ids[Math.floor(Math.random() * ids.length)];
-      this.route.navigateByUrl(`/stream/${randomStream}`);
+      this.route.navigateByUrl(`/stream/${encodeURIComponent(randomStream)}`);
     })
   }
 

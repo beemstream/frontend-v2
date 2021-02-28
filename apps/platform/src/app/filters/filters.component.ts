@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { faHeart, faFire, faSync, faRunning, faMale } from '@fortawesome/free-solid-svg-icons';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 export enum FilterEvents {
   MostPopular = 'mostPopular',
@@ -27,7 +27,7 @@ export interface FilterEventPayload {
 })
 export class FiltersComponent {
 
-  @Input() languages = of([]);
+  @Input() languages?: Observable<string[]> = of([]);
 
   @Output() filterChanged = new EventEmitter<FilterEventPayload>();
 
