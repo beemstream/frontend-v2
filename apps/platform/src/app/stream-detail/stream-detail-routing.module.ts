@@ -6,7 +6,7 @@ import { StreamDetailComponent } from './stream-detail.component';
 const routes: Routes = [
   {
     path: '',
-    children: [{ path: ':username', component: StreamDetailComponent }],
+    children: [{ path: 't/:username', component: StreamDetailComponent }],
   },
 ];
 

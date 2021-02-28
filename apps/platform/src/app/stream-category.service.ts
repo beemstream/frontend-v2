@@ -57,7 +57,9 @@ export class StreamCategoryService {
   getAvailableLanguages(): Observable<string[]> {
     if (this.category && this.streams) {
       return of(this.streams).pipe(
-        switchMap(() => this.getStreamByCategory(this.category as StreamCategory)),
+        switchMap(() =>
+          this.getStreamByCategory(this.category as StreamCategory)
+        ),
         mergeMap((s) => s),
         scan((arr, curr) => {
           arr.push(curr.language);
@@ -65,7 +67,7 @@ export class StreamCategoryService {
         }, [] as string[]),
         map((s) => [...new Set(s)]),
         shareReplay(1)
-      )
+      );
     }
     return of([]);
   }
