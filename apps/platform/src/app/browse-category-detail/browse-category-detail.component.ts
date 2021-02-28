@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import {
   debounceTime,
   distinctUntilChanged,
@@ -58,10 +58,14 @@ export class BrowseCategoryDetailComponent {
     switchMap((query) =>
       this.categoryService.getStreamByCategory(query.category, { force: true })
     ),
+    tap(() => this.availableLanguages = this.categoryService.getAvailableLanguages()),
     shareReplay(1)
   );
 
+  availableLanguages?: Observable<string[]>;
+
   templateStreams = this.streamCategoryList;
+
 
   constructor(
     private route: ActivatedRoute,

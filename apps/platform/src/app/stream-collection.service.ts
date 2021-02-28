@@ -1,8 +1,8 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { StreamInfo } from './stream-info';
-import { BehaviorSubject, Observable, Subject, timer } from 'rxjs';
-import { map, mergeMap, reduce, retry, shareReplay, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { Observable, of, Subject, timer } from 'rxjs';
+import { map, mergeMap, retry, scan, share, shareReplay, switchMap, takeUntil } from 'rxjs/operators';
 import { environment } from '../environments/environment';
 import { filterStreamBySearchTerm } from './utils/filterStreamBySearchTerm';
 
@@ -12,16 +12,16 @@ export class StreamCollectionService implements OnDestroy {
 
   stopPolling = new Subject();
 
-  languages = new BehaviorSubject<StreamInfo[]>([]);
-
   refreshTime = 30000;
+
+  languages = of([]);
 
   constructor(private httpClient: HttpClient) {
     const poll = timer(0, this.refreshTime).pipe(
       switchMap(() => this.getNewStreams()),
       takeUntil(this.stopPolling),
       retry(),
-      shareReplay(1),
+      shareReplay(1)
     );
 
     this.streams = poll;
@@ -37,7 +37,6 @@ export class StreamCollectionService implements OnDestroy {
     this.stopPolling = new Subject();
     return timer(0, this.refreshTime).pipe(
       switchMap(() => this.getNewStreams()),
-      tap(s => this.languages.next(s)),
       takeUntil(this.stopPolling),
       retry(),
       shareReplay(1),
@@ -49,22 +48,21 @@ export class StreamCollectionService implements OnDestroy {
   }
 
   getNewStreams(): Observable<StreamInfo[]> {
-    return this.httpClient.get<StreamInfo[]>(`${environment.streamCollectionUrl}/streams`);
+    return this.httpClient.get<StreamInfo[]>(`${environment.streamCollectionUrl}/streams`)
+      .pipe(
+        shareReplay(1),
+      );
   }
 
   getAvailableLanguages(): Observable<string[]> {
-    return this.languages.asObservable().pipe(
-      mergeMap(s => {
-        return s;
-      }),
-      reduce((arr, curr) => {
+    return this.streams.pipe(
+      switchMap(() => this.getNewStreams()),
+      mergeMap(s => s),
+      scan((arr, curr) => {
         arr.push(curr.language);
         return arr;
       }, [] as string[]),
-      map(s => {
-        console.log(s);
-        return [...new Set(s)]
-      }),
+      map(s => [...new Set(s)]),
       shareReplay(1)
     );
   }
