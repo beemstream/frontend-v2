@@ -27,7 +27,8 @@
     "dep-graph": "nx dep-graph",
     "help": "nx help",
     "bundle:analyze": "npm run bundle:build && webpack-bundle-analyzer dist/apps/platform/stats.json",
-    "bundle:build": "nx build --prod --stats-json"
+    "bundle:build": "nx build --prod --stats-json",
+    "prepare": "husky install"
   },
   "private": true,
   "dependencies": {
@@ -77,6 +78,7 @@
     "eslint": "7.10.0",
     "eslint-config-prettier": "6.0.0",
     "eslint-plugin-cypress": "^2.10.3",
+    "husky": "^5.1.2",
     "jest": "26.2.2",
     "jest-preset-angular": "8.3.2",
     "postcss": "8.2.4",

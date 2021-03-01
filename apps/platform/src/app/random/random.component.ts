@@ -29,7 +29,9 @@ export class RandomComponent implements OnDestroy {
       )
       .subscribe((ids) => {
         const randomStream = ids[Math.floor(Math.random() * ids.length)];
-        this.route.navigateByUrl(`/stream/t/${encodeURIComponent(randomStream)}`);
+        this.route.navigateByUrl(
+          `/stream/t/${encodeURIComponent(randomStream)}`
+        );
       });
   }
 
