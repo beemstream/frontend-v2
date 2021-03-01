@@ -51,9 +51,9 @@ import { map, switchMap } from 'rxjs/operators';
 export class FilterStreamListComponent implements OnInit, OnChanges {
   @Input() streamCategoryList: Observable<StreamInfo[]> = of([]);
 
-  @Input() filteredStreams?: Observable<StreamInfo[]>;
+  @Input() filteredStreams: Observable<StreamInfo[]> = of([]);
 
-  @Input() availableLanguages?: Observable<string[]>;
+  @Input() availableLanguages?: Observable<string[]> = of([]);
 
   @Output() searchStream = new EventEmitter<string>();
 
@@ -61,11 +61,27 @@ export class FilterStreamListComponent implements OnInit, OnChanges {
 
   @Output() changeLanguage = new EventEmitter<string>();
 
-  templateStreams?: Observable<StreamInfo[]>;
+  templateStreams: Observable<StreamInfo[]> = of([]);
 
   layout = Layout;
 
   layoutSetting = Layout.Default;
+
+  searchedStreams = this.language.pipe(
+    switchMap((l) =>
+      (this.filteredStreams ?? of([])).pipe(
+        map((streams) => streams.filter((s) => (l ? s.language === l : true)))
+      )
+    )
+  );
+
+  filterAttributeStreams = {
+    [FilterEvents.MostPopular]: this.mostPopular,
+    [FilterEvents.NeedsLove]: this.needsLove,
+    [FilterEvents.MarathonRunners]: this.marathonRunners,
+    [FilterEvents.Starters]: this.slowStarters,
+    [FilterEvents.Search]: this.searchedStreams,
+  };
 
   constructor(
     @Inject(STREAM_LANGUAGE) private language: ReplaySubject<string>,
@@ -94,36 +110,14 @@ export class FilterStreamListComponent implements OnInit, OnChanges {
   }
 
   filterStreams(event: FilterEventPayload) {
-    switch (event.type) {
-      case FilterEvents.NeedsLove:
-        this.templateStreams = this.needsLove;
-        break;
-      case FilterEvents.MostPopular:
-        this.templateStreams = this.mostPopular;
-        break;
-      case FilterEvents.Search:
-        this.templateStreams = this.language.pipe(
-          switchMap((l) =>
-            (this.filteredStreams ?? of([])).pipe(
-              map((streams) =>
-                streams.filter((s) => (l ? s.language === l : true))
-              )
-            )
-          )
-        );
-        this.filteredStreams;
-        if (event.value) {
-          this.searchStream.emit(event.value);
-        } else {
-          this.templateStreams = this.sourceStreams;
-        }
-        break;
-      case FilterEvents.MarathonRunners:
-        this.templateStreams = this.marathonRunners;
-        break;
-      case FilterEvents.Starters:
-        this.templateStreams = this.slowStarters;
-        break;
+    this.templateStreams = this.filterAttributeStreams[event.type];
+
+    if (event.type === FilterEvents.Search) {
+      if (event.value) {
+        this.searchStream.emit(event.value);
+      } else {
+        this.templateStreams = this.sourceStreams;
+      }
     }
   }
 
