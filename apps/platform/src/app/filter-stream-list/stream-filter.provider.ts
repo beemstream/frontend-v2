@@ -16,7 +16,9 @@ export const STREAM_LANGUAGE = new InjectionToken<ReplaySubject<string>>(
 );
 
 export const languageFactory = () => {
-  return new ReplaySubject<string>();
+  const language = new ReplaySubject<string>();
+  language.next('');
+  return language;
 };
 
 export const STREAM_FILTERED_LANGUAGE = new InjectionToken<
