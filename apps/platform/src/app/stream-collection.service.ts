@@ -1,6 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { StreamInfo } from './stream-info';
+import { StreamListService } from './streams-list-service';
 import { Observable, of, Subject, timer } from 'rxjs';
 import {
   map,
@@ -15,7 +16,7 @@ import { environment } from '../environments/environment';
 import { filterStreamBySearchTerm } from './utils/filterStreamBySearchTerm';
 
 @Injectable()
-export class StreamCollectionService implements OnDestroy {
+export class StreamCollectionService implements OnDestroy, StreamListService {
   streams: Observable<StreamInfo[]>;
 
   stopPolling = new Subject();
@@ -40,6 +41,16 @@ export class StreamCollectionService implements OnDestroy {
     this.stopPolling.complete();
   }
 
+  getStreams(): Observable<StreamInfo[]> {
+    return this.streams;
+  }
+
+  searchStreams(searchTerm: string): Observable<StreamInfo[]> {
+    return this.getStreams().pipe(
+      map((stream) => filterStreamBySearchTerm(stream, searchTerm))
+    );
+  }
+
   poll() {
     this.ngOnDestroy();
     this.stopPolling = new Subject();
@@ -51,13 +62,16 @@ export class StreamCollectionService implements OnDestroy {
     );
   }
 
-  getStreams(): Observable<StreamInfo[]> {
-    return this.streams;
-  }
-
   getNewStreams(): Observable<StreamInfo[]> {
+    const headers = new HttpHeaders().set(
+      'Cache-Control',
+      'max-age=0, no-cache, must-revalidate, proxy-revalidate'
+    );
+
     return this.httpClient
-      .get<StreamInfo[]>(`${environment.streamCollectionUrl}/streams`)
+      .get<StreamInfo[]>(`${environment.streamCollectionUrl}/streams`, {
+        headers,
+      })
       .pipe(shareReplay(1));
   }
 
@@ -71,12 +85,6 @@ export class StreamCollectionService implements OnDestroy {
       }, [] as string[]),
       map((s) => [...new Set(s)]),
       shareReplay(1)
-    );
-  }
-
-  search(searchTerm: string): Observable<StreamInfo[]> {
-    return this.getStreams().pipe(
-      map((stream) => filterStreamBySearchTerm(stream, searchTerm))
     );
   }
 }

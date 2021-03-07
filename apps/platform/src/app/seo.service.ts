@@ -7,9 +7,7 @@ export enum SeoTag {
   SiteName = 'og:sitename',
 }
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class SeoService {
   constructor(private pageTitle: Title, private meta: Meta) {}
 
@@ -26,6 +24,11 @@ export class SeoService {
 
   addMeta(tags: MetaDefinition[]) {
     this.meta.addTags(tags);
+    return this;
+  }
+
+  addImage(imageUrl: string) {
+    this.meta.addTag({ [SeoTag.Image]: imageUrl });
     return this;
   }
 }

@@ -22,7 +22,7 @@ export class HomeComponent {
     debounceTime(200),
     distinctUntilChanged(),
     switchMap((searchTerm) => {
-      return this.streamColllectionService.search(searchTerm);
+      return this.streamColllectionService.searchStreams(searchTerm);
     })
   );
 
