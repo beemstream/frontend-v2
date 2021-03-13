@@ -21,7 +21,7 @@ export class RandomComponent implements OnDestroy {
       .getNewStreams()
       .pipe(
         flatMap((s) => s),
-        map((s) => s.user_name),
+        map((s) => s.user_login),
         reduce((acc, value) => {
           acc.push(value);
           return acc;
