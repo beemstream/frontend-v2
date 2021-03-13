@@ -77,7 +77,6 @@ export class StreamCollectionService implements OnDestroy, StreamListService {
 
   getAvailableLanguages(): Observable<string[]> {
     return this.streams.pipe(
-      switchMap(() => this.getNewStreams()),
       mergeMap((s) => s),
       scan((arr, curr) => {
         arr.push(curr.language);
