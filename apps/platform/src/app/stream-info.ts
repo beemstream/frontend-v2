@@ -10,5 +10,6 @@ export interface StreamInfo {
   type: string;
   user_id: string;
   user_name: string;
+  user_login: string;
   viewer_count: number;
 }
