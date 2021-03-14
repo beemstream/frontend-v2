@@ -6,7 +6,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { Component, Input, Output } from '@angular/core';
-import { Observable, of, ReplaySubject } from 'rxjs';
+import { BehaviorSubject, Observable, of, ReplaySubject } from 'rxjs';
 import {
   FilterEventPayload,
   FilterEvents,
@@ -20,6 +20,8 @@ import {
   STREAM_FILTERED_LANGUAGE,
   STREAM_LANGUAGE,
   STREAM_LIST,
+  SEARCH_TERM,
+  SearchTermProvider,
 } from './stream-filter.provider';
 import {
   MarathonRunnersProvider,
@@ -31,7 +33,6 @@ import {
   SlowStartersProvider,
   SLOW_STARTERS,
 } from './attribute-filters';
-import { map, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'nbp-filter-stream-list',
@@ -46,16 +47,13 @@ import { map, switchMap } from 'rxjs/operators';
     NeedsLoveProvider,
     MarathonRunnersProvider,
     SlowStartersProvider,
+    SearchTermProvider,
   ],
 })
 export class FilterStreamListComponent implements OnInit, OnChanges {
   @Input() streamCategoryList: Observable<StreamInfo[]> = of([]);
 
-  @Input() filteredStreams: Observable<StreamInfo[]> = of([]);
-
   @Input() availableLanguages?: Observable<string[]> = of([]);
-
-  @Output() searchStream = new EventEmitter<string>();
 
   @Output() refreshStream = new EventEmitter<string>();
 
@@ -67,26 +65,20 @@ export class FilterStreamListComponent implements OnInit, OnChanges {
 
   layoutSetting = Layout.Default;
 
-  searchedStreams = this.language.pipe(
-    switchMap((l) =>
-      (this.filteredStreams ?? of([])).pipe(
-        map((streams) => streams.filter((s) => (l ? s.language === l : true)))
-      )
-    )
-  );
-
   filterAttributeStreams = {
     [FilterEvents.MostPopular]: this.mostPopular,
     [FilterEvents.NeedsLove]: this.needsLove,
     [FilterEvents.MarathonRunners]: this.marathonRunners,
     [FilterEvents.Starters]: this.slowStarters,
-    [FilterEvents.Search]: this.searchedStreams,
+    [FilterEvents.Search]: this.sourceStreams,
   };
 
   constructor(
-    @Inject(STREAM_LANGUAGE) private language: ReplaySubject<string>,
+    @Inject(STREAM_LANGUAGE) private language: BehaviorSubject<string>,
     @Inject(STREAM_LIST)
     private streams: ReplaySubject<Observable<StreamInfo[]>>,
+    @Inject(SEARCH_TERM)
+    private searchTerm: BehaviorSubject<string | undefined>,
     @Inject(STREAM_FILTERED_LANGUAGE)
     readonly sourceStreams: Observable<StreamInfo[]>,
     @Inject(MOST_POPULAR) readonly mostPopular: Observable<StreamInfo[]>,
@@ -113,11 +105,7 @@ export class FilterStreamListComponent implements OnInit, OnChanges {
     this.templateStreams = this.filterAttributeStreams[event.type];
 
     if (event.type === FilterEvents.Search) {
-      if (event.value) {
-        this.searchStream.emit(event.value);
-      } else {
-        this.templateStreams = this.sourceStreams;
-      }
+      this.searchTerm.next(event.value);
     }
   }
 

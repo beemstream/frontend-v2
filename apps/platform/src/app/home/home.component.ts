@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { StreamCollectionService } from '../stream-collection.service';
-import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({
@@ -18,19 +17,11 @@ export class HomeComponent {
 
   templateStreams = this.streams;
 
-  filteredStreams = this.searchValue.pipe(
-    debounceTime(200),
-    distinctUntilChanged(),
-    switchMap((searchTerm) => {
-      return this.streamColllectionService.searchStreams(searchTerm);
-    })
-  );
-
   constructor(
     private readonly streamColllectionService: StreamCollectionService
   ) {}
 
   forceRefresh() {
-    this.templateStreams = this.streamColllectionService.poll();
+    this.templateStreams = this.streamColllectionService.refreshStreams();
   }
 }

@@ -26,14 +26,7 @@ export class StreamCollectionService implements OnDestroy, StreamListService {
   languages = of([]);
 
   constructor(private httpClient: HttpClient) {
-    const poll = timer(0, this.refreshTime).pipe(
-      switchMap(() => this.getNewStreams()),
-      takeUntil(this.stopPolling),
-      retry(),
-      shareReplay(1)
-    );
-
-    this.streams = poll;
+    this.streams = this.pollStreams();
   }
 
   ngOnDestroy(): void {
@@ -51,18 +44,26 @@ export class StreamCollectionService implements OnDestroy, StreamListService {
     );
   }
 
-  poll() {
+  refreshStreams() {
     this.ngOnDestroy();
     this.stopPolling = new Subject();
-    return timer(0, this.refreshTime).pipe(
-      switchMap(() => this.getNewStreams()),
-      takeUntil(this.stopPolling),
-      retry(),
+    this.streams = this.pollStreams();
+    return this.streams;
+  }
+
+  getAvailableLanguages(): Observable<string[]> {
+    return this.streams.pipe(
+      mergeMap((s) => s),
+      scan((arr, curr) => {
+        arr.push(curr.language);
+        return arr;
+      }, [] as string[]),
+      map((s) => [...new Set(s)]),
       shareReplay(1)
     );
   }
 
-  getNewStreams(): Observable<StreamInfo[]> {
+  private getNewStreams(): Observable<StreamInfo[]> {
     const headers = new HttpHeaders().set(
       'Cache-Control',
       'max-age=0, no-cache, must-revalidate, proxy-revalidate'
@@ -75,14 +76,11 @@ export class StreamCollectionService implements OnDestroy, StreamListService {
       .pipe(shareReplay(1));
   }
 
-  getAvailableLanguages(): Observable<string[]> {
-    return this.streams.pipe(
-      mergeMap((s) => s),
-      scan((arr, curr) => {
-        arr.push(curr.language);
-        return arr;
-      }, [] as string[]),
-      map((s) => [...new Set(s)]),
+  private pollStreams(): Observable<StreamInfo[]> {
+    return timer(0, this.refreshTime).pipe(
+      switchMap(() => this.getNewStreams()),
+      takeUntil(this.stopPolling),
+      retry(),
       shareReplay(1)
     );
   }
