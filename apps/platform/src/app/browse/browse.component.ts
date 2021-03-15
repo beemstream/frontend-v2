@@ -23,24 +23,20 @@ import { StreamInfo } from '../stream-info';
 export class BrowseComponent {
   limit = 5;
 
-  readonly web = this.limitTo(
-    this.streamService.getStreams(StreamCategory.WebDevelopment),
-    this.limit
+  readonly web = this.limitLength(
+    this.streamService.getStreams(StreamCategory.WebDevelopment)
   );
 
-  readonly mobile = this.limitTo(
-    this.streamService.getStreams(StreamCategory.MobileDevelopment),
-    this.limit
+  readonly mobile = this.limitLength(
+    this.streamService.getStreams(StreamCategory.MobileDevelopment)
   );
 
-  readonly game = this.limitTo(
-    this.streamService.getStreams(StreamCategory.GameDevelopment),
-    this.limit
+  readonly game = this.limitLength(
+    this.streamService.getStreams(StreamCategory.GameDevelopment)
   );
 
-  readonly programming = this.limitTo(
-    this.streamService.getStreams(StreamCategory.Programming),
-    this.limit
+  readonly programming = this.limitLength(
+    this.streamService.getStreams(StreamCategory.Programming)
   );
 
   readonly allCategories = zip(
@@ -79,10 +75,10 @@ export class BrowseComponent {
 
   constructor(private streamService: StreamCategoryService) {}
 
-  limitTo(stream: Observable<StreamInfo[]>, limit: number) {
+  limitLength(stream: Observable<StreamInfo[]>) {
     return stream.pipe(
       mergeMap((s) => s),
-      take(limit),
+      take(this.limit),
       scan((a, c) => {
         a.push(c);
         return a;

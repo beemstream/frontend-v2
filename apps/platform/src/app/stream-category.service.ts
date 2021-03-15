@@ -22,9 +22,7 @@ export enum StreamCategory {
   Programming = 'programming',
 }
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class StreamCategoryService implements OnDestroy, StreamListService {
   streams?: Observable<StreamInfo[]>;
 

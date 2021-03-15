@@ -15,6 +15,7 @@ import { CategoryHeaderComponent } from '../category-header/category-header.comp
 import { BrowseCategoryDetailComponent } from '../browse-category-detail/browse-category-detail.component';
 import { FiltersModule } from '../filters/filters.module';
 import { FilterStreamListModule } from '../filter-stream-list/filter-stream.module';
+import { StreamCategoryService } from '../stream-category.service';
 
 @NgModule({
   declarations: [
@@ -34,5 +35,6 @@ import { FilterStreamListModule } from '../filter-stream-list/filter-stream.modu
     FiltersModule,
     FilterStreamListModule,
   ],
+  providers: [StreamCategoryService],
 })
 export class BrowseModule {}

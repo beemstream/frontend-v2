@@ -18,7 +18,7 @@ export class RandomComponent implements OnDestroy {
     private route: Router
   ) {
     this.subscription = this.streamColllectionService
-      .getNewStreams()
+      .getStreams()
       .pipe(
         flatMap((s) => s),
         map((s) => s.user_login),
