@@ -2,8 +2,11 @@ import { Observable } from 'rxjs';
 import { StreamInfo } from './stream-info';
 
 export interface StreamListService {
-  getStreams: () => Observable<StreamInfo[]>;
-  searchStreams: (searchTerm: string) => Observable<StreamInfo[]>;
-  refreshStreams: () => Observable<StreamInfo[]>;
-  getAvailableLanguages: () => Observable<string[]>;
+  getStreams: (...args: any[]) => Observable<StreamInfo[]>;
+  searchStreams: (
+    searchTerm: string,
+    ...args: any[]
+  ) => Observable<StreamInfo[]>;
+  refreshStreams: (...args: any[]) => Observable<StreamInfo[]>;
+  getAvailableLanguages: (...args: any[]) => Observable<string[]>;
 }

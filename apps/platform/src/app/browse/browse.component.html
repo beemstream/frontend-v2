@@ -1,67 +1,21 @@
 <div class="min-h-screen">
   <div class="h-full" *ngIf="allCategories | async as category">
-    <h1 class="mt-10 mb-5 text-lg font-extrabold">
+    <h1 class="mt-10 mb-5 text-xl font-extrabold">
       Browse Programming Categories
     </h1>
-    <div class="leading-6">
+    <div
+      class="leading-6"
+      *ngFor="let streamCategory of streamCategories; let i = index"
+    >
       <nbp-category-header
-        [link]="streamCategory.GameDevelopment"
-        [title]="'Game Development'"
-        [titleIcon]="faGamepad"
+        class="text-lg"
+        [link]="streamCategory.link"
+        [title]="streamCategory.title"
+        [titleIcon]="streamCategory.icon"
       ></nbp-category-header>
-      From Unity development to storyboarding to full on game engine
-      development. Developers seem to share everything these days with all the
-      nitty gritty details!
+      {{ streamCategory.description }}
       <nbp-stream-category-list
-        [streamList]="category[0]"
-      ></nbp-stream-category-list>
-    </div>
-
-    <div class="w-full mb-10 border border-gray-700"></div>
-
-    <div class="leading-6">
-      <nbp-category-header
-        [link]="streamCategory.WebDevelopment"
-        [title]="'Web Development'"
-        [titleIcon]="faLaptop"
-      ></nbp-category-header>
-      Browse from the most popular React. To a true open source VueJs. To the
-      enterprise grade Angular streams! Maybe even finding a framework that was
-      made 12 hours ago!
-      <nbp-stream-category-list
-        [streamList]="category[1]"
-      ></nbp-stream-category-list>
-    </div>
-
-    <div class="w-full mb-10 border border-gray-700"></div>
-
-    <div class="leading-6">
-      <nbp-category-header
-        [link]="streamCategory.MobileDevelopment"
-        [title]="'Mobile Development'"
-        [titleIcon]="faMobileAlt"
-      ></nbp-category-header>
-      Are you a classic Java developer? Or a hipster Kotlin developer? Maybe you
-      1UP everyone by knowing Swift. Mobile developers and all the native
-      goodness are here.
-      <nbp-stream-category-list
-        [streamList]="category[2]"
-      ></nbp-stream-category-list>
-    </div>
-
-    <div class="w-full mb-10 border border-gray-700"></div>
-
-    <div class="leading-6">
-      <nbp-category-header
-        [link]="streamCategory.Programming"
-        [title]="'General Programming'"
-        [titleIcon]="faKeyboard"
-      ></nbp-category-header>
-      Clearly these tags are general enough to suit the common developer.
-      Compuer Science/Engineering is a big world. All the out of topic
-      developers are here!
-      <nbp-stream-category-list
-        [streamList]="category[3]"
+        [streamList]="category[i]"
       ></nbp-stream-category-list>
     </div>
   </div>

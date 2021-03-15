@@ -1,16 +1,18 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Injectable, OnDestroy } from '@angular/core';
+import { Observable, Subject, timer } from 'rxjs';
 import {
   map,
   mergeMap,
+  retry,
   scan,
   shareReplay,
   switchMap,
-  tap,
+  takeUntil,
 } from 'rxjs/operators';
 import { environment } from '../environments/environment';
 import { StreamInfo } from './stream-info';
+import { StreamListService } from './streams-list-service';
 import { filterStreamBySearchTerm } from './utils/filterStreamBySearchTerm';
 
 export enum StreamCategory {
@@ -23,52 +25,65 @@ export enum StreamCategory {
 @Injectable({
   providedIn: 'root',
 })
-export class StreamCategoryService {
-  streams?: StreamInfo[];
+export class StreamCategoryService implements OnDestroy, StreamListService {
+  streams?: Observable<StreamInfo[]>;
 
-  category?: StreamCategory;
+  stopPolling = new Subject();
+
+  refreshTime = 30000;
 
   constructor(private httpClient: HttpClient) {}
 
-  getStreamByCategory(
-    category: StreamCategory,
-    options?: { force: boolean }
-  ): Observable<StreamInfo[]> {
-    this.category = category;
-    return this.streams && !options?.force
-      ? of(this.streams)
-      : this.httpClient
-          .get<StreamInfo[]>(
-            `${environment.streamCollectionUrl}/streams?category=${category}`
-          )
-          .pipe(
-            tap((streams) => (this.streams = streams)),
-            shareReplay(1)
-          );
+  refreshStreams(category: StreamCategory) {
+    this.ngOnDestroy();
+    this.stopPolling = new Subject();
+    this.streams = this.pollStreams(category);
+    return this.streams;
   }
 
-  search(category: StreamCategory, searchTerm: string) {
-    return this.getStreamByCategory(category).pipe(
+  ngOnDestroy() {
+    this.stopPolling.next();
+    this.stopPolling.complete();
+  }
+
+  getStreams(category: StreamCategory): Observable<StreamInfo[]> {
+    this.streams = this.pollStreams(category);
+    return this.streams;
+  }
+
+  searchStreams(searchTerm: string, category: StreamCategory) {
+    return this.getStreams(category).pipe(
       map((stream) => filterStreamBySearchTerm(stream, searchTerm)),
       shareReplay(1)
     );
   }
 
-  getAvailableLanguages(): Observable<string[]> {
-    if (this.category && this.streams) {
-      return of(this.streams).pipe(
-        switchMap(() =>
-          this.getStreamByCategory(this.category as StreamCategory)
-        ),
-        mergeMap((s) => s),
-        scan((arr, curr) => {
-          arr.push(curr.language);
-          return arr;
-        }, [] as string[]),
-        map((s) => [...new Set(s)]),
-        shareReplay(1)
-      );
-    }
-    return of([]);
+  getAvailableLanguages(category: StreamCategory): Observable<string[]> {
+    return this.getStreams(category).pipe(
+      mergeMap((s) => s),
+      scan((arr, curr) => {
+        arr.push(curr.language);
+        return arr;
+      }, [] as string[]),
+      map((s) => [...new Set(s)]),
+      shareReplay(1)
+    );
+  }
+
+  private pollStreams(category: StreamCategory): Observable<StreamInfo[]> {
+    return timer(0, this.refreshTime).pipe(
+      switchMap(() => this.getNewStreams(category)),
+      takeUntil(this.stopPolling),
+      retry(),
+      shareReplay(1)
+    );
+  }
+
+  private getNewStreams(category: StreamCategory): Observable<StreamInfo[]> {
+    return this.httpClient
+      .get<StreamInfo[]>(
+        `${environment.streamCollectionUrl}/streams?category=${category}`
+      )
+      .pipe(shareReplay(1));
   }
 }
