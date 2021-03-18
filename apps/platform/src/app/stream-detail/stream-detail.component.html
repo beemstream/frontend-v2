@@ -1,6 +1,10 @@
 <div *ngIf="streamDetail | async as streamDetail">
   <div class="flex w-full pt-10 pb-10 text-xl font-semibold text-white">
-    <div class="flex-1">{{ streamDetail.stream_info.title }}</div>
+    <div class="flex-1">
+      <span *ngIf="streamDetail.stream_info">
+        {{ streamDetail.stream_info?.title }}
+      </span>
+    </div>
     <div class="text-base text-right">
       <img
         class="float-right w-12 rounded-full"
