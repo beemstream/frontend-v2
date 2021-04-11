@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
-import { Observable, Subject, timer } from 'rxjs';
+import { Observable, of, Subject, timer } from 'rxjs';
 import {
   map,
   mergeMap,
@@ -24,7 +24,7 @@ export enum StreamCategory {
 
 @Injectable()
 export class StreamCategoryService implements OnDestroy, StreamListService {
-  streams?: Observable<StreamInfo[]>;
+  streams: Observable<StreamInfo[]> = of([]);
 
   stopPolling = new Subject();
 
@@ -56,8 +56,8 @@ export class StreamCategoryService implements OnDestroy, StreamListService {
     );
   }
 
-  getAvailableLanguages(category: StreamCategory): Observable<string[]> {
-    return this.getStreams(category).pipe(
+  getAvailableLanguages(): Observable<string[]> {
+    return this.streams.pipe(
       mergeMap((s) => s),
       scan((arr, curr) => {
         arr.push(curr.language);

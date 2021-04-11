@@ -73,7 +73,7 @@ export class BrowseCategoryDetailComponent {
 
   availableLanguages?: Observable<
     string[]
-  > = this.categoryService.getAvailableLanguages(this.category);
+  > = this.categoryService.getAvailableLanguages();
 
   templateStreams = this.streamCategoryList;
 
