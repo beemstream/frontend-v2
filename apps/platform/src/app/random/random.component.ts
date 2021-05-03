@@ -1,7 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { flatMap, map, reduce } from 'rxjs/operators';
+import { flatMap, map, scan } from 'rxjs/operators';
 import { StreamCollectionService } from '../stream-collection.service';
 
 @Component({
@@ -22,7 +22,7 @@ export class RandomComponent implements OnDestroy {
       .pipe(
         flatMap((s) => s),
         map((s) => s.user_login),
-        reduce((acc, value) => {
+        scan((acc, value) => {
           acc.push(value);
           return acc;
         }, [] as string[])
