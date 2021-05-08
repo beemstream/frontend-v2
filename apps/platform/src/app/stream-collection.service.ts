@@ -3,17 +3,10 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { StreamInfo } from './stream-info';
 import { StreamListService } from './streams-list-service';
 import { Observable, of, Subject, timer } from 'rxjs';
-import {
-  map,
-  mergeMap,
-  retry,
-  scan,
-  shareReplay,
-  switchMap,
-  takeUntil,
-} from 'rxjs/operators';
+import { map, retry, shareReplay, switchMap, takeUntil } from 'rxjs/operators';
 import { environment } from '../environments/environment';
 import { filterStreamBySearchTerm } from './utils/filterStreamBySearchTerm';
+import { getStreamListLanguages } from './utils/getStreamListLanguages';
 
 @Injectable()
 export class StreamCollectionService implements OnDestroy, StreamListService {
@@ -39,7 +32,7 @@ export class StreamCollectionService implements OnDestroy, StreamListService {
   }
 
   searchStreams(searchTerm: string): Observable<StreamInfo[]> {
-    return this.getStreams().pipe(
+    return this.streams.pipe(
       map((stream) => filterStreamBySearchTerm(stream, searchTerm))
     );
   }
@@ -52,15 +45,7 @@ export class StreamCollectionService implements OnDestroy, StreamListService {
   }
 
   getAvailableLanguages(): Observable<string[]> {
-    return this.streams.pipe(
-      mergeMap((s) => s),
-      scan((arr, curr) => {
-        arr.push(curr.language);
-        return arr;
-      }, [] as string[]),
-      map((s) => [...new Set(s)]),
-      shareReplay(1)
-    );
+    return getStreamListLanguages(this.streams);
   }
 
   private getNewStreams(): Observable<StreamInfo[]> {

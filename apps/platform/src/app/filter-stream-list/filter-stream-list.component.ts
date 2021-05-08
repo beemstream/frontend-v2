@@ -14,24 +14,17 @@ import {
 } from '../filters/filters.component';
 import { StreamInfo } from '../stream-info';
 import {
-  StreamListProvider,
-  StreamLanguageProvider,
-  StreamFilteredLanguageProvider,
   STREAM_FILTERED_LANGUAGE,
   STREAM_LANGUAGE,
   STREAM_LIST,
   SEARCH_TERM,
-  SearchTermProvider,
 } from './stream-filter.provider';
 import {
-  MarathonRunnersProvider,
   MARATHON_RUNNERS,
-  MostPopularProvider,
   MOST_POPULAR,
-  NeedsLoveProvider,
   NEEDS_LOVE,
-  SlowStartersProvider,
   SLOW_STARTERS,
+  StreamQueryFilters,
 } from './attribute-filters';
 
 @Component({
@@ -39,16 +32,7 @@ import {
   templateUrl: './filter-stream-list.component.html',
   styleUrls: ['./filter-stream-list.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    StreamLanguageProvider,
-    StreamListProvider,
-    StreamFilteredLanguageProvider,
-    MostPopularProvider,
-    NeedsLoveProvider,
-    MarathonRunnersProvider,
-    SlowStartersProvider,
-    SearchTermProvider,
-  ],
+  providers: StreamQueryFilters,
 })
 export class FilterStreamListComponent implements OnInit, OnChanges {
   @Input() streamCategoryList: Observable<StreamInfo[]> = of([]);

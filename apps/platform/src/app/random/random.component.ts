@@ -22,10 +22,10 @@ export class RandomComponent implements OnDestroy {
       .pipe(
         flatMap((s) => s),
         map((s) => s.user_login),
-        scan((acc, value) => {
+        scan((acc: string[], value) => {
           acc.push(value);
           return acc;
-        }, [] as string[])
+        }, [])
       )
       .subscribe((ids) => {
         const randomStream = ids[Math.floor(Math.random() * ids.length)];

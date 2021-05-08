@@ -1,19 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
 import { Observable, of, Subject, timer } from 'rxjs';
-import {
-  map,
-  mergeMap,
-  retry,
-  scan,
-  shareReplay,
-  switchMap,
-  takeUntil,
-} from 'rxjs/operators';
+import { map, retry, shareReplay, switchMap, takeUntil } from 'rxjs/operators';
 import { environment } from '../environments/environment';
 import { StreamInfo } from './stream-info';
 import { StreamListService } from './streams-list-service';
 import { filterStreamBySearchTerm } from './utils/filterStreamBySearchTerm';
+import { getStreamListLanguages } from './utils/getStreamListLanguages';
 
 export enum StreamCategory {
   WebDevelopment = 'webdevelopment',
@@ -57,15 +50,7 @@ export class StreamCategoryService implements OnDestroy, StreamListService {
   }
 
   getAvailableLanguages(): Observable<string[]> {
-    return this.streams.pipe(
-      mergeMap((s) => s),
-      scan((arr, curr) => {
-        arr.push(curr.language);
-        return arr;
-      }, [] as string[]),
-      map((s) => [...new Set(s)]),
-      shareReplay(1)
-    );
+    return getStreamListLanguages(this.streams);
   }
 
   private pollStreams(category: StreamCategory): Observable<StreamInfo[]> {
