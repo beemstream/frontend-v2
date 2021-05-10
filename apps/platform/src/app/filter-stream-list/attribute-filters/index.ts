@@ -3,6 +3,7 @@ import {
   StreamListProvider,
   StreamFilteredLanguageProvider,
   SearchTermProvider,
+  StreamProgrammingLanguageProvider,
 } from '../stream-filter.provider';
 import { MarathonRunnersProvider } from './marathon-runners.provider';
 import { MostPopularProvider } from './most-popular.provider';
@@ -16,6 +17,7 @@ export * from './slow-starters.provider';
 
 export const StreamQueryFilters = [
   StreamLanguageProvider,
+  StreamProgrammingLanguageProvider,
   StreamListProvider,
   StreamFilteredLanguageProvider,
   MostPopularProvider,

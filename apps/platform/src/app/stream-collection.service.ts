@@ -5,8 +5,12 @@ import { StreamListService } from './streams-list-service';
 import { Observable, of, Subject, timer } from 'rxjs';
 import { map, retry, shareReplay, switchMap, takeUntil } from 'rxjs/operators';
 import { environment } from '../environments/environment';
-import { filterStreamBySearchTerm } from './utils/filterStreamBySearchTerm';
-import { getStreamListLanguages } from './utils/getStreamListLanguages';
+import {
+  filterStreamBySearchTerm,
+  getStreamListLanguages,
+  getAvailableProgrammingLanguages,
+  Language,
+} from './utils';
 
 @Injectable()
 export class StreamCollectionService implements OnDestroy, StreamListService {
@@ -46,6 +50,10 @@ export class StreamCollectionService implements OnDestroy, StreamListService {
 
   getAvailableLanguages(): Observable<string[]> {
     return getStreamListLanguages(this.streams);
+  }
+
+  getAvailableProgrammingLanguages(): Observable<Language[]> {
+    return getAvailableProgrammingLanguages(this.streams);
   }
 
   private getNewStreams(): Observable<StreamInfo[]> {

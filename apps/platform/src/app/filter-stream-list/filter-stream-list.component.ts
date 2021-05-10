@@ -18,6 +18,7 @@ import {
   STREAM_LANGUAGE,
   STREAM_LIST,
   SEARCH_TERM,
+  STREAM_PROGRAMMING_LANGUAGE,
 } from './stream-filter.provider';
 import {
   MARATHON_RUNNERS,
@@ -26,6 +27,7 @@ import {
   SLOW_STARTERS,
   StreamQueryFilters,
 } from './attribute-filters';
+import { Language } from '../utils';
 
 @Component({
   selector: 'nbp-filter-stream-list',
@@ -38,6 +40,8 @@ export class FilterStreamListComponent implements OnInit, OnChanges {
   @Input() streamCategoryList: Observable<StreamInfo[]> = of([]);
 
   @Input() availableLanguages?: Observable<string[]> = of([]);
+
+  @Input() availableProgrammingLanguages?: Observable<Language[]> = of([]);
 
   @Output() refreshStream = new EventEmitter<string>();
 
@@ -59,6 +63,8 @@ export class FilterStreamListComponent implements OnInit, OnChanges {
 
   constructor(
     @Inject(STREAM_LANGUAGE) private language: BehaviorSubject<string>,
+    @Inject(STREAM_PROGRAMMING_LANGUAGE)
+    private programmingLanguage: BehaviorSubject<Language | null>,
     @Inject(STREAM_LIST)
     private streams: ReplaySubject<Observable<StreamInfo[]>>,
     @Inject(SEARCH_TERM)
@@ -95,6 +101,11 @@ export class FilterStreamListComponent implements OnInit, OnChanges {
 
   filterLanguage(language: string) {
     this.language.next(language);
+  }
+
+  filterProgrammingLanguage(programmingLanguage: Language | null) {
+    console.log('jkqwjkne');
+    this.programmingLanguage.next(programmingLanguage);
   }
 
   changeLayout(layout: Layout) {

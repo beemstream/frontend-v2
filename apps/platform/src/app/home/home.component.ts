@@ -12,6 +12,8 @@ export class HomeComponent {
 
   availableLanguages = this.streamColllectionService.getAvailableLanguages();
 
+  availableProgrammingLanguages = this.streamColllectionService.getAvailableProgrammingLanguages();
+
   templateStreams = this.streams;
 
   constructor(

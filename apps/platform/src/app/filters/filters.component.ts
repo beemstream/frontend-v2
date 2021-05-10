@@ -7,6 +7,7 @@ import {
   faMale,
 } from '@fortawesome/free-solid-svg-icons';
 import { Observable, of } from 'rxjs';
+import { Language } from '../utils';
 
 export enum FilterEvents {
   MostPopular = 'mostPopular',
@@ -34,9 +35,13 @@ export interface FilterEventPayload {
 export class FiltersComponent {
   @Input() languages?: Observable<string[]> = of([]);
 
+  @Input() programmingLanguages?: Observable<Language[]> = of([]);
+
   @Output() filterChanged = new EventEmitter<FilterEventPayload>();
 
   @Output() languageChanged = new EventEmitter<string>();
+
+  @Output() programmingLanguageChanged = new EventEmitter<Language | null>();
 
   @Output() refreshStream = new EventEmitter();
 
@@ -48,6 +53,8 @@ export class FiltersComponent {
   };
 
   languageFilter: { [key: string]: boolean } = {};
+
+  programmingLanguageFilter: { [key: string]: boolean } = {};
 
   events = FilterEvents;
 
@@ -88,6 +95,29 @@ export class FiltersComponent {
 
       this.languageFilter = { ...this.languageFilter, [language]: true };
       this.languageChanged.emit(language);
+    }
+  }
+
+  emitProgrammingLanguage(language: Language) {
+    if (this.programmingLanguageFilter[language]) {
+      this.programmingLanguageFilter = {
+        ...this.programmingLanguageFilter,
+        [language]: false,
+      };
+      this.programmingLanguageChanged.emit(null);
+    } else {
+      this.programmingLanguageFilter = Object.keys(
+        this.programmingLanguageFilter
+      ).reduce((acc, curr) => {
+        acc[curr] = false;
+        return acc;
+      }, {} as { [key: string]: boolean });
+
+      this.programmingLanguageFilter = {
+        ...this.programmingLanguageFilter,
+        [language]: true,
+      };
+      this.programmingLanguageChanged.emit(language);
     }
   }
 
