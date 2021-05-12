@@ -95,7 +95,8 @@
       class="block pt-2 lg:inline-flex md:inline-grid lg:pt-0"
       [active]="programmingLanguageFilter[language]"
       (clicked)="emitProgrammingLanguage(language)"
-      [value]="language | uppercase"
-    ></ui-button>
+    >
+      <ui-icon [icon]="language"></ui-icon>
+    </ui-button>
   </div>
 </div>

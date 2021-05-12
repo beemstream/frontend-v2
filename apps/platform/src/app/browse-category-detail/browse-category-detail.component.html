@@ -10,10 +10,10 @@
   <div class="leading-6" *ngIf="category">
     {{ templateDesciption[category] }}
   </div>
-
   <nbp-filter-stream-list
     [streamCategoryList]="templateStreams"
     (refreshStream)="forceRefresh()"
     [availableLanguages]="availableLanguages"
+    [availableProgrammingLanguages]="availableProgrammingLanauges"
   ></nbp-filter-stream-list>
 </div>

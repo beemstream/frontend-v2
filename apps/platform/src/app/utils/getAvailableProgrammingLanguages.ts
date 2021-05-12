@@ -16,7 +16,11 @@ const JAVASCRIPT = [
   'ts',
   'nextjs',
   'next',
+  'web dev',
+  'deno',
 ];
+
+const TYPESCRIPT = ['typescript', '-w ts', 'angular'];
 
 const RUST = ['rustlang', 'rust', 'actix', 'tokio'];
 
@@ -36,20 +40,22 @@ const CPP = ['c++', 'cpp'];
 
 const PYTHON = ['python', 'django', 'flask'];
 
-const JAVA = ['java', 'hibernate'];
+const JAVA = ['-w java', 'hibernate'];
 
 export enum Language {
-  Javascript = 'javascript',
   Rust = 'rust',
-  Csharp = 'csharp',
-  GoLang = 'golang',
-  CPP = 'cpp',
+  TypeScript = 'typescript',
   Python = 'python',
+  GoLang = 'golang',
+  Csharp = 'csharp',
+  Javascript = 'javascript',
   Java = 'java',
+  CPP = 'cpp',
 }
 
 const KEYWORD_MAP = {
   [Language.Javascript]: JAVASCRIPT,
+  [Language.TypeScript]: TYPESCRIPT,
   [Language.Rust]: RUST,
   [Language.Csharp]: CSHARP,
   [Language.GoLang]: GO_LANG,
@@ -90,6 +96,10 @@ export function filterByProgrammingLanguage(
     mergeMap((s) => s),
     filter((s) => {
       return KEYWORD_MAP[language].some((k) => {
+        if (k.includes('-w')) {
+          const w = k.split('-w')[1];
+          return k.includes(` ${w} `);
+        }
         if (k.includes('-')) {
           return !compareStr(s.title, k);
         }
