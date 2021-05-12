@@ -12,8 +12,8 @@ const JAVASCRIPT = [
   'angular',
   'react',
   'elm',
-  'js',
-  'ts',
+  '-w js',
+  '-w ts',
   'nextjs',
   'next',
   'web dev',
@@ -34,7 +34,7 @@ const CSHARP = [
   'unity',
 ];
 
-const GO_LANG = ['golang', 'go lang', 'kubernetes'];
+const GO_LANG = ['golang', 'go lang', 'kubernetes', '-w go'];
 
 const CPP = ['c++', 'cpp'];
 
@@ -97,8 +97,9 @@ export function filterByProgrammingLanguage(
     filter((s) => {
       return KEYWORD_MAP[language].some((k) => {
         if (k.includes('-w')) {
-          const w = k.split('-w')[1];
-          return k.includes(` ${w} `);
+          const keyword = k.split('-w')[1].trim();
+          const lower = s.title.toLowerCase();
+          return lower.match(new RegExp(`/\b${keyword}\b/g`));
         }
         if (k.includes('-')) {
           return !compareStr(s.title, k);
