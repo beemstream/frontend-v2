@@ -13,6 +13,7 @@ import {
   shareReplay,
 } from 'rxjs/operators';
 import { StreamInfo } from '../stream-info';
+import { filterByProgrammingLanguage, Language } from '../utils';
 import { filterStreamBySearchTerm } from '../utils/filterStreamBySearchTerm';
 
 export const STREAM_LIST = new InjectionToken<ReplaySubject<StreamInfo[]>>(
@@ -31,6 +32,14 @@ export const languageFactory = (): BehaviorSubject<string> => {
   return new BehaviorSubject<string>('');
 };
 
+export const STREAM_PROGRAMMING_LANGUAGE = new InjectionToken<
+  BehaviorSubject<string>
+>('STREAM_LANGUAGE');
+
+export const programmingLanguageFactory = (): BehaviorSubject<Language | null> => {
+  return new BehaviorSubject<Language | null>(null);
+};
+
 export const SEARCH_TERM = new InjectionToken<
   BehaviorSubject<string | undefined>
 >('STREAM_TERM');
@@ -46,15 +55,20 @@ export const STREAM_FILTERED_LANGUAGE = new InjectionToken<
 export const streamFilteredLanguageFactory = (
   streams: ReplaySubject<Observable<StreamInfo[]>>,
   language: BehaviorSubject<string>,
-  searchTerm: BehaviorSubject<string>
+  searchTerm: BehaviorSubject<string>,
+  programmingLanguage: BehaviorSubject<Language>
 ) => {
   const streamsUnpacked = streams.pipe(switchMap((s) => s));
 
   const search = searchTerm.pipe(debounceTime(200), distinctUntilChanged());
 
-  return combineLatest([language, search]).pipe(
-    switchMap(([lang, searchTerm]) => {
-      return streamsUnpacked.pipe(
+  return combineLatest([language, search, programmingLanguage]).pipe(
+    switchMap(([lang, searchTerm, pLanguage]) => {
+      const streamList = pLanguage
+        ? filterByProgrammingLanguage(streamsUnpacked, pLanguage)
+        : streamsUnpacked;
+
+      return streamList.pipe(
         map((s) => s.filter((s) => (lang ? s.language === lang : true))),
         map((s) => filterStreamBySearchTerm(s, searchTerm))
       );
@@ -66,6 +80,11 @@ export const streamFilteredLanguageFactory = (
 export const StreamLanguageProvider: Provider = {
   provide: STREAM_LANGUAGE,
   useFactory: languageFactory,
+};
+
+export const StreamProgrammingLanguageProvider: Provider = {
+  provide: STREAM_PROGRAMMING_LANGUAGE,
+  useFactory: programmingLanguageFactory,
 };
 
 export const StreamListProvider: Provider = {
@@ -81,5 +100,10 @@ export const SearchTermProvider: Provider = {
 export const StreamFilteredLanguageProvider: Provider = {
   provide: STREAM_FILTERED_LANGUAGE,
   useFactory: streamFilteredLanguageFactory,
-  deps: [STREAM_LIST, STREAM_LANGUAGE, SEARCH_TERM],
+  deps: [
+    STREAM_LIST,
+    STREAM_LANGUAGE,
+    SEARCH_TERM,
+    STREAM_PROGRAMMING_LANGUAGE,
+  ],
 };

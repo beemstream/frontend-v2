@@ -3,7 +3,6 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnInit,
   Output,
 } from '@angular/core';
 
@@ -13,16 +12,12 @@ import {
   styleUrls: ['./button.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ButtonComponent implements OnInit {
+export class ButtonComponent {
   @Input() value?: string;
 
-  @Input() active: boolean = false;
+  @Input() active = false;
 
   @Output() clicked: EventEmitter<void> = new EventEmitter();
-
-  constructor() {}
-
-  ngOnInit(): void {}
 
   emitClick() {
     this.clicked.emit();

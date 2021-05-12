@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { faEye, faUser } from '@fortawesome/free-solid-svg-icons';
 
 const TagLink = {
@@ -19,7 +14,7 @@ const TagLink = {
   styleUrls: ['./stream-card.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class StreamCardComponent implements OnInit {
+export class StreamCardComponent {
   @Input() tags?: string[];
   @Input() streamTitle?: string;
   @Input() streamId?: string;
@@ -30,8 +25,4 @@ export class StreamCardComponent implements OnInit {
   faUser = faUser;
   faEye = faEye;
   tagLink = TagLink;
-
-  constructor() {}
-
-  ngOnInit(): void {}
 }

@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { StreamCollectionService } from '../stream-collection.service';
-import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'nbp-home',
@@ -9,11 +8,11 @@ import { BehaviorSubject } from 'rxjs';
   providers: [StreamCollectionService],
 })
 export class HomeComponent {
-  searchValue = new BehaviorSubject<string>('');
-
   streams = this.streamColllectionService.getStreams();
 
   availableLanguages = this.streamColllectionService.getAvailableLanguages();
+
+  availableProgrammingLanguages = this.streamColllectionService.getAvailableProgrammingLanguages();
 
   templateStreams = this.streams;
 

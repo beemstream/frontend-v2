@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 @Component({
   selector: 'ui-link',
@@ -11,11 +6,7 @@ import {
   styleUrls: ['./link.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LinkComponent implements OnInit {
+export class LinkComponent {
   @Input() routerLink?: string;
   @Input() linkName?: string;
-
-  constructor() {}
-
-  ngOnInit(): void {}
 }
