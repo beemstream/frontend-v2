@@ -20,7 +20,7 @@ const JAVASCRIPT = [
   'deno',
 ];
 
-const TYPESCRIPT = ['typescript', '-w ts', 'angular'];
+const TYPESCRIPT = ['typescript', '-w ts', 'angular', 'rxjs'];
 
 const RUST = ['rustlang', 'rust', 'actix', 'tokio'];
 
@@ -42,6 +42,10 @@ const PYTHON = ['python', 'django', 'flask'];
 
 const JAVA = ['-w java', 'hibernate'];
 
+const PHP = ['-w php'];
+
+const KOTLIN = ['-w kotlin'];
+
 export enum Language {
   Rust = 'rust',
   TypeScript = 'typescript',
@@ -51,6 +55,8 @@ export enum Language {
   Javascript = 'javascript',
   Java = 'java',
   CPP = 'cpp',
+  PHP = 'php',
+  Kotlin = 'kotlin',
 }
 
 const KEYWORD_MAP = {
@@ -62,6 +68,8 @@ const KEYWORD_MAP = {
   [Language.CPP]: CPP,
   [Language.Python]: PYTHON,
   [Language.Java]: JAVA,
+  [Language.PHP]: PHP,
+  [Language.Kotlin]: KOTLIN,
 };
 
 export function getAvailableProgrammingLanguages(

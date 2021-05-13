@@ -6,7 +6,7 @@ RUN npm install -g nx && apk add gzip
 
 COPY package*.json /app/
 
-RUN npm i
+RUN cd /app;npm i
 
 COPY ./ /app/
 
