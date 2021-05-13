@@ -99,7 +99,8 @@ export function filterByProgrammingLanguage(
         if (k.includes('-w')) {
           const keyword = k.split('-w')[1].trim();
           const lower = s.title.toLowerCase();
-          return lower.match(new RegExp(`/\b${keyword}\b/g`));
+
+          return lower.match(new RegExp(String.raw`\b${keyword}\b`, 'g'));
         }
         if (k.includes('-')) {
           return !compareStr(s.title, k);
