@@ -104,7 +104,6 @@ export class FilterStreamListComponent implements OnInit, OnChanges {
   }
 
   filterProgrammingLanguage(programmingLanguage: Language | null) {
-    console.log('jkqwjkne');
     this.programmingLanguage.next(programmingLanguage);
   }
 
