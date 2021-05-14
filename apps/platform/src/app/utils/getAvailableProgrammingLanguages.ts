@@ -1,4 +1,4 @@
-import { Observable, of } from 'rxjs';
+import { Observable, of, zip } from 'rxjs';
 import { filter, map, mergeMap, scan, switchMap } from 'rxjs/operators';
 import { StreamInfo } from '../stream-info';
 import { compareStr } from './compareStr';
@@ -40,7 +40,7 @@ const CPP = ['c++', 'cpp'];
 
 const PYTHON = ['python', 'django', 'flask'];
 
-const JAVA = ['-w java', 'hibernate'];
+const JAVA = ['-w java', 'hibernate', 'spring boot'];
 
 const PHP = ['-w php'];
 
@@ -75,24 +75,20 @@ const KEYWORD_MAP = {
 export function getAvailableProgrammingLanguages(
   stream: Observable<StreamInfo[]>
 ): Observable<Language[]> {
-  return of(Object.values(Language)).pipe(
-    switchMap((k) => k),
-    map((value) => {
-      return filterByProgrammingLanguage(stream, value).pipe(
-        scan((languages: Language | null, streams) => {
-          if (streams.length > 0 && !languages?.includes(value)) {
-            return value;
-          }
-          return languages;
-        }, null)
+  return stream.pipe(
+    switchMap(() => {
+      return of(Object.values(Language)).pipe(
+        switchMap((ls) => ls),
+        map((l) => zip(filterByProgrammingLanguage(stream, l), of(l))),
+        mergeMap((l) => l),
+        filter(([s]) => s.length > 0),
+        map(([_, l]) => l),
+        scan((acc: Language[], curr) => {
+          acc.push(curr);
+          return acc;
+        }, [])
       );
-    }),
-    mergeMap((s) => s),
-    scan((acc: Language[], val) => {
-      if (val) acc.push(val);
-      return acc;
-    }, []),
-    map((s) => [...new Set(s)])
+    })
   );
 }
 
