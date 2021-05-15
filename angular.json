@@ -8,7 +8,7 @@
       "prefix": "nbp",
       "architect": {
         "build": {
-          "builder": "@angular-builders/custom-webpack:browser",
+          "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "outputPath": "dist/apps/platform",
             "index": "apps/platform/src/index.html",
@@ -21,10 +21,7 @@
               "apps/platform/src/assets"
             ],
             "styles": ["apps/platform/src/styles.css"],
-            "scripts": [],
-            "customWebpackConfig": {
-              "path": "webpack.config.js"
-            }
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -57,7 +54,7 @@
           }
         },
         "serve": {
-          "builder": "@angular-builders/custom-webpack:dev-server",
+          "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "browserTarget": "platform:build"
           },
