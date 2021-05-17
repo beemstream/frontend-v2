@@ -82,7 +82,7 @@ export function getAvailableProgrammingLanguages(
         map((l) => zip(filterByProgrammingLanguage(stream, l), of(l))),
         mergeMap((l) => l),
         filter(([s]) => s.length > 0),
-        map(([_, l]) => l),
+        map(([, l]) => l),
         scan((acc: Language[], curr) => {
           acc.push(curr);
           return acc;
