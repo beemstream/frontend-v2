@@ -57,6 +57,14 @@ export class StreamCategoryService implements OnDestroy {
     return getAvailableProgrammingLanguages(this.streams);
   }
 
+  getNewStreams(category?: StreamCategory): Observable<StreamInfo[]> {
+    return this.httpClient
+      .get<StreamInfo[]>(
+        `${environment.streamCollectionUrl}/streams?category=${category ?? ''}`
+      )
+      .pipe(shareReplay(1));
+  }
+
   private pollStreams(category?: StreamCategory): Observable<StreamInfo[]> {
     return timer(0, this.refreshTime).pipe(
       switchMap(() => this.getNewStreams(category)),
@@ -64,13 +72,5 @@ export class StreamCategoryService implements OnDestroy {
       retry(),
       shareReplay(1)
     );
-  }
-
-  getNewStreams(category?: StreamCategory): Observable<StreamInfo[]> {
-    return this.httpClient
-      .get<StreamInfo[]>(
-        `${environment.streamCollectionUrl}/streams?category=${category ?? ''}`
-      )
-      .pipe(shareReplay(1));
   }
 }

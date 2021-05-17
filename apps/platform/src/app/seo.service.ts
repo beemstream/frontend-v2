@@ -13,12 +13,12 @@ export class SeoService {
 
   addTitle(title: string) {
     this.pageTitle.setTitle(title);
-    this.meta.addTag({ 'og:title': title });
+    this.meta.updateTag({ 'og:title': title });
     return this;
   }
 
   addDescription(description: string) {
-    this.meta.addTag({ 'og:description': description });
+    this.meta.updateTag({ 'og:description': description });
     return this;
   }
 
@@ -28,7 +28,7 @@ export class SeoService {
   }
 
   addImage(imageUrl: string) {
-    this.meta.addTag({ [SeoTag.Image]: imageUrl });
+    this.meta.updateTag({ [SeoTag.Image]: imageUrl });
     return this;
   }
 }
