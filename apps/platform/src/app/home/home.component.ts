@@ -1,26 +1,24 @@
 import { Component } from '@angular/core';
-import { StreamCollectionService } from '../stream-collection.service';
+import { StreamCategoryService } from '../stream-category.service';
 
 @Component({
   selector: 'nbp-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
-  providers: [StreamCollectionService],
+  providers: [StreamCategoryService],
 })
 export class HomeComponent {
-  streams = this.streamColllectionService.getStreams();
+  streams = this.streamCategoryServic.getStreams();
 
-  availableLanguages = this.streamColllectionService.getAvailableLanguages();
+  availableLanguages = this.streamCategoryServic.getAvailableLanguages();
 
-  availableProgrammingLanguages = this.streamColllectionService.getAvailableProgrammingLanguages();
+  availableProgrammingLanguages = this.streamCategoryServic.getAvailableProgrammingLanguages();
 
   templateStreams = this.streams;
 
-  constructor(
-    private readonly streamColllectionService: StreamCollectionService
-  ) {}
+  constructor(private readonly streamCategoryServic: StreamCategoryService) {}
 
   forceRefresh() {
-    this.templateStreams = this.streamColllectionService.refreshStreams();
+    this.templateStreams = this.streamCategoryServic.refreshStreams();
   }
 }

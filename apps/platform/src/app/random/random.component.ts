@@ -1,26 +1,26 @@
 import { Component, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { flatMap, map, scan } from 'rxjs/operators';
-import { StreamCollectionService } from '../stream-collection.service';
+import { map, scan, switchMap } from 'rxjs/operators';
+import { StreamCategoryService } from '../stream-category.service';
 
 @Component({
   selector: 'nbp-random',
   templateUrl: './random.component.html',
   styleUrls: ['./random.component.css'],
-  providers: [StreamCollectionService],
+  providers: [StreamCategoryService],
 })
 export class RandomComponent implements OnDestroy {
   readonly subscription: Subscription;
 
   constructor(
-    private streamColllectionService: StreamCollectionService,
+    private streamCategoryService: StreamCategoryService,
     private route: Router
   ) {
-    this.subscription = this.streamColllectionService
-      .getStreams()
+    this.subscription = this.streamCategoryService
+      .getNewStreams()
       .pipe(
-        flatMap((s) => s),
+        switchMap((s) => s),
         map((s) => s.user_login),
         scan((acc: string[], value) => {
           acc.push(value);

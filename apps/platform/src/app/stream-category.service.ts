@@ -4,7 +4,6 @@ import { Observable, of, Subject, timer } from 'rxjs';
 import { map, retry, shareReplay, switchMap, takeUntil } from 'rxjs/operators';
 import { environment } from '../environments/environment';
 import { StreamInfo } from './stream-info';
-import { StreamListService } from './streams-list-service';
 import { getAvailableProgrammingLanguages, Language } from './utils';
 import { filterStreamBySearchTerm } from './utils/filterStreamBySearchTerm';
 import { getStreamListLanguages } from './utils/getStreamListLanguages';
@@ -17,7 +16,7 @@ export enum StreamCategory {
 }
 
 @Injectable()
-export class StreamCategoryService implements OnDestroy, StreamListService {
+export class StreamCategoryService implements OnDestroy {
   streams: Observable<StreamInfo[]> = of([]);
 
   stopPolling = new Subject();
@@ -26,7 +25,7 @@ export class StreamCategoryService implements OnDestroy, StreamListService {
 
   constructor(private httpClient: HttpClient) {}
 
-  refreshStreams(category: StreamCategory) {
+  refreshStreams(category?: StreamCategory) {
     this.ngOnDestroy();
     this.stopPolling = new Subject();
     this.streams = this.pollStreams(category);
@@ -38,12 +37,12 @@ export class StreamCategoryService implements OnDestroy, StreamListService {
     this.stopPolling.complete();
   }
 
-  getStreams(category: StreamCategory): Observable<StreamInfo[]> {
+  getStreams(category?: StreamCategory): Observable<StreamInfo[]> {
     this.streams = this.pollStreams(category);
     return this.streams;
   }
 
-  searchStreams(searchTerm: string, category: StreamCategory) {
+  searchStreams(searchTerm: string, category?: StreamCategory) {
     return this.getStreams(category).pipe(
       map((stream) => filterStreamBySearchTerm(stream, searchTerm)),
       shareReplay(1)
@@ -58,7 +57,7 @@ export class StreamCategoryService implements OnDestroy, StreamListService {
     return getAvailableProgrammingLanguages(this.streams);
   }
 
-  private pollStreams(category: StreamCategory): Observable<StreamInfo[]> {
+  private pollStreams(category?: StreamCategory): Observable<StreamInfo[]> {
     return timer(0, this.refreshTime).pipe(
       switchMap(() => this.getNewStreams(category)),
       takeUntil(this.stopPolling),
@@ -67,10 +66,10 @@ export class StreamCategoryService implements OnDestroy, StreamListService {
     );
   }
 
-  private getNewStreams(category: StreamCategory): Observable<StreamInfo[]> {
+  getNewStreams(category?: StreamCategory): Observable<StreamInfo[]> {
     return this.httpClient
       .get<StreamInfo[]>(
-        `${environment.streamCollectionUrl}/streams?category=${category}`
+        `${environment.streamCollectionUrl}/streams?category=${category ?? ''}`
       )
       .pipe(shareReplay(1));
   }
