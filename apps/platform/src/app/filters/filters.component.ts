@@ -7,7 +7,8 @@ import {
   faMale,
 } from '@fortawesome/free-solid-svg-icons';
 import { Observable, of } from 'rxjs';
-import { Language } from '../utils';
+import { LanguageCode } from './language-code';
+import { ProgrammingLanguage } from '../utils';
 
 export enum FilterEvents {
   MostPopular = 'mostPopular',
@@ -33,15 +34,16 @@ export interface FilterEventPayload {
   styleUrls: ['./filters.component.css'],
 })
 export class FiltersComponent {
-  @Input() languages?: Observable<string[]> = of([]);
+  @Input() languages?: Observable<LanguageCode[]> = of([]);
 
-  @Input() programmingLanguages?: Observable<Language[]> = of([]);
+  @Input() programmingLanguages?: Observable<ProgrammingLanguage[]> = of([]);
 
   @Output() filterChanged = new EventEmitter<FilterEventPayload>();
 
   @Output() languageChanged = new EventEmitter<string>();
 
-  @Output() programmingLanguageChanged = new EventEmitter<Language | null>();
+  @Output()
+  programmingLanguageChanged = new EventEmitter<ProgrammingLanguage | null>();
 
   @Output() refreshStream = new EventEmitter();
 
@@ -52,9 +54,15 @@ export class FiltersComponent {
     [FilterEvents.MostPopular]: true,
   };
 
-  languageFilter: { [key: string]: boolean } = {};
+  languageFilter: Record<LanguageCode, boolean> = {} as Record<
+    LanguageCode,
+    boolean
+  >;
 
-  programmingLanguageFilter: { [key: string]: boolean } = {};
+  programmingLanguageFilter: Record<
+    ProgrammingLanguage,
+    boolean
+  > = {} as Record<ProgrammingLanguage, boolean>;
 
   events = FilterEvents;
 
@@ -80,17 +88,17 @@ export class FiltersComponent {
     });
   }
 
-  emitLanguage(language: string) {
+  emitLanguage(language: LanguageCode) {
     if (this.languageFilter[language]) {
       this.languageFilter = { ...this.languageFilter, [language]: false };
       this.languageChanged.emit('');
     } else {
       this.languageFilter = Object.keys(this.languageFilter).reduce(
         (acc, curr) => {
-          acc[curr] = false;
+          acc[curr as LanguageCode] = false;
           return acc;
         },
-        {} as { [key: string]: boolean }
+        {} as Record<LanguageCode, boolean>
       );
 
       this.languageFilter = { ...this.languageFilter, [language]: true };
@@ -98,7 +106,7 @@ export class FiltersComponent {
     }
   }
 
-  emitProgrammingLanguage(language: Language) {
+  emitProgrammingLanguage(language: ProgrammingLanguage) {
     if (this.programmingLanguageFilter[language]) {
       this.programmingLanguageFilter = {
         ...this.programmingLanguageFilter,
@@ -109,9 +117,9 @@ export class FiltersComponent {
       this.programmingLanguageFilter = Object.keys(
         this.programmingLanguageFilter
       ).reduce((acc, curr) => {
-        acc[curr] = false;
+        acc[curr as ProgrammingLanguage] = false;
         return acc;
-      }, {} as { [key: string]: boolean });
+      }, {} as Record<ProgrammingLanguage, boolean>);
 
       this.programmingLanguageFilter = {
         ...this.programmingLanguageFilter,

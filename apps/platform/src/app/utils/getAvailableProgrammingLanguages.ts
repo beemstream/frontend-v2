@@ -46,7 +46,7 @@ const PHP = ['-w php'];
 
 const KOTLIN = ['-w kotlin'];
 
-export enum Language {
+export enum ProgrammingLanguage {
   Rust = 'rust',
   TypeScript = 'typescript',
   Python = 'python',
@@ -60,30 +60,30 @@ export enum Language {
 }
 
 const KEYWORD_MAP = {
-  [Language.Javascript]: JAVASCRIPT,
-  [Language.TypeScript]: TYPESCRIPT,
-  [Language.Rust]: RUST,
-  [Language.Csharp]: CSHARP,
-  [Language.GoLang]: GO_LANG,
-  [Language.CPP]: CPP,
-  [Language.Python]: PYTHON,
-  [Language.Java]: JAVA,
-  [Language.PHP]: PHP,
-  [Language.Kotlin]: KOTLIN,
+  [ProgrammingLanguage.Javascript]: JAVASCRIPT,
+  [ProgrammingLanguage.TypeScript]: TYPESCRIPT,
+  [ProgrammingLanguage.Rust]: RUST,
+  [ProgrammingLanguage.Csharp]: CSHARP,
+  [ProgrammingLanguage.GoLang]: GO_LANG,
+  [ProgrammingLanguage.CPP]: CPP,
+  [ProgrammingLanguage.Python]: PYTHON,
+  [ProgrammingLanguage.Java]: JAVA,
+  [ProgrammingLanguage.PHP]: PHP,
+  [ProgrammingLanguage.Kotlin]: KOTLIN,
 };
 
 export function getAvailableProgrammingLanguages(
   stream: Observable<StreamInfo[]>
-): Observable<Language[]> {
+): Observable<ProgrammingLanguage[]> {
   return stream.pipe(
     switchMap(() => {
-      return of(Object.values(Language)).pipe(
+      return of(Object.values(ProgrammingLanguage)).pipe(
         switchMap((ls) => ls),
         map((l) => zip(filterByProgrammingLanguage(stream, l), of(l))),
         mergeMap((l) => l),
         filter(([s]) => s.length > 0),
         map(([, l]) => l),
-        scan((acc: Language[], curr) => {
+        scan((acc: ProgrammingLanguage[], curr) => {
           acc.push(curr);
           return acc;
         }, [])
@@ -94,7 +94,7 @@ export function getAvailableProgrammingLanguages(
 
 export function filterByProgrammingLanguage(
   stream: Observable<StreamInfo[]>,
-  language: Language
+  language: ProgrammingLanguage
 ) {
   return stream.pipe(
     mergeMap((s) => s),

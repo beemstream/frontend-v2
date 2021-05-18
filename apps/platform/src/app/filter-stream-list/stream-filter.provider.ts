@@ -13,7 +13,7 @@ import {
   shareReplay,
 } from 'rxjs/operators';
 import { StreamInfo } from '../stream-info';
-import { filterByProgrammingLanguage, Language } from '../utils';
+import { filterByProgrammingLanguage, ProgrammingLanguage } from '../utils';
 import { filterStreamBySearchTerm } from '../utils/filterStreamBySearchTerm';
 
 export const STREAM_LIST = new InjectionToken<ReplaySubject<StreamInfo[]>>(
@@ -36,8 +36,8 @@ export const STREAM_PROGRAMMING_LANGUAGE = new InjectionToken<
   BehaviorSubject<string>
 >('STREAM_LANGUAGE');
 
-export const programmingLanguageFactory = (): BehaviorSubject<Language | null> => {
-  return new BehaviorSubject<Language | null>(null);
+export const programmingLanguageFactory = (): BehaviorSubject<ProgrammingLanguage | null> => {
+  return new BehaviorSubject<ProgrammingLanguage | null>(null);
 };
 
 export const SEARCH_TERM = new InjectionToken<
@@ -56,7 +56,7 @@ export const streamFilteredLanguageFactory = (
   streams: ReplaySubject<Observable<StreamInfo[]>>,
   language: BehaviorSubject<string>,
   searchTerm: BehaviorSubject<string>,
-  programmingLanguage: BehaviorSubject<Language>
+  programmingLanguage: BehaviorSubject<ProgrammingLanguage>
 ) => {
   const streamsUnpacked = streams.pipe(switchMap((s) => s));
 

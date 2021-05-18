@@ -27,7 +27,8 @@ import {
   SLOW_STARTERS,
   StreamQueryFilters,
 } from './attribute-filters';
-import { Language } from '../utils';
+import { ProgrammingLanguage } from '../utils';
+import { LanguageCode } from '../filters/language-code';
 
 @Component({
   selector: 'nbp-filter-stream-list',
@@ -39,9 +40,11 @@ import { Language } from '../utils';
 export class FilterStreamListComponent implements OnInit, OnChanges {
   @Input() streamCategoryList: Observable<StreamInfo[]> = of([]);
 
-  @Input() availableLanguages?: Observable<string[]> = of([]);
+  @Input() availableLanguages?: Observable<LanguageCode[]> = of([]);
 
-  @Input() availableProgrammingLanguages?: Observable<Language[]> = of([]);
+  @Input() availableProgrammingLanguages?: Observable<
+    ProgrammingLanguage[]
+  > = of([]);
 
   @Output() refreshStream = new EventEmitter<string>();
 
@@ -64,7 +67,7 @@ export class FilterStreamListComponent implements OnInit, OnChanges {
   constructor(
     @Inject(STREAM_LANGUAGE) private language: BehaviorSubject<string>,
     @Inject(STREAM_PROGRAMMING_LANGUAGE)
-    private programmingLanguage: BehaviorSubject<Language | null>,
+    private programmingLanguage: BehaviorSubject<ProgrammingLanguage | null>,
     @Inject(STREAM_LIST)
     private streams: ReplaySubject<Observable<StreamInfo[]>>,
     @Inject(SEARCH_TERM)
@@ -103,7 +106,7 @@ export class FilterStreamListComponent implements OnInit, OnChanges {
     this.language.next(language);
   }
 
-  filterProgrammingLanguage(programmingLanguage: Language | null) {
+  filterProgrammingLanguage(programmingLanguage: ProgrammingLanguage | null) {
     this.programmingLanguage.next(programmingLanguage);
   }
 
