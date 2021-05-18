@@ -1,0 +1,10 @@
+<div class="flex inline-flex" *ngFor="let filter of toggleFilters">
+  <ui-button
+    class="block pt-2 lg:inline-flex md:inline-grid lg:pt-0"
+    [active]="filterMap[filter]"
+    (clicked)="emitFilter(filter)"
+    [value]="showValue ? (filter | uppercase) : ''"
+  >
+    <ui-icon *ngIf="showIcon" [icon]="filter"></ui-icon>
+  </ui-button>
+</div>

@@ -1,7 +1,11 @@
 import { NgModule } from '@angular/core';
 import { FiltersComponent } from './filters.component';
 import { RouterModule } from '@angular/router';
-import { ButtonModule, IconModule } from '@frontend-v2/shared-ui';
+import {
+  ButtonModule,
+  IconModule,
+  ToggleFilterModule,
+} from '@frontend-v2/shared-ui';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CommonModule } from '@angular/common';
 
@@ -13,6 +17,7 @@ import { CommonModule } from '@angular/common';
     ButtonModule,
     FontAwesomeModule,
     IconModule,
+    ToggleFilterModule,
   ],
   exports: [FiltersComponent],
 })

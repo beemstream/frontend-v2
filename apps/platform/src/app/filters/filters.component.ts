@@ -40,7 +40,7 @@ export class FiltersComponent {
 
   @Output() filterChanged = new EventEmitter<FilterEventPayload>();
 
-  @Output() languageChanged = new EventEmitter<string>();
+  @Output() languageChanged = new EventEmitter<LanguageCode>();
 
   @Output()
   programmingLanguageChanged = new EventEmitter<ProgrammingLanguage | null>();
@@ -53,16 +53,6 @@ export class FiltersComponent {
     ...this.initFilters(),
     [FilterEvents.MostPopular]: true,
   };
-
-  languageFilter: Record<LanguageCode, boolean> = {} as Record<
-    LanguageCode,
-    boolean
-  >;
-
-  programmingLanguageFilter: Record<
-    ProgrammingLanguage,
-    boolean
-  > = {} as Record<ProgrammingLanguage, boolean>;
 
   events = FilterEvents;
 
@@ -86,47 +76,6 @@ export class FiltersComponent {
       type: event,
       ...(elemEvent && { value: elem.value }),
     });
-  }
-
-  emitLanguage(language: LanguageCode) {
-    if (this.languageFilter[language]) {
-      this.languageFilter = { ...this.languageFilter, [language]: false };
-      this.languageChanged.emit('');
-    } else {
-      this.languageFilter = Object.keys(this.languageFilter).reduce(
-        (acc, curr) => {
-          acc[curr as LanguageCode] = false;
-          return acc;
-        },
-        {} as Record<LanguageCode, boolean>
-      );
-
-      this.languageFilter = { ...this.languageFilter, [language]: true };
-      this.languageChanged.emit(language);
-    }
-  }
-
-  emitProgrammingLanguage(language: ProgrammingLanguage) {
-    if (this.programmingLanguageFilter[language]) {
-      this.programmingLanguageFilter = {
-        ...this.programmingLanguageFilter,
-        [language]: false,
-      };
-      this.programmingLanguageChanged.emit(null);
-    } else {
-      this.programmingLanguageFilter = Object.keys(
-        this.programmingLanguageFilter
-      ).reduce((acc, curr) => {
-        acc[curr as ProgrammingLanguage] = false;
-        return acc;
-      }, {} as Record<ProgrammingLanguage, boolean>);
-
-      this.programmingLanguageFilter = {
-        ...this.programmingLanguageFilter,
-        [language]: true,
-      };
-      this.programmingLanguageChanged.emit(language);
-    }
   }
 
   emitRefresh() {

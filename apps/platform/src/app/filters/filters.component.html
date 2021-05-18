@@ -76,27 +76,16 @@
     </ui-button>
   </div>
 </div>
-<div>
-  <div class="flex inline-flex" *ngFor="let language of languages | async">
-    <ui-button
-      class="block pt-2 lg:inline-flex md:inline-grid lg:pt-0"
-      [active]="languageFilter[language]"
-      (clicked)="emitLanguage(language)"
-      [value]="language | uppercase"
-    ></ui-button>
-  </div>
-</div>
+<ui-toggle-filter
+  [toggleFilters]="languages | async"
+  [showValue]="true"
+  (filterChanged)="languageChanged.emit($event)"
+>
+</ui-toggle-filter>
 <div class="pt-2">
-  <div
-    class="flex inline-flex"
-    *ngFor="let language of programmingLanguages | async"
-  >
-    <ui-button
-      class="block pt-2 lg:inline-flex md:inline-grid lg:pt-0"
-      [active]="programmingLanguageFilter[language]"
-      (clicked)="emitProgrammingLanguage(language)"
-    >
-      <ui-icon [icon]="language"></ui-icon>
-    </ui-button>
-  </div>
+  <ui-toggle-filter
+    [toggleFilters]="programmingLanguages | async"
+    [showIcon]="true"
+    (filterChanged)="programmingLanguageChanged.emit($event)"
+  ></ui-toggle-filter>
 </div>
