@@ -1,22 +1,20 @@
-<div class="min-h-screen">
-  <div class="h-full" *ngIf="allCategories | async as category">
-    <h1 class="mt-10 mb-5 text-xl font-extrabold">
-      Browse Programming Categories
-    </h1>
-    <div
-      class="leading-6"
-      *ngFor="let streamCategory of streamCategories; let i = index"
-    >
-      <nbp-category-header
-        class="text-lg"
-        [link]="streamCategory.link"
-        [title]="streamCategory.title"
-        [titleIcon]="streamCategory.icon"
-      ></nbp-category-header>
-      {{ streamCategory.description }}
-      <nbp-stream-category-list
-        [streamList]="category[i]"
-      ></nbp-stream-category-list>
-    </div>
+<div class="h-full" *ngIf="allCategories | async as category">
+  <h1 class="mt-10 mb-5 text-xl font-extrabold">
+    Browse Programming Categories
+  </h1>
+  <div
+    class="leading-6"
+    *ngFor="let streamCategory of streamCategories; let i = index"
+  >
+    <nbp-category-header
+      class="text-lg"
+      [link]="streamCategory.link"
+      [title]="streamCategory.title"
+      [titleIcon]="streamCategory.icon"
+    ></nbp-category-header>
+    {{ streamCategory.description }}
+    <nbp-stream-category-list
+      [streamList]="category[i]"
+    ></nbp-stream-category-list>
   </div>
 </div>
