@@ -45,7 +45,7 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.32",
     "@fortawesome/free-solid-svg-icons": "^5.15.1",
     "@nrwl/angular": "12.3.0",
-    "rxjs": "~6.5.5",
+    "rxjs": "7.1.0",
     "tslib": "^2.0.0",
     "zone.js": "0.11.4"
   },

@@ -14,6 +14,7 @@ export enum StreamCategory {
   GameDevelopment = 'gamedevelopment',
   MobileDevelopment = 'mobiledevelopment',
   Programming = 'programming',
+  None = '',
 }
 
 @Injectable()
@@ -34,7 +35,7 @@ export class StreamCategoryService implements OnDestroy {
   }
 
   ngOnDestroy() {
-    this.stopPolling.next();
+    this.stopPolling.next(null);
     this.stopPolling.complete();
   }
 
@@ -58,10 +59,12 @@ export class StreamCategoryService implements OnDestroy {
     return getAvailableProgrammingLanguages(this.streams);
   }
 
-  getNewStreams(category?: StreamCategory): Observable<StreamInfo[]> {
+  getNewStreams(
+    category: StreamCategory = StreamCategory.None
+  ): Observable<StreamInfo[]> {
     return this.httpClient
       .get<StreamInfo[]>(
-        `${environment.streamCollectionUrl}/streams?category=${category ?? ''}`
+        `${environment.streamCollectionUrl}/streams?category=${category}`
       )
       .pipe(shareReplay(1));
   }

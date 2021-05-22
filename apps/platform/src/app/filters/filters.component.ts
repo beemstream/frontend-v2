@@ -1,4 +1,10 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 import {
   faHeart,
   faFire,
@@ -32,6 +38,7 @@ export interface FilterEventPayload {
   selector: 'nbp-filters',
   templateUrl: './filters.component.html',
   styleUrls: ['./filters.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FiltersComponent {
   @Input() languages?: Observable<LanguageCode[]> = of([]);
