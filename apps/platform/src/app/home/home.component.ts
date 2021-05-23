@@ -8,17 +8,17 @@ import { StreamCategoryService } from '../stream-category.service';
   providers: [StreamCategoryService],
 })
 export class HomeComponent {
-  streams = this.streamCategoryServic.getStreams();
+  streams = this.streamCategoryService.getStreams();
 
-  availableLanguages = this.streamCategoryServic.getAvailableLanguages();
+  availableLanguages = this.streamCategoryService.getAvailableLanguages();
 
-  availableProgrammingLanguages = this.streamCategoryServic.getAvailableProgrammingLanguages();
+  availableProgrammingLanguages = this.streamCategoryService.getAvailableProgrammingLanguages();
 
   templateStreams = this.streams;
 
-  constructor(private readonly streamCategoryServic: StreamCategoryService) {}
+  constructor(private readonly streamCategoryService: StreamCategoryService) {}
 
   forceRefresh() {
-    this.templateStreams = this.streamCategoryServic.refreshStreams();
+    this.templateStreams = this.streamCategoryService.refreshStreams();
   }
 }

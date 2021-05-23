@@ -10,6 +10,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { LinkModule } from '@frontend-v2/shared-ui';
 import { FooterComponent } from './footer/footer.component';
 import { SeoService } from './seo.service';
+import { BeemstreamLogoComponent } from './beemstream-logo/beemstream-logo.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { SeoService } from './seo.service';
     NavbarComponent,
     NavButtonComponent,
     FooterComponent,
+    BeemstreamLogoComponent,
   ],
   imports: [
     BrowserModule,
