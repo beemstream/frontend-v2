@@ -2,7 +2,7 @@ FROM node:14.15.4-alpine as builder
 
 WORKDIR /app
 
-RUN npm install -g nx@12.3.0 && apk add gzip
+RUN npm install -g nx@12.3.3 && apk add gzip
 
 COPY package*.json /app/
 
