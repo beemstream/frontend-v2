@@ -56,7 +56,7 @@ export class FiltersComponent {
 
   @Output() layoutChanged = new EventEmitter<Layout>();
 
-  filters: { [key: string]: boolean } = {
+  filtersStatus: Record<FilterEvents, boolean> = {
     ...this.initFilters(),
     [FilterEvents.MostPopular]: true,
   };
@@ -65,15 +65,18 @@ export class FiltersComponent {
 
   layout = Layout;
 
-  faHeart = faHeart;
-
-  faFire = faFire;
-
   faSync = faSync;
 
-  faRunning = faRunning;
-
-  faMale = faMale;
+  categoryFilters = [
+    { event: this.events.MostPopular, icon: faFire, value: 'Most Popular' },
+    { event: this.events.NeedsLove, icon: faHeart, value: 'Needs Love' },
+    {
+      event: this.events.MarathonRunners,
+      icon: faRunning,
+      value: 'Marathon Runners',
+    },
+    { event: this.events.Starters, icon: faMale, value: 'Slow Starters' },
+  ];
 
   emitFilter(event: FilterEvents, elemEvent?: Event) {
     this.resetFilters();
@@ -92,17 +95,17 @@ export class FiltersComponent {
   }
 
   selectFilter(event: FilterEvents) {
-    this.filters = { ...this.filters, [event]: true };
+    this.filtersStatus = { ...this.filtersStatus, [event]: true };
   }
 
   resetFilters() {
-    this.filters = this.initFilters();
+    this.filtersStatus = this.initFilters();
   }
 
   initFilters() {
     return Object.values(FilterEvents).reduce((acc, curr) => {
       acc[curr] = false;
       return acc;
-    }, {} as { [key: string]: boolean });
+    }, {} as Record<FilterEvents, boolean>);
   }
 }
