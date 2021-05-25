@@ -4,21 +4,27 @@ import { Meta, MetaDefinition, Title } from '@angular/platform-browser';
 export enum SeoTag {
   Image = 'og:image',
   Url = 'og:url',
-  SiteName = 'og:sitename',
+  SiteName = 'og:site_name',
+  Title = 'og:title',
+  Description = 'og:title',
 }
 
 @Injectable()
 export class SeoService {
-  constructor(private pageTitle: Title, private meta: Meta) {}
+  prefix = 'BeemStream ';
+
+  constructor(private pageTitle: Title, private meta: Meta) {
+    this.meta.addTag({ property: SeoTag.SiteName, content: 'BeemStream' });
+  }
 
   addTitle(title: string) {
-    this.pageTitle.setTitle(title);
-    this.meta.updateTag({ 'og:title': title });
+    this.pageTitle.setTitle(`${this.prefix} - ${title}`);
+    this.meta.updateTag({ property: SeoTag.Title, content: title });
     return this;
   }
 
   addDescription(description: string) {
-    this.meta.updateTag({ 'og:description': description });
+    this.meta.updateTag({ property: SeoTag.Description, content: description });
     return this;
   }
 
@@ -28,7 +34,7 @@ export class SeoService {
   }
 
   addImage(imageUrl: string) {
-    this.meta.updateTag({ [SeoTag.Image]: imageUrl });
+    this.meta.updateTag({ property: SeoTag.Image, content: imageUrl });
     return this;
   }
 }

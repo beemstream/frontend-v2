@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { SeoService } from '../seo.service';
 import { StreamCategoryService } from '../stream-category.service';
 
 @Component({
@@ -16,7 +17,12 @@ export class HomeComponent {
 
   templateStreams = this.streams;
 
-  constructor(private readonly streamCategoryService: StreamCategoryService) {}
+  constructor(
+    private readonly streamCategoryService: StreamCategoryService,
+    private readonly seoService: SeoService
+  ) {
+    this.seoService.addTitle('Livestream your Favourite Programming Language');
+  }
 
   forceRefresh() {
     this.templateStreams = this.streamCategoryService.refreshStreams();

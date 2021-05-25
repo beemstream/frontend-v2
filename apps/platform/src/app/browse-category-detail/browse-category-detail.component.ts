@@ -1,13 +1,8 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
-import {
-  debounceTime,
-  distinctUntilChanged,
-  shareReplay,
-  switchMap,
-  tap,
-} from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map, shareReplay, switchMap, tap } from 'rxjs/operators';
+import { SeoService } from '../seo.service';
 import {
   StreamCategory,
   StreamCategoryService,
@@ -57,17 +52,23 @@ export enum TemplateDescription {
   styleUrls: ['./browse-category-detail.component.css'],
 })
 export class BrowseCategoryDetailComponent {
-  searchValue = new BehaviorSubject<string>('');
-
-  category!: StreamCategory;
-
   templateCategory = TemplateCategory;
 
   templateDesciption = TemplateDescription;
 
-  streamCategoryList = this.route.params.pipe(
-    tap((query) => (this.category = query.category)),
-    switchMap((query) => this.categoryService.getStreams(query.category)),
+  category: Observable<StreamCategory> = this.route.params.pipe(
+    map((query) => query.category)
+  );
+
+  streamCategoryList = this.category.pipe(
+    tap((category) =>
+      this.seoService.addTitle(
+        `Livestream ${
+          this.templateCategory[category as keyof typeof TemplateCategory]
+        } with your Favourite Technologies`
+      )
+    ),
+    switchMap((category) => this.categoryService.getStreams(category)),
     shareReplay(1)
   );
 
@@ -83,18 +84,11 @@ export class BrowseCategoryDetailComponent {
 
   constructor(
     private route: ActivatedRoute,
-    private categoryService: StreamCategoryService
+    private categoryService: StreamCategoryService,
+    private readonly seoService: SeoService
   ) {}
 
-  filteredStreams = this.searchValue.pipe(
-    debounceTime(200),
-    distinctUntilChanged(),
-    switchMap((searchTerm) => {
-      return this.categoryService.searchStreams(searchTerm, this.category);
-    })
-  );
-
-  forceRefresh() {
-    this.templateStreams = this.categoryService.getStreams(this.category);
+  forceRefresh(category: StreamCategory) {
+    this.templateStreams = this.categoryService.getStreams(category);
   }
 }
