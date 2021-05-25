@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ImgSizePipe } from '../img-size.pipe';
-import { MapToPipe } from '../map-to.pipe';
+import { ImgSizePipe, MapToPipe } from './pipes';
 
 @NgModule({
   imports: [CommonModule],
