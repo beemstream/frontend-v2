@@ -11,6 +11,7 @@ import { LinkModule } from '@frontend-v2/shared-ui';
 import { FooterComponent } from './footer/footer.component';
 import { SeoService } from './seo.service';
 import { BeemstreamLogoComponent } from './beemstream-logo/beemstream-logo.component';
+import { BuyMeACoffeeComponent } from './buy-me-a-coffee/buy-me-a-coffee.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { BeemstreamLogoComponent } from './beemstream-logo/beemstream-logo.compo
     NavButtonComponent,
     FooterComponent,
     BeemstreamLogoComponent,
+    BuyMeACoffeeComponent,
   ],
   imports: [
     BrowserModule,
