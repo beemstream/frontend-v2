@@ -6,7 +6,7 @@ export enum SeoTag {
   Url = 'og:url',
   SiteName = 'og:site_name',
   Title = 'og:title',
-  Description = 'og:title',
+  Description = 'description',
 }
 
 @Injectable()

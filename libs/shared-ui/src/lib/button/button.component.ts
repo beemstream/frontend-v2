@@ -15,6 +15,8 @@ import {
 export class ButtonComponent {
   @Input() value?: string;
 
+  @Input() title?: string;
+
   @Input() active = false;
 
   @Output() clicked: EventEmitter<void> = new EventEmitter();

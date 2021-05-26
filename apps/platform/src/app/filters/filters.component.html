@@ -29,15 +29,15 @@
   </div>
 </div>
 <ui-toggle-filter
-  [toggleFilters]="languages | async"
-  [showValue]="true"
-  (filterChanged)="languageChanged.emit($event)"
->
-</ui-toggle-filter>
+  [toggleFilters]="programmingLanguages | async"
+  [showIcon]="true"
+  (filterChanged)="programmingLanguageChanged.emit($event)"
+></ui-toggle-filter>
 <div class="pt-2">
   <ui-toggle-filter
-    [toggleFilters]="programmingLanguages | async"
-    [showIcon]="true"
-    (filterChanged)="programmingLanguageChanged.emit($event)"
-  ></ui-toggle-filter>
+    [toggleFilters]="languages | async"
+    [showValue]="true"
+    (filterChanged)="languageChanged.emit($event)"
+  >
+  </ui-toggle-filter>
 </div>

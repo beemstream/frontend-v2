@@ -6,6 +6,7 @@ import {
   SharedUiModule,
   StreamCardModule,
   IconModule,
+  HeaderModule,
 } from '@frontend-v2/shared-ui';
 
 import { HomeRoutingModule } from './home-routing.module';
@@ -28,6 +29,7 @@ import { SeoService } from '../seo.service';
     FiltersModule,
     FilterStreamListModule,
     IconModule,
+    HeaderModule,
   ],
   providers: [SeoService],
 })
