@@ -8,6 +8,7 @@ import {
   LinkModule,
   SharedUiModule,
   StreamCardModule,
+  EscapeHtmlPipe,
 } from '@frontend-v2/shared-ui';
 import { StreamCategoryListComponent } from '../stream-category-list/stream-category-list.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -23,6 +24,7 @@ import { StreamCategoryService } from '../stream-category.service';
     StreamCategoryListComponent,
     CategoryHeaderComponent,
     BrowseCategoryDetailComponent,
+    EscapeHtmlPipe,
   ],
   imports: [
     CommonModule,

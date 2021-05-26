@@ -13,9 +13,9 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ButtonComponent {
-  @Input() value?: string;
+  @Input() value?: string = '';
 
-  @Input() title?: string;
+  @Input() title?: string = '';
 
   @Input() active = false;
 

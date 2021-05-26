@@ -5,9 +5,10 @@
       [title]="templateCategory[category$]"
       [showLink]="false"
     ></nbp-category-header>
-    <div class="leading-6">
-      {{ templateDesciption[category$] }}
-    </div>
+    <p
+      class="leading-6"
+      [innerHTML]="templateDesciption[category$] | escapeHtml"
+    ></p>
     <nbp-filter-stream-list
       [streamCategoryList]="templateStreams"
       (refreshStream)="forceRefresh(category$)"

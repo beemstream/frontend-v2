@@ -12,7 +12,7 @@
       [title]="streamCategory.title"
       [titleIcon]="streamCategory.icon"
     ></nbp-category-header>
-    {{ streamCategory.description }}
+    <p [innerHTML]="streamCategory.description | escapeHtml"></p>
     <nbp-stream-category-list
       [streamList]="category[i]"
     ></nbp-stream-category-list>
