@@ -9,7 +9,7 @@
       class="w-full h-8 mt-2 mb-2 mr-2 bg-gray-800 lg:w-auto md:w-auto lg:mb-0 md:mb-0 rounded-md"
     />
     <ui-button
-      *ngFor="let filter of categoryFilters"
+      *ngFor="let filter of categoryFilters; trackBy: trackCategoryFilters"
       [active]="filtersStatus[filter.event]"
       (clicked)="emitFilter(filter.event)"
       [value]="filter.value"

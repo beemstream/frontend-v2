@@ -33,7 +33,7 @@
   </div>
   <div class="px-6">
     <ui-stream-tag
-      *ngFor="let tag of tags"
+      *ngFor="let tag of tags; trackBy: trackTag"
       [link]="tag | mapTo: tagLink"
       [tag]="tag"
     ></ui-stream-tag>

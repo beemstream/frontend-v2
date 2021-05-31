@@ -25,4 +25,8 @@ export class StreamCardComponent {
   faUser = faUser;
   faEye = faEye;
   tagLink = TagLink;
+
+  trackTag(_index: number, tag: string) {
+    return tag;
+  }
 }

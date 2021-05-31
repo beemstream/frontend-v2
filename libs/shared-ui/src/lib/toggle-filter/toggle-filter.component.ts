@@ -43,4 +43,8 @@ export class ToggleFilterComponent {
       this.filterChanged.emit(filter);
     }
   }
+
+  trackByKey(index: number) {
+    return index;
+  }
 }

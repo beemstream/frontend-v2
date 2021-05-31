@@ -1,4 +1,7 @@
-<div class="flex inline-flex" *ngFor="let filter of toggleFilters">
+<div
+  class="flex inline-flex"
+  *ngFor="let filter of toggleFilters; trackBy: trackByKey"
+>
   <ui-button
     class="block pt-2 lg:inline-flex md:inline-grid lg:pt-0"
     [active]="filterMap[filter]"

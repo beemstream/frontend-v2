@@ -108,4 +108,8 @@ export class FiltersComponent {
       return acc;
     }, {} as Record<FilterEvents, boolean>);
   }
+
+  trackCategoryFilters(index: number) {
+    return index;
+  }
 }

@@ -4,7 +4,11 @@
   </h1>
   <div
     class="leading-6"
-    *ngFor="let streamCategory of streamCategories; let i = index"
+    *ngFor="
+      let streamCategory of streamCategories;
+      let i = index;
+      trackBy: trackStreamCategory
+    "
   >
     <nbp-category-header
       class="text-lg"

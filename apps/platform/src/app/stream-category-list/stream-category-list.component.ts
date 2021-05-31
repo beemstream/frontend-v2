@@ -9,4 +9,8 @@ import { StreamInfo } from '../stream-info';
 })
 export class StreamCategoryListComponent {
   @Input() streamList?: StreamInfo[] | null;
+
+  trackStream(_index: number, item: StreamInfo) {
+    return `${item.id}-${item.viewer_count}`;
+  }
 }
