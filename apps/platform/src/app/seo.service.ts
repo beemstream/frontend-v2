@@ -3,6 +3,8 @@ import { Meta, MetaDefinition, Title } from '@angular/platform-browser';
 
 export enum SeoTag {
   Image = 'og:image',
+  ImageWidth = 'og:image:width',
+  ImageHeight = 'og:image:height',
   Url = 'og:url',
   SiteName = 'og:site_name',
   Title = 'og:title',
@@ -33,8 +35,10 @@ export class SeoService {
     return this;
   }
 
-  addImage(imageUrl: string) {
+  addImage(imageUrl: string, width: string, height: string) {
     this.meta.updateTag({ property: SeoTag.Image, content: imageUrl });
+    this.meta.updateTag({ property: SeoTag.ImageWidth, content: width });
+    this.meta.updateTag({ property: SeoTag.ImageHeight, content: height });
     return this;
   }
 }

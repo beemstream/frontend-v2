@@ -25,7 +25,8 @@ export class HomeComponent {
       .addTitle('Livestream your Favourite Programming Language')
       .addDescription(
         `BeemStream is a livestream platform currently powered by twitch.tv. Find programming livestreams ranging from web development, mobile development and software development. Sort by programming language, get searching from rustlang, javascript, typescript, python. golang and other diverse languages! Switch between spoken languages and sort by most popular, needs love, longest lived stream to streams that have just started.`
-      );
+      )
+      .addImage('../../assets/logo.png', '600', '600');
   }
 
   forceRefresh() {
