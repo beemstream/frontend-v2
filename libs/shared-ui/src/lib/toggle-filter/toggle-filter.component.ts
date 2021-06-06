@@ -5,6 +5,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
+import { Icon } from '../programming-language-icon';
 
 @Component({
   selector: 'ui-toggle-filter',
@@ -44,7 +45,7 @@ export class ToggleFilterComponent {
     }
   }
 
-  trackByKey(index: number) {
-    return index;
+  trackByKey(_index: number, key: Icon) {
+    return key;
   }
 }
