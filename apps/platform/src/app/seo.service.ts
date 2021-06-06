@@ -35,10 +35,10 @@ export class SeoService {
     return this;
   }
 
-  addImage(imageUrl: string, width: string, height: string) {
+  addImage(imageUrl: string, width: number, height: number) {
     this.meta.updateTag({ property: SeoTag.Image, content: imageUrl });
-    this.meta.updateTag({ property: SeoTag.ImageWidth, content: width });
-    this.meta.updateTag({ property: SeoTag.ImageHeight, content: height });
+    this.meta.updateTag({ property: SeoTag.ImageWidth, content: `${width}` });
+    this.meta.updateTag({ property: SeoTag.ImageHeight, content: `${height}` });
     return this;
   }
 }

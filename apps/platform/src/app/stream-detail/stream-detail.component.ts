@@ -27,7 +27,7 @@ export class StreamDetailComponent {
 
       this.seoService
         .addTitle(`${user.user_info.login} ${title}`)
-        .addImage(imgUrl, '250', '140');
+        .addImage(imgUrl, 250, 140);
     })
   );
 
