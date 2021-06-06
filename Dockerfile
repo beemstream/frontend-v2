@@ -14,7 +14,7 @@ RUN nx build --prod
 
 RUN gzip -k /app/dist/apps/platform/*.*
 
-FROM nginx:latest
+FROM nginx:1.19.0
 
 COPY nginx.conf /etc/nginx/nginx.conf
 
