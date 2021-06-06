@@ -24,8 +24,19 @@
     </div>
   </div>
   <div class="pl-6 pr-6">
-    <div class="text-sm text-white grid grid-cols-2">
-      <span><fa-icon [icon]="faUser"></fa-icon> {{ username }}</span>
+    <div class="text-sm text-white grid grid-cols-3">
+      <span class="col-span-2">
+        <a [href]="twitchUserLink" target="_blank" [title]="username">
+          <ui-icon
+            class="inline-block pr-1 -mb-1"
+            iconClass="hover:text-red-700"
+            [icon]="'twitch'"
+          ></ui-icon>
+        </a>
+        <div class="inline-block">
+          <fa-icon [icon]="faUser"></fa-icon> {{ username }}
+        </div>
+      </span>
       <span class="text-right"
         ><fa-icon [icon]="faEye"></fa-icon> {{ viewerNo }}</span
       >
