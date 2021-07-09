@@ -48,6 +48,8 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.32",
     "@fortawesome/free-solid-svg-icons": "^5.15.1",
     "@nrwl/angular": "12.3.3",
+    "@rx-angular/cdk": "^1.0.0-alpha.8",
+    "@rx-angular/template": "^1.0.0-beta.25",
     "rxjs": "7.1.0",
     "tslib": "^2.0.0",
     "zone.js": "0.11.4"

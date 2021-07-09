@@ -15,6 +15,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FiltersModule } from '../filters/filters.module';
 import { FilterStreamListModule } from '../filter-stream-list/filter-stream.module';
 import { SeoService } from '../seo.service';
+import { LetModule } from '@rx-angular/template';
 
 @NgModule({
   declarations: [HomeComponent],
@@ -30,6 +31,7 @@ import { SeoService } from '../seo.service';
     FilterStreamListModule,
     IconModule,
     HeaderModule,
+    LetModule,
   ],
   providers: [SeoService],
 })

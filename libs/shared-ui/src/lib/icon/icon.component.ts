@@ -7,6 +7,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { IconService } from '../icon.service';
 import { Icon } from '../programming-language-icon';
 
@@ -16,8 +17,10 @@ import { Icon } from '../programming-language-icon';
   styleUrls: ['./icon.component.css'],
 })
 export class IconComponent implements OnInit, AfterViewInit {
-  @Input() icon!: Icon;
+  @Input() icon!: Icon | IconProp;
+  @Input() iconSource: 'fa' | 'beemstream' = 'beemstream';
   @Input() iconClass: string = '';
+  finishedRender = false;
 
   svg!: SafeHtml;
 
@@ -29,13 +32,17 @@ export class IconComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngAfterViewInit(): void {
-    const svg = this.svgContainerElem?.nativeElement.querySelector('svg');
-    svg.setAttribute('class', `fill-current ${this.iconClass}`);
+    if (this.iconSource === 'beemstream' && !this.finishedRender) {
+      const svg = this.svgContainerElem?.nativeElement.querySelector('svg');
+      svg.setAttribute('class', `fill-current ${this.iconClass}`);
+    }
   }
 
   ngOnInit(): void {
-    this.svg = this.sanitzer.bypassSecurityTrustHtml(
-      this.iconService.getIcon(this.icon)
-    );
+    if (this.iconSource === 'beemstream') {
+      this.svg = this.sanitzer.bypassSecurityTrustHtml(
+        this.iconService.getIcon(this.icon as Icon)
+      );
+    }
   }
 }

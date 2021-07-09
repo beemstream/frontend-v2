@@ -7,7 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { NavbarComponent } from './navbar/navbar.component';
 import { NavButtonComponent } from './navbar/nav-button/nav-button.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { LinkModule } from '@frontend-v2/shared-ui';
+import { IconModule, LinkModule } from '@frontend-v2/shared-ui';
 import { FooterComponent } from './footer/footer.component';
 import { SeoService } from './seo.service';
 import { BeemstreamLogoComponent } from './beemstream-logo/beemstream-logo.component';
@@ -28,6 +28,7 @@ import { BuyMeACoffeeComponent } from './buy-me-a-coffee/buy-me-a-coffee.compone
     AppRoutingModule,
     FontAwesomeModule,
     LinkModule,
+    IconModule,
   ],
   providers: [SeoService],
   bootstrap: [AppComponent],

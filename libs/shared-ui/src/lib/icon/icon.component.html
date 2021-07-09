@@ -1,5 +1,10 @@
 <div
   #svgContainer
+  *ngIf="iconSource === 'beemstream'; else fa"
   class="w-5 text-white fill-current svg"
   [innerHTML]="svg"
 ></div>
+
+<ng-template #fa>
+  <fa-icon *ngIf="icon" [icon]="$any(icon)"></fa-icon>
+</ng-template>

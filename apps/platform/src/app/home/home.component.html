@@ -1,5 +1,7 @@
 <div class="pl-10 pr-10">
   <ui-header>Watch Your Favourite Programming Livestreams</ui-header>
+  {{ userFollows | async }}
+  {{ token | async }}
   <p>
     BeemStream provides a directory of all programming livestreams currently
     just from
