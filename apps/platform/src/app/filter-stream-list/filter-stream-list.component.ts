@@ -26,6 +26,7 @@ import {
   NEEDS_LOVE,
   SLOW_STARTERS,
   StreamQueryFilters,
+  USER_FOLLOWS,
 } from './attribute-filters';
 import { ProgrammingLanguage } from '../utils';
 import { LanguageCode } from '../filters/language-code';
@@ -57,6 +58,7 @@ export class FilterStreamListComponent implements OnInit, OnChanges {
   layoutSetting = Layout.Default;
 
   filterAttributeStreams = {
+    [FilterEvents.Follows]: this.userFollows,
     [FilterEvents.MostPopular]: this.mostPopular,
     [FilterEvents.NeedsLove]: this.needsLove,
     [FilterEvents.MarathonRunners]: this.marathonRunners,
@@ -78,7 +80,8 @@ export class FilterStreamListComponent implements OnInit, OnChanges {
     @Inject(NEEDS_LOVE) readonly needsLove: Observable<StreamInfo[]>,
     @Inject(MARATHON_RUNNERS)
     readonly marathonRunners: Observable<StreamInfo[]>,
-    @Inject(SLOW_STARTERS) readonly slowStarters: Observable<StreamInfo[]>
+    @Inject(SLOW_STARTERS) readonly slowStarters: Observable<StreamInfo[]>,
+    @Inject(USER_FOLLOWS) readonly userFollows: Observable<StreamInfo[]>
   ) {}
 
   ngOnInit(): void {
