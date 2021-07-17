@@ -8,13 +8,18 @@
       type="text"
       class="w-full h-8 mt-2 mb-2 mr-2 bg-gray-800 lg:w-auto md:w-auto lg:mb-0 md:mb-0 rounded-md"
     />
-    <ui-button
+    <div
+      class="inline-block"
       *ngFor="let filter of categoryFilters; trackBy: trackCategoryFilters"
-      [active]="filtersStatus[filter.event]"
-      (clicked)="emitFilter(filter.event)"
-      [value]="filter.value"
-      ><fa-icon [icon]="filter.icon"></fa-icon
-    ></ui-button>
+    >
+      <ui-button
+        *ngIf="filter.condition | async"
+        [active]="filtersStatus[filter.event]"
+        (clicked)="emitFilter(filter.event)"
+        [value]="filter.value"
+        ><fa-icon [icon]="filter.icon"></fa-icon
+      ></ui-button>
+    </div>
   </div>
   <div class="flex justify-end">
     <ui-button (clicked)="layoutChanged.emit(layout.Default)">

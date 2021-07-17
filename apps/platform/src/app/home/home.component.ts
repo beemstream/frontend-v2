@@ -1,6 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { combineLatestWith, map } from 'rxjs/operators';
 import { SeoService } from '../seo.service';
 import { StreamCategoryService } from '../stream-category.service';
+import { TwitchOauthService } from '../twitch-oauth.service';
 
 @Component({
   selector: 'nbp-home',
@@ -8,7 +12,7 @@ import { StreamCategoryService } from '../stream-category.service';
   styleUrls: ['./home.component.css'],
   providers: [StreamCategoryService],
 })
-export class HomeComponent {
+export class HomeComponent implements OnDestroy {
   streams = this.streamCategoryService.getStreams();
 
   availableLanguages = this.streamCategoryService.getAvailableLanguages();
@@ -17,9 +21,23 @@ export class HomeComponent {
 
   templateStreams = this.streams;
 
+  subscription: Subscription;
+
+  authStatus = this.twitchOauthService
+    .getAccessToken()
+    .pipe(
+      combineLatestWith(
+        this.twitchOauthService.getValidateUserToken(),
+        this.route.queryParams
+      )
+    );
+
   constructor(
     private readonly streamCategoryService: StreamCategoryService,
-    private readonly seoService: SeoService
+    private readonly seoService: SeoService,
+    private readonly twitchOauthService: TwitchOauthService,
+    private readonly route: ActivatedRoute,
+    private readonly router: Router
   ) {
     this.seoService
       .addTitle('Livestream your Favourite Programming Language')
@@ -27,6 +45,23 @@ export class HomeComponent {
         `BeemStream is a livestream platform currently powered by twitch.tv. Find programming livestreams ranging from web development, mobile development and software development. Sort by programming language, get searching from rustlang, javascript, typescript, python. golang and other diverse languages! Switch between spoken languages and sort by most popular, needs love, longest lived stream to streams that have just started.`
       )
       .addImage('https://beemstream.com/assets/logo.png', 600, 600);
+
+    this.subscription = this.authStatus
+      .pipe(
+        map(
+          ([token, validateToken, qp]) =>
+            !!token && !!validateToken && !!qp.code
+        )
+      )
+      .subscribe((isTokenValidated) => {
+        if (isTokenValidated) {
+          this.router.navigate(['/'], { queryParams: { code: null } });
+        }
+      });
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   forceRefresh() {

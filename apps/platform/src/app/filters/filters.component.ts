@@ -11,10 +11,13 @@ import {
   faSync,
   faRunning,
   faMale,
+  faStar,
 } from '@fortawesome/free-solid-svg-icons';
 import { Observable, of } from 'rxjs';
 import { LanguageCode } from './language-code';
 import { ProgrammingLanguage } from '../utils';
+import { TwitchOauthService } from '../twitch-oauth.service';
+import { map } from 'rxjs/operators';
 
 export enum FilterEvents {
   MostPopular = 'mostPopular',
@@ -22,6 +25,7 @@ export enum FilterEvents {
   Search = 'search',
   MarathonRunners = 'marathonRunners',
   Starters = 'starters',
+  Follows = 'follows',
 }
 
 export enum Layout {
@@ -68,15 +72,39 @@ export class FiltersComponent {
   faSync = faSync;
 
   categoryFilters = [
-    { event: this.events.MostPopular, icon: faFire, value: 'Most Popular' },
-    { event: this.events.NeedsLove, icon: faHeart, value: 'Needs Love' },
+    {
+      event: this.events.Follows,
+      icon: faStar,
+      value: 'Followed',
+      condition: this.twitchOauthService.getAccessToken().pipe(map((t) => !!t)),
+    },
+    {
+      event: this.events.MostPopular,
+      icon: faFire,
+      value: 'Most Popular',
+      condition: of(true),
+    },
+    {
+      event: this.events.NeedsLove,
+      icon: faHeart,
+      value: 'Needs Love',
+      condition: of(true),
+    },
     {
       event: this.events.MarathonRunners,
       icon: faRunning,
       value: 'Marathon Runners',
+      condition: of(true),
     },
-    { event: this.events.Starters, icon: faMale, value: 'Slow Starters' },
+    {
+      event: this.events.Starters,
+      icon: faMale,
+      value: 'Slow Starters',
+      condition: of(true),
+    },
   ];
+
+  constructor(private twitchOauthService: TwitchOauthService) {}
 
   emitFilter(event: FilterEvents, elemEvent?: Event) {
     this.resetFilters();

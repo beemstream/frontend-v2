@@ -1,17 +1,15 @@
 <nav class="bg-gray-700 bg-opacity-50">
   <div class="px-2 mx-auto sm:px-6 lg:px-8">
-    <div class="relative flex items-center justify-end h-16">
-      <div class="absolute inset-y-0 left-0 flex items-center">
-        <div
-          class="flex items-center justify-center flex-1 sm:items-stretch sm:justify-start"
-        >
-          <div class="flex-shrink-0">
-            <nbp-beemstream-logo></nbp-beemstream-logo>
-          </div>
-          <div class="hidden lg:block md:hidden sm:block sm:ml-6">
-            <div
-              class="flex ml-4 px-3 py-2 rounded-md text-sm font-medium leading-5 text-gray-300;"
-            >
+    <div class="relative flex items-center justify-end w-full h-16">
+      <div class="flex items-center flex-1">
+        <div class="flex-shrink-0">
+          <nbp-beemstream-logo></nbp-beemstream-logo>
+        </div>
+        <div class="hidden lg:block md:hidden sm:block sm:ml-6">
+          <div
+            class="flex w-full px-3 py-2 text-sm font-medium text-gray-300 rounded-md leading-5"
+          >
+            <div class="flex-none">
               <nbp-nav-button
                 routerLink="/"
                 routeName="Discover"
@@ -30,6 +28,35 @@
           </div>
         </div>
       </div>
+      <div class="flex justify-end">
+        <div class="hidden lg:block md:hidden sm:block sm:ml-6">
+          <div
+            class="flex w-full px-3 py-2 ml-4 text-sm font-medium text-gray-300 rounded-md leading-5"
+          >
+            <div class="justify-end w-full">
+              <div
+                class="flex"
+                *ngIf="userDetails | async as userDetails$; else loginButton"
+              >
+                <fa-icon class="text-xl" [icon]="faUserCircle"></fa-icon>
+                <span class="self-center pl-2">{{ userDetails$?.login }}</span>
+                <button (click)="logout()">
+                  <fa-icon class="pl-2 text-xl" [icon]="faSignOutAlt"></fa-icon>
+                </button>
+              </div>
+              <ng-template #loginButton>
+                <nbp-nav-button
+                  icon="twitch"
+                  iconSource="beemstream"
+                  [linkType]="'href'"
+                  routeName="Sign In"
+                  routerLink="http://localhost/auth/oauth/twitch"
+                ></nbp-nav-button>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+      </div>
       <div
         class="block p-5 text-white cursor-pointer md:block lg:hidden"
         (click)="toggleMobileNav()"
@@ -37,7 +64,7 @@
         <fa-icon class="text-xl" [icon]="icon"></fa-icon>
       </div>
     </div>
-    <div [class.hidden]="!isNavActive" class="text-white lg:hidden">
+    <div [class.hidden]="!isNavActive" class="pb-4 text-white lg:hidden">
       <ul class="font-semibold">
         <li class="p-3">
           <ui-link
@@ -57,10 +84,32 @@
           <ui-link
             (click)="toggleMobileNav()"
             routerLink="/random"
+            linkType="routerLink"
             linkName="Surprise Me!"
           >
-            <fa-icon [icon]="faGift"></fa-icon>
+            <fa-icon class="pr-2" [icon]="faGift"></fa-icon>
           </ui-link>
+        </li>
+        <li class="p-3">
+          <div
+            class="flex"
+            *ngIf="userDetails | async as userDetails$; else mobileLogin"
+          >
+            <fa-icon class="text-xl" [icon]="faUserCircle"></fa-icon>
+            <span class="self-center pl-2">{{ userDetails$?.login }}</span>
+            <button (click)="logout()">
+              <fa-icon class="pl-2 text-xl" [icon]="faSignOutAlt"></fa-icon>
+            </button>
+          </div>
+          <ng-template #mobileLogin>
+            <ui-link
+              class="grid"
+              linkType="href"
+              routerLink="http://localhost/auth/oauth/twitch"
+              linkName="Sign In"
+            >
+            </ui-link>
+          </ng-template>
         </li>
       </ul>
     </div>

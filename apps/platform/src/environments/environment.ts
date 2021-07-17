@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   streamCollectionUrl: 'http://localhost/stream-collection',
+  twitchOauthUrl: 'http://localhost/auth/oauth/twitch',
 };
 
 /*

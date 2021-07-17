@@ -1,9 +1,31 @@
 <a
+  *ngIf="linkType === 'routerLink'; else nativeElem"
   [routerLink]="routerLink"
   [routerLinkActiveOptions]="navOptions"
   routerLinkActive="outline-none text-white bg-red-800"
   class="px-3 py-2 ml-4 text-sm font-medium font-bold text-gray-300 rounded-md leading-5 hover:text-white hover:bg-red-600 hover:bg-opacity-50 focus:outline-none focus:text-white focus:bg-red-800 transition duration-150 ease-in-out"
 >
-  <fa-icon *ngIf="icon" [icon]="icon"></fa-icon>
+  <ui-icon
+    class="inline-block -mb-1"
+    *ngIf="icon"
+    [icon]="icon"
+    [iconSource]="iconSource"
+  ></ui-icon>
   {{ routeName }}
 </a>
+
+<ng-template #nativeElem>
+  <a
+    *ngIf="linkType === 'href'"
+    [href]="routerLink"
+    class="px-3 py-2 ml-4 text-sm font-medium font-bold text-gray-300 rounded-md leading-5 hover:text-white hover:bg-red-600 hover:bg-opacity-50 focus:outline-none focus:text-white focus:bg-red-800 transition duration-150 ease-in-out"
+  >
+    <ui-icon
+      class="inline-block -mb-1"
+      *ngIf="icon"
+      [icon]="icon"
+      [iconSource]="iconSource"
+    ></ui-icon>
+    {{ routeName }}
+  </a>
+</ng-template>

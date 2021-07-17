@@ -6,3 +6,4 @@ export * from './lib/icon/icon.module';
 export * from './lib/toggle-filter/toggle-filter.module';
 export * from './lib/pipes/index';
 export * from './lib/header/header.module';
+export * from './lib/programming-language-icon';

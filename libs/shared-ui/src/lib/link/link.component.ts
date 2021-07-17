@@ -8,5 +8,6 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 })
 export class LinkComponent {
   @Input() routerLink?: string;
+  @Input() linkType: 'href' | 'routerLink' = 'routerLink';
   @Input() linkName?: string;
 }

@@ -1,4 +1,7 @@
-<div class="mt-10" *ngIf="streamCategoryList | async as streamCategoryList">
+<div
+  class="mt-10 pl-10 pr-10"
+  *ngIf="streamCategoryList | async as streamCategoryList"
+>
   <div *ngIf="category | async as category$">
     <nbp-category-header
       *ngIf="category"

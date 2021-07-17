@@ -7,6 +7,7 @@ import { LinkModule } from '../link/link.module';
 import { StreamTagModule } from '../stream-tag/stream-tag.module';
 import { StreamUrlPipe } from '../pipes';
 import { SharedUiModule } from '../shared-ui.module';
+import { IconModule } from '../icon/icon.module';
 
 @NgModule({
   declarations: [StreamCardComponent, StreamUrlPipe],
@@ -17,6 +18,7 @@ import { SharedUiModule } from '../shared-ui.module';
     LinkModule,
     StreamTagModule,
     SharedUiModule,
+    IconModule,
   ],
   exports: [StreamCardComponent],
 })
