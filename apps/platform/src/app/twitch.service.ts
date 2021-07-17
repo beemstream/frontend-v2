@@ -1,8 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, ReplaySubject } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { EMPTY, Observable, ReplaySubject } from 'rxjs';
+import { share, switchMap, tap } from 'rxjs/operators';
 import { environment } from '../environments/environment';
+import { TwitchOauthService } from './twitch-oauth.service';
 
 export interface UserFollow {
   from_id: string;
@@ -23,15 +24,31 @@ export interface UserFollows {
 export class TwitchService {
   follows: ReplaySubject<UserFollow[]> = new ReplaySubject();
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(
+    private httpClient: HttpClient,
+    private twitchOauthService: TwitchOauthService
+  ) {
+    this.getUserFollows().subscribe();
+  }
 
-  getUserFollows(token: string): Observable<UserFollow[]> {
+  getUserFollows(): Observable<UserFollow[]> {
+    return this.twitchOauthService
+      .getAccessToken()
+      .pipe(
+        switchMap((t) => (t ? this.fetchUserfollows(t.access_token) : EMPTY))
+      );
+  }
+
+  fetchUserfollows(token: string) {
     const headers = new HttpHeaders().append('token', `Bearer ${token}`);
     return this.httpClient
       .get<UserFollow[]>(`${environment.streamCollectionUrl}/follows`, {
         headers,
         withCredentials: true,
       })
-      .pipe(tap((f) => this.follows.next(f)));
+      .pipe(
+        tap((f) => this.follows.next(f)),
+        share()
+      );
   }
 }
