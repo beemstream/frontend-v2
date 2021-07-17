@@ -50,7 +50,7 @@
                   iconSource="beemstream"
                   [linkType]="'href'"
                   routeName="Sign In"
-                  routerLink="http://localhost/auth/oauth/twitch"
+                  [routerLink]="twitchOauthUrl"
                 ></nbp-nav-button>
               </ng-template>
             </div>
@@ -105,7 +105,7 @@
             <ui-link
               class="grid"
               linkType="href"
-              routerLink="http://localhost/auth/oauth/twitch"
+              [routerLink]="twitchOauthUrl"
               linkName="Sign In"
             >
             </ui-link>
