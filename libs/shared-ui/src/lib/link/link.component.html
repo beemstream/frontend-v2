@@ -1,7 +1,8 @@
 <a
-  class="text-white text-md hover:text-red-700 cursor-pointer"
+  class="text-white cursor-pointer text-md hover:text-red-700"
   [attr.routerLink]="linkType === 'routerLink' ? routerLink : null"
   [attr.href]="linkType === 'href' ? routerLink : null"
-  [title]="linkName"
+  [attr.title]="linkName || title"
+  [attr.target]="target"
   ><ng-content></ng-content> <span>{{ linkName }}</span></a
 >

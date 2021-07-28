@@ -10,4 +10,6 @@ export class LinkComponent {
   @Input() routerLink?: string;
   @Input() linkType: 'href' | 'routerLink' = 'routerLink';
   @Input() linkName?: string;
+  @Input() title?: string;
+  @Input() target?: string;
 }
