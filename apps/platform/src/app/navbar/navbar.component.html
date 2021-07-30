@@ -33,8 +33,9 @@
           <div
             class="flex w-full px-3 py-2 ml-4 text-sm font-medium text-gray-300 rounded-md leading-5"
           >
-            <div class="justify-end w-full">
+            <div class="flex inline-flex justify-end w-full">
               <nbp-nav-button
+                [ngClass]="{ 'mt-1 mr-2': (userDetails | async) !== null }"
                 linkType="href"
                 routerLink="https://forms.gle/q63LVvVshhXCHiDi8"
                 routeName="Survey"
