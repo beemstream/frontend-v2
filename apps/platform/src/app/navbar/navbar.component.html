@@ -34,6 +34,13 @@
             class="flex w-full px-3 py-2 ml-4 text-sm font-medium text-gray-300 rounded-md leading-5"
           >
             <div class="justify-end w-full">
+              <nbp-nav-button
+                linkType="href"
+                routerLink="https://forms.gle/q63LVvVshhXCHiDi8"
+                routeName="Survey"
+                target="_blank"
+                [icon]="faList"
+              ></nbp-nav-button>
               <div
                 class="flex"
                 *ngIf="userDetails | async as userDetails$; else loginButton"
@@ -88,6 +95,17 @@
             linkName="Surprise Me!"
           >
             <fa-icon class="pr-2" [icon]="faGift"></fa-icon>
+          </ui-link>
+        </li>
+        <li class="p-3">
+          <ui-link
+            class="grid"
+            linkType="href"
+            routerLink="https://forms.gle/q63LVvVshhXCHiDi8"
+            target="_blank"
+            linkName="Survey"
+          >
+            <fa-icon class="pr-2" [icon]="faList"></fa-icon>
           </ui-link>
         </li>
         <li class="p-3">

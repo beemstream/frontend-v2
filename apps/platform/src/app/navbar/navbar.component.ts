@@ -5,6 +5,7 @@ import {
   faGift,
   faUserCircle,
   faSignOutAlt,
+  faList,
 } from '@fortawesome/free-solid-svg-icons';
 import { Observable, Subscription } from 'rxjs';
 import { share, tap } from 'rxjs/operators';
@@ -25,6 +26,7 @@ export class NavbarComponent implements OnDestroy {
   faBars = faBars;
   faTimes = faTimes;
   faGift = faGift;
+  faList = faList;
   faSignOutAlt = faSignOutAlt;
   logoutSubscription: Subscription | undefined;
   twitchOauthUrl = environment.twitchOauthUrl;

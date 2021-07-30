@@ -12,7 +12,7 @@ export class NavButtonComponent {
   @Input() routerLink?: string;
   @Input() linkType: 'href' | 'routerLink' = 'routerLink';
   @Input() icon?: IconProp | Icon;
-  @Input() iconFoo?: IconProp | Icon;
   @Input() iconSource: 'fa' | 'beemstream' = 'fa';
   @Input() navOptions: { exact: boolean } = { exact: false };
+  @Input() target?: string;
 }
