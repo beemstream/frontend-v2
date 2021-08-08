@@ -1,7 +1,9 @@
 <ng-template #topTemplate let-option>
   <div class="text-sm grid grid-cols-2">
-    <a class="text-left cursor-pointer" (click)="selectAll()">Select All</a>
-    <a class="text-right cursor-pointer" (click)="DeselectAll()"
+    <a class="text-left cursor-pointer hover:underline" (click)="selectAll()"
+      >Select All</a
+    >
+    <a class="text-right cursor-pointer hover:underline" (click)="DeselectAll()"
       >Deselect All</a
     >
   </div>
@@ -16,7 +18,7 @@
   </div>
   <span>
     <input
-      class="float-right mt-2"
+      class="float-right mt-2 rounded-md"
       style="width: 15px; height: 15px; padding-top: 2px"
       type="checkbox"
       [checked]="optionsSelected[option]"

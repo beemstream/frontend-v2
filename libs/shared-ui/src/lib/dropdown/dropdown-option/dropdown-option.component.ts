@@ -8,6 +8,4 @@ import { Component, Input } from '@angular/core';
 export class DropdownOptionComponent {
   @Input()
   type: 'top' | 'middle' | 'bottom' = 'middle';
-  @Input()
-  optionClass = '';
 }
