@@ -107,6 +107,8 @@ export const searchKeywords = (k: string, s: StreamInfo) => {
   return compareStr(s.title, k);
 };
 
+type KeywordMapKey = keyof typeof KEYWORD_MAP;
+
 export function filterByProgrammingLanguage(
   stream: Observable<StreamInfo[]>,
   language: ProgrammingLanguage
@@ -117,7 +119,12 @@ export function filterByProgrammingLanguage(
       if (language === ProgrammingLanguage.Uncategorized) {
         return Object.keys(KEYWORD_MAP)
           .filter((k) => k !== ProgrammingLanguage.Uncategorized)
-          .every((k) => !searchKeywords(k, s));
+          .every(
+            (k) =>
+              KEYWORD_MAP[k as KeywordMapKey].some((keyword: string) =>
+                searchKeywords(keyword, s)
+              ) === false
+          );
       }
       return KEYWORD_MAP[language].some((k) => searchKeywords(k, s));
     }),
