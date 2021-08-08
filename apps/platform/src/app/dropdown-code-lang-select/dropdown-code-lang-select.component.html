@@ -1,0 +1,17 @@
+<ng-template #optionTemplate let-option>
+  <nbp-code-icon [icon]="option"></nbp-code-icon>
+  <span>{{ $any(languageMappings)[option] }}</span>
+</ng-template>
+
+<ng-template #titleTemplate>
+  <ui-icon class="pr-2" [icon]="faCode" iconSource="fa"></ui-icon>
+  Programming Languages
+</ng-template>
+
+<nbp-dropdown-filter-select
+  [options]="options"
+  [titleTemplate]="titleTemplate"
+  [optionTemplate]="optionTemplate"
+  (optionsSelectedChanged)="optionsSelectedChanged.emit($event)"
+>
+</nbp-dropdown-filter-select>

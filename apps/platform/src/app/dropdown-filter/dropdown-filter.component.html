@@ -1,0 +1,19 @@
+<ng-template #template let-option>
+  <div>
+    <a> <fa-icon [icon]="option.icon"></fa-icon> {{ option.value }} </a>
+  </div>
+</ng-template>
+
+<ng-template #titleTemplate>
+  <fa-icon class="pr-2" [icon]="active.icon"></fa-icon
+  ><span>{{ active.value }}</span>
+</ng-template>
+
+<nbp-dropdown
+  [options]="options"
+  [titleTemplate]="titleTemplate"
+  [topTemplate]="template"
+  [middleTemplate]="template"
+  [bottomTemplate]="template"
+  (optionClicked)="handleSelection($event)"
+></nbp-dropdown>

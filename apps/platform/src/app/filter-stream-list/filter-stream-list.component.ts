@@ -43,7 +43,7 @@ export class FilterStreamListComponent implements OnInit, OnChanges {
 
   @Input() availableLanguages?: Observable<LanguageCode[]> = of([]);
 
-  @Input() availableProgrammingLanguages?: Observable<
+  @Input() availableProgrammingLanguages: Observable<
     ProgrammingLanguage[]
   > = of([]);
 
@@ -67,9 +67,9 @@ export class FilterStreamListComponent implements OnInit, OnChanges {
   };
 
   constructor(
-    @Inject(STREAM_LANGUAGE) private language: BehaviorSubject<string>,
+    @Inject(STREAM_LANGUAGE) private language: BehaviorSubject<string[]>,
     @Inject(STREAM_PROGRAMMING_LANGUAGE)
-    private programmingLanguage: BehaviorSubject<ProgrammingLanguage | null>,
+    private programmingLanguage: BehaviorSubject<ProgrammingLanguage[]>,
     @Inject(STREAM_LIST)
     private streams: ReplaySubject<Observable<StreamInfo[]>>,
     @Inject(SEARCH_TERM)
@@ -105,12 +105,16 @@ export class FilterStreamListComponent implements OnInit, OnChanges {
     }
   }
 
-  filterLanguage(language: string) {
+  filterLanguage(language: string[]) {
     this.language.next(language);
   }
 
   filterProgrammingLanguage(programmingLanguage: ProgrammingLanguage | null) {
-    this.programmingLanguage.next(programmingLanguage);
+    console.log(programmingLanguage);
+  }
+
+  filterProgrammingLanguages(programmingLanguages: ProgrammingLanguage[]) {
+    this.programmingLanguage.next(programmingLanguages);
   }
 
   changeLayout(layout: Layout) {

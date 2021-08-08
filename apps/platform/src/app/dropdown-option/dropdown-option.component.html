@@ -1,0 +1,9 @@
+<li
+  [ngClass]="{ 'rounded-b': type === 'bottom', 'rounded-t': type === 'top' }"
+  [class]="
+    optionClass +
+    ' block px-4 py-2 whitespace-no-wrap bg-pink-800 hover:bg-gray-400 cursor-pointer'
+  "
+>
+  <ng-content></ng-content>
+</li>

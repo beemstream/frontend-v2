@@ -12,6 +12,7 @@ import {
   faRunning,
   faMale,
   faStar,
+  IconDefinition,
 } from '@fortawesome/free-solid-svg-icons';
 import { Observable, of } from 'rxjs';
 import { LanguageCode } from './language-code';
@@ -38,6 +39,12 @@ export interface FilterEventPayload {
   value?: string;
 }
 
+export interface CategoryFilter {
+  event: FilterEvents;
+  icon: IconDefinition;
+  value: string;
+}
+
 @Component({
   selector: 'nbp-filters',
   templateUrl: './filters.component.html',
@@ -47,14 +54,17 @@ export interface FilterEventPayload {
 export class FiltersComponent {
   @Input() languages?: Observable<LanguageCode[]> = of([]);
 
-  @Input() programmingLanguages?: Observable<ProgrammingLanguage[]> = of([]);
+  @Input() programmingLanguages: Observable<ProgrammingLanguage[]> = of([]);
 
   @Output() filterChanged = new EventEmitter<FilterEventPayload>();
 
-  @Output() languageChanged = new EventEmitter<LanguageCode>();
+  @Output() languageChanged = new EventEmitter<LanguageCode[]>();
 
   @Output()
   programmingLanguageChanged = new EventEmitter<ProgrammingLanguage | null>();
+
+  @Output()
+  programmingLanguagesChanged = new EventEmitter<ProgrammingLanguage[]>();
 
   @Output() refreshStream = new EventEmitter();
 
@@ -71,39 +81,54 @@ export class FiltersComponent {
 
   faSync = faSync;
 
-  categoryFilters = [
-    {
-      event: this.events.Follows,
-      icon: faStar,
-      value: 'Followed',
-      condition: this.twitchOauthService.getAccessToken().pipe(map((t) => !!t)),
-    },
+  active = {
+    event: this.events.MostPopular,
+    icon: faFire,
+    value: 'Most Popular',
+  };
+
+  categoryFiltersDefaults: CategoryFilter[] = [
     {
       event: this.events.MostPopular,
       icon: faFire,
       value: 'Most Popular',
-      condition: of(true),
     },
     {
       event: this.events.NeedsLove,
       icon: faHeart,
       value: 'Needs Love',
-      condition: of(true),
     },
     {
       event: this.events.MarathonRunners,
       icon: faRunning,
       value: 'Marathon Runners',
-      condition: of(true),
     },
     {
       event: this.events.Starters,
       icon: faMale,
       value: 'Slow Starters',
-      condition: of(true),
     },
   ];
 
+  categoryFilters = this.twitchOauthService.getAccessToken().pipe(
+    map((t) => {
+      return t
+        ? [
+            ...this.categoryFiltersDefaults,
+            {
+              event: this.events.Follows,
+              icon: faStar,
+              value: 'Followed',
+            },
+          ]
+        : this.categoryFiltersDefaults;
+    })
+  );
+
+  handleFilter(filter: CategoryFilter) {
+    this.active = filter;
+    this.emitFilter(filter.event);
+  }
   constructor(private twitchOauthService: TwitchOauthService) {}
 
   emitFilter(event: FilterEvents, elemEvent?: Event) {

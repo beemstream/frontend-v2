@@ -1,0 +1,37 @@
+<ng-template #topTemplate let-option>
+  <div class="text-sm grid grid-cols-2">
+    <a class="text-left cursor-pointer" (click)="selectAll()">Select All</a>
+    <a class="text-right cursor-pointer" (click)="DeselectAll()"
+      >Deselect All</a
+    >
+  </div>
+</ng-template>
+
+<ng-template #template let-option>
+  <div class="inline-flex">
+    <ng-container
+      [ngTemplateOutlet]="optionTemplate"
+      [ngTemplateOutletContext]="{ $implicit: option }"
+    ></ng-container>
+  </div>
+  <span>
+    <input
+      class="float-right mt-2"
+      style="width: 15px; height: 15px; padding-top: 2px"
+      type="checkbox"
+      [checked]="optionsSelected[option]"
+      (change)="selectFilter(option)"
+      [id]="option"
+      [name]="option"
+    />
+  </span>
+</ng-template>
+
+<nbp-dropdown
+  [options]="options"
+  [titleTemplate]="titleTemplate"
+  [topTemplate]="topTemplate"
+  [middleTemplate]="template"
+  [bottomTemplate]="template"
+  (optionClicked)="selectFilter($event)"
+></nbp-dropdown>

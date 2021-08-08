@@ -1,6 +1,5 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
 import { combineLatestWith, map } from 'rxjs/operators';
 import { SeoService } from '../seo.service';
 import { StreamCategoryService } from '../stream-category.service';
@@ -12,7 +11,7 @@ import { TwitchOauthService } from '../twitch-oauth.service';
   styleUrls: ['./home.component.css'],
   providers: [StreamCategoryService],
 })
-export class HomeComponent implements OnDestroy {
+export class HomeComponent {
   streams = this.streamCategoryService.getStreams();
 
   availableLanguages = this.streamCategoryService.getAvailableLanguages();
@@ -20,8 +19,6 @@ export class HomeComponent implements OnDestroy {
   availableProgrammingLanguages = this.streamCategoryService.getAvailableProgrammingLanguages();
 
   templateStreams = this.streams;
-
-  subscription: Subscription;
 
   authStatus = this.twitchOauthService
     .getAccessToken()
@@ -46,7 +43,7 @@ export class HomeComponent implements OnDestroy {
       )
       .addImage('https://beemstream.com/assets/logo.png', 600, 600);
 
-    this.subscription = this.authStatus
+    this.authStatus
       .pipe(
         map(
           ([token, validateToken, qp]) =>
@@ -54,14 +51,10 @@ export class HomeComponent implements OnDestroy {
         )
       )
       .subscribe((isTokenValidated) => {
-        if (isTokenValidated) {
-          this.router.navigate(['/'], { queryParams: { code: null } });
-        }
-      });
-  }
-
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
+        if (!isTokenValidated) return;
+        this.router.navigate(['/'], { queryParams: { code: null } });
+      })
+      .unsubscribe();
   }
 
   forceRefresh() {
