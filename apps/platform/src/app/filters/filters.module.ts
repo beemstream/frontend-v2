@@ -5,26 +5,22 @@ import {
   ButtonModule,
   IconModule,
   ToggleFilterModule,
+  DropdownModule,
+  DropdownFilterSelectModule,
 } from '@frontend-v2/shared-ui';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CommonModule } from '@angular/common';
 import { LayoutDefaultIconComponent } from '../layout-default-icon/layout-default-icon.component';
 import { LayoutTextOnlyIconComponent } from '../layout-text-only-icon/layout-text-only-icon.component';
-import { DropdownFilterComponent } from '../dropdown-filter/dropdown-filter.component';
-import { DropdownFilterSelectComponent } from '../dropdown-filter-select/dropdown-filter-select.component';
-import { DropdownOptionComponent } from '../dropdown-option/dropdown-option.component';
 import { CodeIconComponent } from '../code-icon/code-icon.component';
-import { DropdownComponent } from '../dropdown/dropdown.component';
 import { DropdownCodeLangSelectComponent } from '../dropdown-code-lang-select/dropdown-code-lang-select.component';
 import { DropdownLangSelectComponent } from '../dropdown-lang-select/dropdown-lang-select.component';
+import { DropdownCategoryFilterComponent } from '../dropdown-category-filter/dropdown-category-filter.component';
 
 @NgModule({
   declarations: [
     FiltersComponent,
-    DropdownComponent,
-    DropdownFilterComponent,
-    DropdownFilterSelectComponent,
-    DropdownOptionComponent,
+    DropdownCategoryFilterComponent,
     DropdownCodeLangSelectComponent,
     DropdownLangSelectComponent,
     CodeIconComponent,
@@ -38,6 +34,8 @@ import { DropdownLangSelectComponent } from '../dropdown-lang-select/dropdown-la
     FontAwesomeModule,
     IconModule,
     ToggleFilterModule,
+    DropdownModule,
+    DropdownFilterSelectModule,
   ],
   exports: [FiltersComponent],
 })

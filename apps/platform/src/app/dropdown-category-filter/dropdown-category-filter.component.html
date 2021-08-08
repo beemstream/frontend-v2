@@ -9,11 +9,11 @@
   ><span>{{ active.value }}</span>
 </ng-template>
 
-<nbp-dropdown
+<ui-dropdown
   [options]="options"
   [titleTemplate]="titleTemplate"
   [topTemplate]="template"
   [middleTemplate]="template"
   [bottomTemplate]="template"
   (optionClicked)="handleSelection($event)"
-></nbp-dropdown>
+></ui-dropdown>

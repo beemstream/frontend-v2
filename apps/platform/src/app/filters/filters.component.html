@@ -9,12 +9,12 @@
       class="w-full h-8 mt-2 mb-2 mr-2 bg-gray-800 lg:w-auto md:w-auto lg:mb-0 md:mb-0 rounded-md"
     />
     <div class="inline-block sm:pt-2">
-      <nbp-dropdown-filter
+      <nbp-dropdown-category-filter
         class="pr-2"
         [options]="(categoryFilters | async) || []"
         [active]="active"
         (activeChanged)="handleFilter($event)"
-      ></nbp-dropdown-filter>
+      ></nbp-dropdown-category-filter>
       <nbp-dropdown-code-lang-select
         class="pr-2"
         *ngIf="programmingLanguages | async as langs"
@@ -35,7 +35,7 @@
       <nbp-dropdown-lang-select
         *ngIf="languages | async as langs"
         (languagesChanged)="languageChanged.emit($event)"
-        [languages]="langs"
+        [languages]="$any(langs)"
       ></nbp-dropdown-lang-select>
     </div>
   </div>

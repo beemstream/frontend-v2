@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 
 @Component({
-  selector: 'nbp-dropdown-filter-select',
+  selector: 'ui-dropdown-filter-select',
   templateUrl: './dropdown-filter-select.component.html',
   styleUrls: ['./dropdown-filter-select.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,

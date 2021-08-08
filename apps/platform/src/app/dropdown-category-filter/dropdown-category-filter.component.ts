@@ -8,12 +8,12 @@ import {
 import { CategoryFilter } from '../filters/filters.component';
 
 @Component({
-  selector: 'nbp-dropdown-filter',
-  templateUrl: './dropdown-filter.component.html',
-  styleUrls: ['./dropdown-filter.component.css'],
+  selector: 'nbp-dropdown-category-filter',
+  templateUrl: './dropdown-category-filter.component.html',
+  styleUrls: ['./dropdown-category-filter.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DropdownFilterComponent {
+export class DropdownCategoryFilterComponent {
   @Output()
   activeChanged = new EventEmitter();
 

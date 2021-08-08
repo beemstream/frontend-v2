@@ -36,7 +36,7 @@
     <li>
       <ul class="absolute w-full pt-1 dropdown-menu">
         <ng-container *ngFor="let option of options; let i = index">
-          <nbp-dropdown-option
+          <ui-dropdown-option
             (click)="optionClicked.emit(option)"
             *ngIf="i === 0"
             type="top"
@@ -45,9 +45,9 @@
               [ngTemplateOutlet]="topTemplate || defaultTemplate"
               [ngTemplateOutletContext]="{ $implicit: option, index: i }"
             ></ng-container>
-          </nbp-dropdown-option>
+          </ui-dropdown-option>
 
-          <nbp-dropdown-option
+          <ui-dropdown-option
             (click)="optionClicked.emit(option)"
             *ngIf="i !== options.length - 1 && i !== 0"
             type="middle"
@@ -56,9 +56,9 @@
               [ngTemplateOutlet]="middleTemplate || defaultTemplate"
               [ngTemplateOutletContext]="{ $implicit: option, index: i }"
             ></ng-container>
-          </nbp-dropdown-option>
+          </ui-dropdown-option>
 
-          <nbp-dropdown-option
+          <ui-dropdown-option
             *ngIf="i === options.length - 1"
             type="bottom"
             (click)="optionClicked.emit(option)"
@@ -67,7 +67,7 @@
               [ngTemplateOutlet]="bottomTemplate || defaultTemplate"
               [ngTemplateOutletContext]="{ $implicit: option, index: i }"
             ></ng-container>
-          </nbp-dropdown-option>
+          </ui-dropdown-option>
         </ng-container>
       </ul>
     </li>

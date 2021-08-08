@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'nbp-dropdown-option',
+  selector: 'ui-dropdown-option',
   templateUrl: './dropdown-option.component.html',
   styleUrls: ['./dropdown-option.component.css'],
 })
