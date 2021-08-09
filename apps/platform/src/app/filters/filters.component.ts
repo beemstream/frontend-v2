@@ -61,9 +61,6 @@ export class FiltersComponent {
   @Output() languageChanged = new EventEmitter<LanguageCode[]>();
 
   @Output()
-  programmingLanguageChanged = new EventEmitter<ProgrammingLanguage | null>();
-
-  @Output()
   programmingLanguagesChanged = new EventEmitter<ProgrammingLanguage[]>();
 
   @Output() refreshStream = new EventEmitter();
