@@ -26,4 +26,18 @@ export class DropdownComponent {
   bottomTemplate!: TemplateRef<unknown>;
   @Output()
   optionClicked = new EventEmitter();
+  optionDisplay = '0';
+
+  handleDropdownMenuClick(elem: HTMLUListElement) {
+    const opacity = getComputedStyle(elem).getPropertyValue('opacity');
+    this.optionDisplay = opacity === '0' ? '1' : '0';
+  }
+
+  handleDropdownMouseOver() {
+    this.optionDisplay = '1';
+  }
+
+  handleDropdownMouseOut() {
+    this.optionDisplay = '0';
+  }
 }

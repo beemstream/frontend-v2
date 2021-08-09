@@ -6,13 +6,15 @@
   <li>{{ options[0] }}</li>
 </ng-template>
 
-<div style="z-index: 3" class="relative inline-block text-left">
-  <ul class="relative inline-block text-white dropdown">
-    <li>
+<div class="relative text-left">
+  <ul
+    (mouseout)="handleDropdownMouseOut()"
+    (mouseover)="handleDropdownMouseOver()"
+    class="relative text-white dropdown"
+  >
+    <li (click)="handleDropdownMenuClick(optionsElem)">
       <button
-        class="inline-flex px-2 py-1 font-semibold text-left bg-pink-800 rounded"
-        style="min-width: 201px"
-        #mainSelect
+        class="inline-flex w-full px-2 py-1 font-semibold text-left bg-pink-800 rounded whitespace-nowrap"
       >
         <span class="inline-flex w-full pl-2 mr-1">
           <ng-container
@@ -34,7 +36,12 @@
       </button>
     </li>
     <li>
-      <ul class="absolute w-full pt-1 dropdown-menu">
+      <ul
+        #optionsElem
+        [ngStyle]="{ opacity: optionDisplay }"
+        class="absolute w-full pt-1 dropdown-menu"
+        style="z-index: 5"
+      >
         <ng-container *ngFor="let option of options; let i = index">
           <ui-dropdown-option
             (click)="optionClicked.emit(option)"

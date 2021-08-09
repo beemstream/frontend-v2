@@ -7,4 +7,4 @@ export * from './lib/toggle-filter/toggle-filter.module';
 export * from './lib/pipes/index';
 export * from './lib/header/header.module';
 export * from './lib/programming-language-icon';
-export * from './lib/dropdown/index';
+export * from './lib/dropdown';
