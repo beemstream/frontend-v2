@@ -24,8 +24,11 @@ export class DropdownComponent {
   middleTemplate!: TemplateRef<unknown>;
   @Input()
   bottomTemplate!: TemplateRef<unknown>;
+  @Input()
+  closeOnClick = false;
   @Output()
   optionClicked = new EventEmitter();
+
   optionDisplay = '0';
 
   handleDropdownMenuClick(elem: HTMLUListElement) {
@@ -37,7 +40,10 @@ export class DropdownComponent {
     this.optionDisplay = '1';
   }
 
-  handleDropdownMouseOut() {
-    this.optionDisplay = '0';
+  handleOptionClick(option: unknown) {
+    this.optionClicked.emit(option);
+    if (this.closeOnClick) {
+      this.optionDisplay = '0';
+    }
   }
 }
