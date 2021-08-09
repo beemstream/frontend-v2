@@ -54,6 +54,9 @@ export class TwitchOauthService {
     private route: ActivatedRoute,
     private localStorage: LocalstorageService
   ) {
+    this.accessToken.next(null);
+    this.validateUserToken.next(null);
+
     if (this.storedToken) {
       if (!isDateExpired(this.storedToken.expiry_time)) {
         this.accessToken.next(this.storedToken);

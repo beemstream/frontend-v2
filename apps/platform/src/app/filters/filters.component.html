@@ -1,4 +1,4 @@
-<div class="mt-10 mb-10 grid grid-cols-6">
+<div class="mt-10 mb-5 grid grid-cols-6">
   <div class="pr-24 col-span-5">
     <input
       aria-label="Search"
@@ -8,18 +8,6 @@
       type="text"
       class="w-full h-8 mt-2 mb-2 mr-2 bg-gray-800 lg:w-auto md:w-auto lg:mb-0 md:mb-0 rounded-md"
     />
-    <div
-      class="inline-block"
-      *ngFor="let filter of categoryFilters; trackBy: trackCategoryFilters"
-    >
-      <ui-button
-        *ngIf="filter.condition | async"
-        [active]="filtersStatus[filter.event]"
-        (clicked)="emitFilter(filter.event)"
-        [value]="filter.value"
-        ><fa-icon [icon]="filter.icon"></fa-icon
-      ></ui-button>
-    </div>
   </div>
   <div class="flex justify-end">
     <ui-button (clicked)="layoutChanged.emit(layout.Default)">
@@ -33,16 +21,34 @@
     </ui-button>
   </div>
 </div>
-<ui-toggle-filter
-  [toggleFilters]="programmingLanguages | async"
-  [showIcon]="true"
-  (filterChanged)="programmingLanguageChanged.emit($event)"
-></ui-toggle-filter>
-<div class="pt-2">
-  <ui-toggle-filter
-    [toggleFilters]="languages | async"
-    [showValue]="true"
-    (filterChanged)="languageChanged.emit($event)"
+<div class="inline-flex flex-col w-full pt-2 lg:flex-row md:flex-row">
+  <nbp-dropdown-category-filter
+    class="pb-2 pr-2"
+    [options]="(categoryFilters | async) || []"
+    [active]="active"
+    (activeChanged)="handleFilter($event)"
+  ></nbp-dropdown-category-filter>
+  <nbp-dropdown-code-lang-select
+    class="pb-2 pr-2"
+    *ngIf="programmingLanguages | async as langs"
+    (optionsSelectedChanged)="programmingLanguagesChanged.emit($event)"
+    [options]="(programmingLanguages | async) || []"
   >
-  </ui-toggle-filter>
+  </nbp-dropdown-code-lang-select>
+  <ng-template #template let-option>
+    <div class="w-full h-full" (click)="languageChanged.emit(option)">
+      <a> {{ option }} </a>
+    </div>
+  </ng-template>
+
+  <ng-template #titleTemplate>
+    <span>Languages</span>
+  </ng-template>
+
+  <nbp-dropdown-lang-select
+    class="pb-2 pr-2"
+    *ngIf="languages | async as langs"
+    (languagesChanged)="languageChanged.emit($event)"
+    [languages]="$any(langs)"
+  ></nbp-dropdown-lang-select>
 </div>

@@ -1,0 +1,16 @@
+<ng-template #optionTemplate let-option>
+  <span>{{ $any(languageMappings)[option].nativeName | titlecase }}</span>
+</ng-template>
+
+<ng-template #titleTemplate>
+  <ui-icon class="pr-2" [icon]="faGlobe" iconSource="fa"></ui-icon>
+  Languages
+</ng-template>
+
+<ui-dropdown-filter-select
+  [options]="languages"
+  [titleTemplate]="titleTemplate"
+  [optionTemplate]="optionTemplate"
+  (optionsSelectedChanged)="languagesChanged.emit($event)"
+>
+</ui-dropdown-filter-select>

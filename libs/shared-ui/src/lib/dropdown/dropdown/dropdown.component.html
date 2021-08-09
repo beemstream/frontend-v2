@@ -1,0 +1,82 @@
+<ng-template #defaultTemplate let-option>
+  <li>{{ option }}</li>
+</ng-template>
+
+<ng-template #defaultTitleTemplate let-option>
+  <li>{{ options[0] }}</li>
+</ng-template>
+
+<div class="relative text-left">
+  <ul
+    (mouseout)="handleDropdownMouseOut()"
+    (mouseover)="handleDropdownMouseOver()"
+    class="relative text-white dropdown"
+  >
+    <li (click)="handleDropdownMenuClick(optionsElem)">
+      <button
+        class="inline-flex w-full px-2 py-1 font-semibold text-left bg-pink-800 rounded whitespace-nowrap"
+      >
+        <span class="inline-flex w-full pl-2 mr-1">
+          <ng-container
+            [ngTemplateOutlet]="titleTemplate || defaultTitleTemplate"
+            [ngTemplateOutletContext]="{ $implicit: title }"
+          ></ng-container>
+        </span>
+        <span class="text-right">
+          <svg
+            class="w-4 h-6 fill-current"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+          >
+            <path
+              d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"
+            />
+          </svg>
+        </span>
+      </button>
+    </li>
+    <li>
+      <ul
+        #optionsElem
+        [ngStyle]="{ opacity: optionDisplay }"
+        class="absolute w-full pt-1 dropdown-menu"
+        style="z-index: 5"
+      >
+        <ng-container *ngFor="let option of options; let i = index">
+          <ui-dropdown-option
+            (click)="optionClicked.emit(option)"
+            *ngIf="i === 0"
+            type="top"
+          >
+            <ng-container
+              [ngTemplateOutlet]="topTemplate || defaultTemplate"
+              [ngTemplateOutletContext]="{ $implicit: option, index: i }"
+            ></ng-container>
+          </ui-dropdown-option>
+
+          <ui-dropdown-option
+            (click)="optionClicked.emit(option)"
+            *ngIf="i !== options.length - 1 && i !== 0"
+            type="middle"
+          >
+            <ng-container
+              [ngTemplateOutlet]="middleTemplate || defaultTemplate"
+              [ngTemplateOutletContext]="{ $implicit: option, index: i }"
+            ></ng-container>
+          </ui-dropdown-option>
+
+          <ui-dropdown-option
+            *ngIf="i === options.length - 1"
+            type="bottom"
+            (click)="optionClicked.emit(option)"
+          >
+            <ng-container
+              [ngTemplateOutlet]="bottomTemplate || defaultTemplate"
+              [ngTemplateOutletContext]="{ $implicit: option, index: i }"
+            ></ng-container>
+          </ui-dropdown-option>
+        </ng-container>
+      </ul>
+    </li>
+  </ul>
+</div>

@@ -8,3 +8,7 @@
   opacity: 0;
   transition: visibility 0s, opacity 150ms ease;
 }
+
+li {
+  width: 100%;
+}

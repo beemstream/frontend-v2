@@ -1,4 +1,5 @@
-import { Observable, of, zip } from 'rxjs';
+import { flatten } from '@angular/compiler';
+import { combineLatest, Observable, of, zip } from 'rxjs';
 import { filter, map, mergeMap, scan, switchMap } from 'rxjs/operators';
 import { StreamInfo } from '../stream-info';
 import { compareStr } from './compareStr';
@@ -57,6 +58,7 @@ export enum ProgrammingLanguage {
   CPP = 'cpp',
   PHP = 'php',
   Kotlin = 'kotlin',
+  Uncategorized = 'uncategorized',
 }
 
 const KEYWORD_MAP = {
@@ -92,6 +94,21 @@ export function getAvailableProgrammingLanguages(
   );
 }
 
+export const searchKeywords = (k: string, s: StreamInfo) => {
+  if (k.includes('-w')) {
+    const keyword = k.split('-w')[1].trim();
+    const lower = s.title.toLowerCase();
+
+    return !!lower.match(new RegExp(String.raw`\b${keyword}\b`, 'g'));
+  }
+  if (k.includes('-')) {
+    return !compareStr(s.title, k);
+  }
+  return compareStr(s.title, k);
+};
+
+type KeywordMapKey = keyof typeof KEYWORD_MAP;
+
 export function filterByProgrammingLanguage(
   stream: Observable<StreamInfo[]>,
   language: ProgrammingLanguage
@@ -99,18 +116,17 @@ export function filterByProgrammingLanguage(
   return stream.pipe(
     mergeMap((s) => s),
     filter((s) => {
-      return KEYWORD_MAP[language].some((k) => {
-        if (k.includes('-w')) {
-          const keyword = k.split('-w')[1].trim();
-          const lower = s.title.toLowerCase();
-
-          return lower.match(new RegExp(String.raw`\b${keyword}\b`, 'g'));
-        }
-        if (k.includes('-')) {
-          return !compareStr(s.title, k);
-        }
-        return compareStr(s.title, k);
-      });
+      if (language === ProgrammingLanguage.Uncategorized) {
+        return Object.keys(KEYWORD_MAP)
+          .filter((k) => k !== ProgrammingLanguage.Uncategorized)
+          .every(
+            (k) =>
+              KEYWORD_MAP[k as KeywordMapKey].some((keyword: string) =>
+                searchKeywords(keyword, s)
+              ) === false
+          );
+      }
+      return KEYWORD_MAP[language].some((k) => searchKeywords(k, s));
     }),
     scan((acc: StreamInfo[], value) => {
       const isAdded = acc.some((k) => k.id === value.id);
@@ -119,5 +135,25 @@ export function filterByProgrammingLanguage(
       }
       return acc;
     }, [])
+  );
+}
+
+export function filterByProgrammingLanguages(
+  stream: Observable<StreamInfo[]>,
+  language: ProgrammingLanguage[]
+) {
+  if (language.length === 0) return of([]);
+
+  return combineLatest(
+    language.map((l) => filterByProgrammingLanguage(stream, l))
+  ).pipe(
+    map((s) => {
+      return flatten(s).reduce((acc, stream) => {
+        if (!acc.some((storedStream) => storedStream.id === stream.id)) {
+          acc.push(stream);
+        }
+        return acc;
+      }, [] as StreamInfo[]);
+    })
   );
 }

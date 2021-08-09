@@ -13,7 +13,7 @@ import {
   shareReplay,
 } from 'rxjs/operators';
 import { StreamInfo } from '../stream-info';
-import { filterByProgrammingLanguage, ProgrammingLanguage } from '../utils';
+import { filterByProgrammingLanguages, ProgrammingLanguage } from '../utils';
 import { filterStreamBySearchTerm } from '../utils/filterStreamBySearchTerm';
 
 export const STREAM_LIST = new InjectionToken<ReplaySubject<StreamInfo[]>>(
@@ -24,12 +24,12 @@ export const streamListFactory = () => {
   return new ReplaySubject<Observable<StreamInfo[]>>();
 };
 
-export const STREAM_LANGUAGE = new InjectionToken<BehaviorSubject<string>>(
+export const STREAM_LANGUAGE = new InjectionToken<BehaviorSubject<string[]>>(
   'STREAM_LANGUAGE'
 );
 
-export const languageFactory = (): BehaviorSubject<string> => {
-  return new BehaviorSubject<string>('');
+export const languageFactory = (): BehaviorSubject<string[] | null> => {
+  return new BehaviorSubject<string[] | null>(null);
 };
 
 export const STREAM_PROGRAMMING_LANGUAGE = new InjectionToken<
@@ -54,23 +54,30 @@ export const STREAM_FILTERED_LANGUAGE = new InjectionToken<
 
 export const streamFilteredLanguageFactory = (
   streams: ReplaySubject<Observable<StreamInfo[]>>,
-  language: BehaviorSubject<string>,
+  language: BehaviorSubject<string[]>,
   searchTerm: BehaviorSubject<string>,
-  programmingLanguage: BehaviorSubject<ProgrammingLanguage>
+  programmingLanguages: BehaviorSubject<ProgrammingLanguage[]>
 ) => {
   const streamsUnpacked = streams.pipe(switchMap((s) => s));
 
   const search = searchTerm.pipe(debounceTime(200), distinctUntilChanged());
 
-  return combineLatest([language, search, programmingLanguage]).pipe(
+  return combineLatest([language, search, programmingLanguages]).pipe(
     switchMap(([lang, searchTerm, pLanguage]) => {
       const streamList = pLanguage
-        ? filterByProgrammingLanguage(streamsUnpacked, pLanguage)
+        ? filterByProgrammingLanguages(streamsUnpacked, pLanguage)
         : streamsUnpacked;
 
       return streamList.pipe(
-        map((s) => s.filter((s) => (lang ? s.language === lang : true))),
-        map((s) => filterStreamBySearchTerm(s, searchTerm))
+        map((s) => {
+          return !lang
+            ? s
+            : s.filter((s) => {
+                return lang.some((l) => s.language === l);
+              });
+        }),
+        map((s) => filterStreamBySearchTerm(s, searchTerm)),
+        shareReplay(1)
       );
     }),
     shareReplay(1)
