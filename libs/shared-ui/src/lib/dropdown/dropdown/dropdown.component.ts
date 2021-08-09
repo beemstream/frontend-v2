@@ -5,6 +5,7 @@ import {
   Output,
   TemplateRef,
 } from '@angular/core';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
   selector: 'ui-dropdown',
@@ -29,21 +30,28 @@ export class DropdownComponent {
   @Output()
   optionClicked = new EventEmitter();
 
-  optionDisplay = '0';
+  optionStyle = { opacity: '0', display: 'none' };
+
+  constructor(private deviceService: DeviceDetectorService) {}
 
   handleDropdownMenuClick(elem: HTMLUListElement) {
     const opacity = getComputedStyle(elem).getPropertyValue('opacity');
-    this.optionDisplay = opacity === '0' ? '1' : '0';
+    const display = getComputedStyle(elem).getPropertyValue('display');
+    const newOpacity = opacity === '0' ? '1' : '0';
+    const newDisplay = display === 'block' ? 'none' : 'block';
+    this.optionStyle = { opacity: newOpacity, display: newDisplay };
   }
 
   handleDropdownMouseOver() {
-    this.optionDisplay = '1';
+    if (this.deviceService.isDesktop()) {
+      this.optionStyle = { opacity: '1', display: 'block' };
+    }
   }
 
   handleOptionClick(option: unknown) {
     this.optionClicked.emit(option);
     if (this.closeOnClick) {
-      this.optionDisplay = '0';
+      this.optionStyle = { opacity: '0', display: 'none' };
     }
   }
 }
