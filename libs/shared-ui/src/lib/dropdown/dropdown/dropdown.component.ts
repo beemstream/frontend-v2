@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
@@ -11,6 +12,7 @@ import { DeviceDetectorService } from 'ngx-device-detector';
   selector: 'ui-dropdown',
   templateUrl: './dropdown.component.html',
   styleUrls: ['./dropdown.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DropdownComponent {
   @Input()
