@@ -54,4 +54,8 @@ export class DropdownComponent {
       this.optionStyle = { opacity: '0', display: 'none' };
     }
   }
+
+  trackByItemName(_i: number, item: unknown) {
+    return JSON.stringify(item);
+  }
 }

@@ -30,8 +30,4 @@ export class DropdownCategoryFilterComponent {
     this.active = item;
     this.activeChanged.emit(item);
   }
-
-  trackByIndex(i: number) {
-    return i;
-  }
 }
