@@ -285,7 +285,7 @@ export const ISO_LANGUAGE = {
   },
   ja: {
     name: 'Japanese',
-    nativeName: '日本語 (にほんご／にっぽんご)',
+    nativeName: '日本語',
   },
   jv: {
     name: 'Javanese',
