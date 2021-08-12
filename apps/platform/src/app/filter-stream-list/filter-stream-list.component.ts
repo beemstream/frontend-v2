@@ -43,9 +43,8 @@ export class FilterStreamListComponent implements OnInit, OnChanges {
 
   @Input() availableLanguages?: Observable<LanguageCode[]> = of([]);
 
-  @Input() availableProgrammingLanguages: Observable<
-    ProgrammingLanguage[]
-  > = of([]);
+  @Input() availableProgrammingLanguages: Observable<ProgrammingLanguage[]> =
+    of([]);
 
   @Output() refreshStream = new EventEmitter<string>();
 

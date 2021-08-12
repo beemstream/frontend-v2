@@ -29,13 +29,13 @@ export interface TwitchValidateToken {
 })
 export class TwitchOauthService {
   private accessToken: ReplaySubject<TwitchToken | null> = new ReplaySubject();
-  private validateUserToken: ReplaySubject<TwitchValidateToken | null> = new ReplaySubject();
+  private validateUserToken: ReplaySubject<TwitchValidateToken | null> =
+    new ReplaySubject();
 
   storedToken: StoredTwitchToken | null = this.localStorage.getItem('token');
 
-  storedUserToken: TwitchValidateToken | null = this.localStorage.getItem(
-    'userToken'
-  );
+  storedUserToken: TwitchValidateToken | null =
+    this.localStorage.getItem('userToken');
 
   refreshTokenAuth = this.fetchAccessTokenWithRefresh(
     this.storedToken?.access_token

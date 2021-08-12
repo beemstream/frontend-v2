@@ -16,7 +16,8 @@ export class HomeComponent {
 
   availableLanguages = this.streamCategoryService.getAvailableLanguages();
 
-  availableProgrammingLanguages = this.streamCategoryService.getAvailableProgrammingLanguages();
+  availableProgrammingLanguages =
+    this.streamCategoryService.getAvailableProgrammingLanguages();
 
   templateStreams = this.streams;
 

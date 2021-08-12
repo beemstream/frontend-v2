@@ -36,9 +36,10 @@ export const STREAM_PROGRAMMING_LANGUAGE = new InjectionToken<
   BehaviorSubject<string>
 >('STREAM_LANGUAGE');
 
-export const programmingLanguageFactory = (): BehaviorSubject<ProgrammingLanguage | null> => {
-  return new BehaviorSubject<ProgrammingLanguage | null>(null);
-};
+export const programmingLanguageFactory =
+  (): BehaviorSubject<ProgrammingLanguage | null> => {
+    return new BehaviorSubject<ProgrammingLanguage | null>(null);
+  };
 
 export const SEARCH_TERM = new InjectionToken<
   BehaviorSubject<string | undefined>

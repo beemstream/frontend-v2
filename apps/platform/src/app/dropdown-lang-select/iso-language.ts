@@ -472,8 +472,7 @@ export const ISO_LANGUAGE = {
     nativeName: 'ᐊᓂᔑᓈᐯᒧᐎᓐ',
   },
   cu: {
-    name:
-      'Old Church Slavonic, Church Slavic, Church Slavonic, Old Bulgarian, Old Slavonic',
+    name: 'Old Church Slavonic, Church Slavic, Church Slavonic, Old Bulgarian, Old Slavonic',
     nativeName: 'ѩзыкъ словѣньскъ',
   },
   om: {
