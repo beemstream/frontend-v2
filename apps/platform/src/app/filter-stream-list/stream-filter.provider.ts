@@ -77,8 +77,7 @@ export const streamFilteredLanguageFactory = (
                 return lang.some((l) => s.language === l);
               });
         }),
-        map((s) => filterStreamBySearchTerm(s, searchTerm)),
-        shareReplay(1)
+        map((s) => filterStreamBySearchTerm(s, searchTerm))
       );
     }),
     shareReplay(1)
