@@ -21,11 +21,15 @@ export const StreamQueryFilters = [
   StreamLanguageProvider,
   StreamProgrammingLanguageProvider,
   StreamListProvider,
+  SearchTermProvider,
   StreamFilteredLanguageProvider,
   MostPopularProvider,
   NeedsLoveProvider,
   MarathonRunnersProvider,
   SlowStartersProvider,
-  SearchTermProvider,
   UserFollowsProvider,
 ];
+
+export * from './filterByCategory';
+export * from './filterByLanguage';
+export * from './filterByProgrammingLanguages';

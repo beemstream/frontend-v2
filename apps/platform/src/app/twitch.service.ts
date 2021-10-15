@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { EMPTY, Observable, ReplaySubject } from 'rxjs';
-import { share, switchMap, tap } from 'rxjs/operators';
+import { share, shareReplay, switchMap, tap } from 'rxjs/operators';
 import { environment } from '../environments/environment';
 import { TwitchOauthService } from './twitch-oauth.service';
 
@@ -27,9 +27,7 @@ export class TwitchService {
   constructor(
     private httpClient: HttpClient,
     private twitchOauthService: TwitchOauthService
-  ) {
-    this.getUserFollows().subscribe();
-  }
+  ) {}
 
   getUserFollows(): Observable<UserFollow[]> {
     return this.twitchOauthService

@@ -7,6 +7,8 @@ import {
   StreamCardModule,
 } from '@frontend-v2/shared-ui';
 import { FiltersModule } from '../filters/filters.module';
+import { StreamFilterService } from '../stream-filter.service';
+import { StreamQueryFilters } from './attribute-filters';
 import { FilterStreamListComponent } from './filter-stream-list.component';
 
 @NgModule({
@@ -19,6 +21,7 @@ import { FilterStreamListComponent } from './filter-stream-list.component';
     FiltersModule,
     ButtonModule,
   ],
+  providers: [StreamFilterService, StreamQueryFilters],
   exports: [FilterStreamListComponent],
 })
 export class FilterStreamListModule {}

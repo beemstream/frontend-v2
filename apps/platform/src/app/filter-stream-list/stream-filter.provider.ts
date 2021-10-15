@@ -4,6 +4,7 @@ import {
   Observable,
   BehaviorSubject,
   combineLatest,
+  of,
 } from 'rxjs';
 import {
   switchMap,
@@ -60,14 +61,19 @@ export const streamFilteredLanguageFactory = (
   programmingLanguages: BehaviorSubject<ProgrammingLanguage[]>
 ) => {
   const streamsUnpacked = streams.pipe(switchMap((s) => s));
-
   const search = searchTerm.pipe(debounceTime(200), distinctUntilChanged());
 
-  return combineLatest([language, search, programmingLanguages]).pipe(
-    switchMap(([lang, searchTerm, pLanguage]) => {
+  return combineLatest([
+    streamsUnpacked,
+    language,
+    search,
+    programmingLanguages,
+  ]).pipe(
+    switchMap(([latestStreams, lang, searchTerm, pLanguage]) => {
+      console.log(lang, pLanguage);
       const streamList = pLanguage
-        ? filterByProgrammingLanguages(streamsUnpacked, pLanguage)
-        : streamsUnpacked;
+        ? filterByProgrammingLanguages(of(latestStreams), pLanguage)
+        : of(latestStreams);
 
       return streamList.pipe(
         map((s) => {

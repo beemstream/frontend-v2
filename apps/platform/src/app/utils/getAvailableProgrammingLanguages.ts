@@ -61,7 +61,7 @@ export enum ProgrammingLanguage {
   Uncategorized = 'uncategorized',
 }
 
-const KEYWORD_MAP = {
+export const KEYWORD_MAP = {
   [ProgrammingLanguage.Javascript]: JAVASCRIPT,
   [ProgrammingLanguage.TypeScript]: TYPESCRIPT,
   [ProgrammingLanguage.Rust]: RUST,
@@ -107,7 +107,7 @@ export const searchKeywords = (k: string, s: StreamInfo) => {
   return compareStr(s.title, k);
 };
 
-type KeywordMapKey = keyof typeof KEYWORD_MAP;
+export type KeywordMapKey = keyof typeof KEYWORD_MAP;
 
 export function filterByProgrammingLanguage(
   stream: Observable<StreamInfo[]>,
