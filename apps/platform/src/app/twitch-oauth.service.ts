@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { EMPTY, Observable, of, ReplaySubject, timer } from 'rxjs';
-import { concatMap, share, switchMap, tap } from 'rxjs/operators';
+import { concatMap, switchMap, tap } from 'rxjs/operators';
 import { environment } from '../environments/environment';
 import { LocalstorageService } from './localstorage.service';
 import { getExpiryTime, isDateExpired } from './utils';

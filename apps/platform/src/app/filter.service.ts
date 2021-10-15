@@ -6,12 +6,13 @@ import { StreamInfo } from './stream-info';
 
 export type FilterFn = (
   streams: StreamInfo[],
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   filter: any
 ) => Observable<StreamInfo[]>;
 
 export interface StreamFilter {
   name: string;
-  attribute: Observable<any>;
+  attribute: Observable<unknown>;
   filterSwitchMap?: FilterFn;
 }
 
@@ -39,7 +40,7 @@ export class FilterService {
         });
 
         return of(streams ?? []).pipe(
-          ...(operators as [OperatorFunction<any, any>])
+          ...(operators as [OperatorFunction<unknown, StreamInfo[]>])
         );
       })
     );

@@ -82,9 +82,7 @@ export class FilterStreamListComponent implements OnChanges {
     { name: 'streams', attribute: this.streamsSubject.asObservable() },
   ];
 
-  filter$: Observable<StreamInfo[]> = this.filterService.createFilters(
-    this.filters
-  );
+  filteredStreams = this.filterService.createFilters(this.filters);
 
   constructor(
     private filterService: FilterService,
