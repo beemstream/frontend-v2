@@ -16,10 +16,11 @@ import { LanguageCode } from '../filters/language-code';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { FilterService, StreamFilter } from '../filter.service';
 import {
-  CategoryFilterService,
+  filterByCategory,
   filterByLanguage,
   filterByProgrammingLanguages,
 } from './attribute-filters';
+import { TwitchService } from '../twitch.service';
 
 @Component({
   selector: 'nbp-filter-stream-list',
@@ -59,7 +60,7 @@ export class FilterStreamListComponent implements OnChanges {
     {
       name: 'category',
       attribute: this.categoryFilter.asObservable(),
-      filterSwitchMap: this.categoryFilterService.filterByCategoryMap,
+      filterSwitchMap: filterByCategory(this.twitchService),
     },
     {
       name: 'searchTerm',
@@ -86,7 +87,7 @@ export class FilterStreamListComponent implements OnChanges {
 
   constructor(
     private filterService: FilterService,
-    private categoryFilterService: CategoryFilterService
+    private twitchService: TwitchService
   ) {}
 
   ngOnChanges(): void {

@@ -5,7 +5,7 @@ import { FilterEvents } from '../../filters/filters.component';
 import { StreamInfo } from '../../stream-info';
 import { TwitchService } from '../../twitch.service';
 
-export const categoryFilterMap: Record<
+const categoryFilterMap: Record<
   string,
   (
     stream: StreamInfo[],
@@ -41,11 +41,8 @@ export const categoryFilterMap: Record<
   [FilterEvents.Search]: (stream: StreamInfo[]) => of(stream),
 };
 
-@Injectable({ providedIn: 'root' })
-export class CategoryFilterService {
-  constructor(private twitchService: TwitchService) {}
-
-  filterByCategoryMap(streams: StreamInfo[], filter: FilterEvents) {
-    return categoryFilterMap[filter](streams, { service: this.twitchService });
-  }
-}
+export const filterByCategory =
+  (twitchService: TwitchService) =>
+  (streams: StreamInfo[], filter: FilterEvents) => {
+    return categoryFilterMap[filter](streams, { service: twitchService });
+  };
