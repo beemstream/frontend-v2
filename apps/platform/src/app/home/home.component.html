@@ -13,7 +13,7 @@
     development categories.
   </p>
   <nbp-filter-stream-list
-    [streamCategoryList]="templateStreams"
+    [streamCategoryList]="templateStreams | async"
     [availableLanguages]="availableLanguages"
     [availableProgrammingLanguages]="availableProgrammingLanguages"
     (refreshStream)="forceRefresh()"

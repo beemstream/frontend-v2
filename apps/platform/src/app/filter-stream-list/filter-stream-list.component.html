@@ -7,7 +7,7 @@
   (refreshStream)="forceRefresh()"
   (layoutChanged)="changeLayout($event)"
 ></nbp-filters>
-<div *ngIf="templateStreams | async as templateStreams$">
+<div *ngIf="filteredStreams | async as templateStreams$">
   <div
     class="pt-10 text-center"
     *ngIf="templateStreams$.length === 0; else streamList"

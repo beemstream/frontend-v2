@@ -13,7 +13,7 @@
       [innerHTML]="templateDesciption[category$] | escapeHtml"
     ></p>
     <nbp-filter-stream-list
-      [streamCategoryList]="templateStreams"
+      [streamCategoryList]="templateStreams | async"
       (refreshStream)="forceRefresh(category$)"
       [availableLanguages]="availableLanguages"
       [availableProgrammingLanguages]="availableProgrammingLanauges"

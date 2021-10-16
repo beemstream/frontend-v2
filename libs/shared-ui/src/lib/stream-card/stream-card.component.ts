@@ -3,7 +3,6 @@ import {
   Component,
   Input,
   OnChanges,
-  SimpleChanges,
 } from '@angular/core';
 import { faEye, faUser } from '@fortawesome/free-solid-svg-icons';
 

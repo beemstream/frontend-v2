@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { combineLatestWith, map } from 'rxjs/operators';
+import { combineLatestWith, map, tap } from 'rxjs/operators';
 import { SeoService } from '../seo.service';
 import { StreamCategoryService } from '../stream-category.service';
 import { TwitchOauthService } from '../twitch-oauth.service';
@@ -16,7 +16,8 @@ export class HomeComponent {
 
   availableLanguages = this.streamCategoryService.getAvailableLanguages();
 
-  availableProgrammingLanguages = this.streamCategoryService.getAvailableProgrammingLanguages();
+  availableProgrammingLanguages =
+    this.streamCategoryService.getAvailableProgrammingLanguages();
 
   templateStreams = this.streams;
 
@@ -48,13 +49,13 @@ export class HomeComponent {
         map(
           ([token, validateToken, qp]) =>
             !!token && !!validateToken && !!qp.code
-        )
+        ),
+        tap((isTokenValidated) => {
+          if (!isTokenValidated) return;
+          this.router.navigate(['/'], { queryParams: { code: null } });
+        })
       )
-      .subscribe((isTokenValidated) => {
-        if (!isTokenValidated) return;
-        this.router.navigate(['/'], { queryParams: { code: null } });
-      })
-      .unsubscribe();
+      .subscribe();
   }
 
   forceRefresh() {

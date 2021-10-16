@@ -28,25 +28,28 @@ export interface TwitchValidateToken {
   providedIn: 'root',
 })
 export class TwitchOauthService {
-  private accessToken: ReplaySubject<TwitchToken | null> = new ReplaySubject();
-  private validateUserToken: ReplaySubject<TwitchValidateToken | null> = new ReplaySubject();
+  private accessToken: ReplaySubject<StoredTwitchToken | null> =
+    new ReplaySubject();
+  private validateUserToken: ReplaySubject<TwitchValidateToken | null> =
+    new ReplaySubject();
 
   storedToken: StoredTwitchToken | null = this.localStorage.getItem('token');
 
-  storedUserToken: TwitchValidateToken | null = this.localStorage.getItem(
-    'userToken'
-  );
+  storedUserToken: TwitchValidateToken | null =
+    this.localStorage.getItem('userToken');
 
   refreshTokenAuth = this.fetchAccessTokenWithRefresh(
     this.storedToken?.access_token
   );
 
-  validateTokenAuth = this.fetchValidateToken(this.storedToken?.access_token);
-
-  authenticate = this.route.queryParams.pipe(
+  codeAuth = this.route.queryParams.pipe(
     switchMap((params) => {
       return params.code ? this.fetchAccessToken(params.code) : EMPTY;
     })
+  );
+
+  validateInfo = this.accessToken.pipe(
+    switchMap((t) => (t ? this.fetchValidateToken(t.access_token) : EMPTY))
   );
 
   constructor(
@@ -67,12 +70,12 @@ export class TwitchOauthService {
       }
     }
 
-    this.authenticate.subscribe();
+    this.codeAuth.subscribe();
     this.refreshTokenAuth.subscribe();
-    this.validateTokenAuth.subscribe();
+    this.validateInfo.subscribe();
   }
 
-  getAccessToken(): Observable<TwitchToken | null> {
+  getAccessToken(): Observable<StoredTwitchToken | null> {
     return this.accessToken.asObservable();
   }
 
@@ -94,7 +97,12 @@ export class TwitchOauthService {
         { withCredentials: true }
       )
       .pipe(
-        tap((token) => this.accessToken.next(token)),
+        tap((token) =>
+          this.accessToken.next({
+            ...token,
+            expiry_time: getExpiryTime(+token.expires_in).toUTCString(),
+          })
+        ),
         tap((token) =>
           this.localStorage.setItem('token', {
             ...token,
@@ -103,15 +111,15 @@ export class TwitchOauthService {
         ),
         concatMap((token) => this.fetchValidateToken(token.access_token)),
         switchMap(() => this.getAccessToken()),
-        switchMap((t) =>
-          t
+        switchMap((t) => {
+          return t && isDateExpired(t.expiry_time)
             ? timer(+t.access_token * 1000).pipe(
                 switchMap(() =>
                   this.fetchAccessTokenWithRefresh(t.access_token)
                 )
               )
-            : EMPTY
-        )
+            : EMPTY;
+        })
       );
   }
 
@@ -126,18 +134,28 @@ export class TwitchOauthService {
         { withCredentials: true }
       )
       .pipe(
-        tap((token) => this.accessToken.next(token)),
-        tap((token) => this.localStorage.setItem('token', token)),
+        tap((token) =>
+          this.accessToken.next({
+            ...token,
+            expiry_time: getExpiryTime(+token.expires_in).toUTCString(),
+          })
+        ),
+        tap((token) =>
+          this.localStorage.setItem('token', {
+            ...token,
+            expiry_time: getExpiryTime(+token.expires_in).toUTCString(),
+          })
+        ),
         switchMap(() => this.getAccessToken()),
-        switchMap((t) =>
-          t
+        switchMap((t) => {
+          return t && isDateExpired(t.expiry_time)
             ? timer(+t.expires_in * 1000).pipe(
                 switchMap(() =>
                   this.fetchAccessTokenWithRefresh(t.access_token)
                 )
               )
-            : EMPTY
-        )
+            : EMPTY;
+        })
       );
 
     return of(accessToken).pipe(switchMap((t) => (t ? request : EMPTY)));

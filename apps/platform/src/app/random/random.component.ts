@@ -1,7 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { map, scan, switchMap } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { StreamCategoryService } from '../stream-category.service';
 
 @Component({
@@ -20,18 +20,11 @@ export class RandomComponent implements OnDestroy {
     this.subscription = this.streamCategoryService
       .getNewStreams()
       .pipe(
-        switchMap((s) => s),
-        map((s) => s.user_login),
-        scan((acc: string[], value) => {
-          acc.push(value);
-          return acc;
-        }, [])
+        map((s) => s[Math.floor(Math.random() * s.length)].user_login),
+        take(1)
       )
-      .subscribe((ids) => {
-        const randomStream = ids[Math.floor(Math.random() * ids.length)];
-        this.route.navigateByUrl(
-          `/stream/t/${encodeURIComponent(randomStream)}`
-        );
+      .subscribe((id) => {
+        this.route.navigateByUrl(`/stream/t/${encodeURIComponent(id)}`);
       });
   }
 

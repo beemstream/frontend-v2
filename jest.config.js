@@ -1,3 +1,3 @@
-module.exports = {
-  projects: ['<rootDir>/apps/platform', '<rootDir>/libs/shared-ui'],
-};
+const { getJestProjects } = require('@nrwl/jest');
+
+module.exports = { projects: getJestProjects() };
