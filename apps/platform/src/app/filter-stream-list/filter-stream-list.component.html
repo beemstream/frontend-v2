@@ -1,10 +1,10 @@
 <nbp-filters
   [languages]="availableLanguages"
-  (languageChanged)="filterLanguage($event)"
   [programmingLanguages]="availableProgrammingLanguages"
-  (programmingLanguagesChanged)="filterProgrammingLanguages($event)"
+  (languageChanged)="languageSubject.next($event)"
+  (programmingLanguagesChanged)="programmingLanguageSubject.next($event)"
   (filterChanged)="filterStreams($event)"
-  (refreshStream)="forceRefresh()"
+  (refreshStream)="refreshStream.emit()"
   (layoutChanged)="changeLayout($event)"
 ></nbp-filters>
 <div *ngIf="filteredStreams | async as templateStreams$">

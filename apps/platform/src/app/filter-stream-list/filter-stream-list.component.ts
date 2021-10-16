@@ -103,20 +103,8 @@ export class FilterStreamListComponent implements OnChanges {
     }
   }
 
-  filterLanguage(language: string[]) {
-    this.languageSubject.next(language);
-  }
-
-  filterProgrammingLanguages(programmingLanguages: ProgrammingLanguage[]) {
-    this.programmingLanguageSubject.next(programmingLanguages);
-  }
-
   changeLayout(layout: Layout) {
     this.layoutSetting = layout;
-  }
-
-  forceRefresh() {
-    this.refreshStream.emit();
   }
 
   trackStream(_index: number, item: StreamInfo) {
