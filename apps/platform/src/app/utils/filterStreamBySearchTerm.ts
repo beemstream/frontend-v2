@@ -3,7 +3,7 @@ import { compareStr } from './compareStr';
 
 export function filterStreamBySearchTerm(
   stream: StreamInfo[],
-  searchTerm: string
+  searchTerm = ''
 ) {
   return stream.filter((stream) => {
     const doesContainTitle = compareStr(stream.title, searchTerm);

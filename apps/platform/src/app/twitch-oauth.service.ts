@@ -42,12 +42,14 @@ export class TwitchOauthService {
     this.storedToken?.access_token
   );
 
-  validateTokenAuth = this.fetchValidateToken(this.storedToken?.access_token);
-
-  authenticate = this.route.queryParams.pipe(
+  codeAuth = this.route.queryParams.pipe(
     switchMap((params) => {
       return params.code ? this.fetchAccessToken(params.code) : EMPTY;
     })
+  );
+
+  validateInfo = this.accessToken.pipe(
+    switchMap((t) => (t ? this.fetchValidateToken(t.access_token) : EMPTY))
   );
 
   constructor(
@@ -68,9 +70,9 @@ export class TwitchOauthService {
       }
     }
 
-    this.authenticate.subscribe();
+    this.codeAuth.subscribe();
     this.refreshTokenAuth.subscribe();
-    this.validateTokenAuth.subscribe();
+    this.validateInfo.subscribe();
   }
 
   getAccessToken(): Observable<StoredTwitchToken | null> {

@@ -1,45 +1,35 @@
 import {
   ChangeDetectionStrategy,
   EventEmitter,
-  Inject,
   OnChanges,
-  OnInit,
 } from '@angular/core';
 import { Component, Input, Output } from '@angular/core';
-import { BehaviorSubject, Observable, of, ReplaySubject } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import {
   FilterEventPayload,
   FilterEvents,
   Layout,
 } from '../filters/filters.component';
 import { StreamInfo } from '../stream-info';
-import {
-  STREAM_FILTERED_LANGUAGE,
-  STREAM_LANGUAGE,
-  STREAM_LIST,
-  SEARCH_TERM,
-  STREAM_PROGRAMMING_LANGUAGE,
-} from './stream-filter.provider';
-import {
-  MARATHON_RUNNERS,
-  MOST_POPULAR,
-  NEEDS_LOVE,
-  SLOW_STARTERS,
-  StreamQueryFilters,
-  USER_FOLLOWS,
-} from './attribute-filters';
-import { ProgrammingLanguage } from '../utils';
+import { filterStreamBySearchTerm, ProgrammingLanguage } from '../utils';
 import { LanguageCode } from '../filters/language-code';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { FilterService, StreamFilter } from '../filter.service';
+import {
+  filterByCategory,
+  filterByLanguage,
+  filterByProgrammingLanguages,
+} from './attribute-filters';
+import { TwitchService } from '../twitch.service';
 
 @Component({
   selector: 'nbp-filter-stream-list',
   templateUrl: './filter-stream-list.component.html',
   styleUrls: ['./filter-stream-list.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: StreamQueryFilters,
 })
-export class FilterStreamListComponent implements OnInit, OnChanges {
-  @Input() streamCategoryList: Observable<StreamInfo[]> = of([]);
+export class FilterStreamListComponent implements OnChanges {
+  @Input() streamCategoryList: StreamInfo[] | null = [];
 
   @Input() availableLanguages?: Observable<LanguageCode[]> = of([]);
 
@@ -50,66 +40,75 @@ export class FilterStreamListComponent implements OnInit, OnChanges {
 
   @Output() changeLanguage = new EventEmitter<string>();
 
-  templateStreams: Observable<StreamInfo[]> = of([]);
-
   layout = Layout;
 
   layoutSetting = Layout.Default;
 
-  filterAttributeStreams = {
-    [FilterEvents.Follows]: this.userFollows,
-    [FilterEvents.MostPopular]: this.mostPopular,
-    [FilterEvents.NeedsLove]: this.needsLove,
-    [FilterEvents.MarathonRunners]: this.marathonRunners,
-    [FilterEvents.Starters]: this.slowStarters,
-    [FilterEvents.Search]: this.sourceStreams,
-  };
+  searchTerm = new BehaviorSubject<string | undefined>(undefined);
+
+  categoryFilter = new BehaviorSubject<FilterEvents>(FilterEvents.MostPopular);
+
+  streamsSubject = new BehaviorSubject<StreamInfo[] | null>([]);
+
+  languageSubject = new BehaviorSubject<string[] | null>(null);
+
+  programmingLanguageSubject = new BehaviorSubject<
+    ProgrammingLanguage[] | null
+  >(null);
+
+  filters: StreamFilter[] = [
+    {
+      name: 'category',
+      attribute: this.categoryFilter.asObservable(),
+      filterSwitchMap: filterByCategory(this.twitchService),
+    },
+    {
+      name: 'searchTerm',
+      attribute: this.searchTerm
+        .asObservable()
+        .pipe(debounceTime(200), distinctUntilChanged()),
+      filterSwitchMap: (streams: StreamInfo[], searchTerm: string) =>
+        of(filterStreamBySearchTerm(streams, searchTerm)),
+    },
+    {
+      name: 'language',
+      attribute: this.languageSubject.asObservable(),
+      filterSwitchMap: filterByLanguage,
+    },
+    {
+      name: 'programmingLanguages',
+      attribute: this.programmingLanguageSubject.asObservable(),
+      filterSwitchMap: filterByProgrammingLanguages,
+    },
+    { name: 'streams', attribute: this.streamsSubject.asObservable() },
+  ];
+
+  filteredStreams = this.filterService.createFilters(this.filters);
 
   constructor(
-    @Inject(STREAM_LANGUAGE) private language: BehaviorSubject<string[]>,
-    @Inject(STREAM_PROGRAMMING_LANGUAGE)
-    private programmingLanguage: BehaviorSubject<ProgrammingLanguage[]>,
-    @Inject(STREAM_LIST)
-    private streams: ReplaySubject<Observable<StreamInfo[]>>,
-    @Inject(SEARCH_TERM)
-    private searchTerm: BehaviorSubject<string | undefined>,
-    @Inject(STREAM_FILTERED_LANGUAGE)
-    readonly sourceStreams: Observable<StreamInfo[]>,
-    @Inject(MOST_POPULAR) readonly mostPopular: Observable<StreamInfo[]>,
-    @Inject(NEEDS_LOVE) readonly needsLove: Observable<StreamInfo[]>,
-    @Inject(MARATHON_RUNNERS)
-    readonly marathonRunners: Observable<StreamInfo[]>,
-    @Inject(SLOW_STARTERS) readonly slowStarters: Observable<StreamInfo[]>,
-    @Inject(USER_FOLLOWS) readonly userFollows: Observable<StreamInfo[]>
+    private filterService: FilterService,
+    private twitchService: TwitchService
   ) {}
 
-  ngOnInit(): void {
-    this.reassignStreams();
-  }
-
   ngOnChanges(): void {
-    this.reassignStreams();
-  }
-
-  reassignStreams() {
-    this.streams.next(this.streamCategoryList);
-    this.templateStreams = this.sourceStreams;
+    this.streamsSubject.next(this.streamCategoryList);
   }
 
   filterStreams(event: FilterEventPayload) {
-    this.templateStreams = this.filterAttributeStreams[event.type];
-
     if (event.type === FilterEvents.Search) {
       this.searchTerm.next(event.value);
+      this.categoryFilter.next(event.type);
+    } else {
+      this.categoryFilter.next(event.type);
     }
   }
 
   filterLanguage(language: string[]) {
-    this.language.next(language);
+    this.languageSubject.next(language);
   }
 
   filterProgrammingLanguages(programmingLanguages: ProgrammingLanguage[]) {
-    this.programmingLanguage.next(programmingLanguages);
+    this.programmingLanguageSubject.next(programmingLanguages);
   }
 
   changeLayout(layout: Layout) {

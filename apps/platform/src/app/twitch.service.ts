@@ -27,9 +27,7 @@ export class TwitchService {
   constructor(
     private httpClient: HttpClient,
     private twitchOauthService: TwitchOauthService
-  ) {
-    this.getUserFollows().subscribe();
-  }
+  ) {}
 
   getUserFollows(): Observable<UserFollow[]> {
     return this.twitchOauthService
