@@ -1,8 +1,10 @@
 <nbp-filters
   [languages]="availableLanguages"
   [programmingLanguages]="availableProgrammingLanguages"
-  (languageChanged)="languageSubject.next($event)"
-  (programmingLanguagesChanged)="programmingLanguageSubject.next($event)"
+  (languageChanged)="filterSubjects.language.subject.next($event)"
+  (programmingLanguagesChanged)="
+    filterSubjects.programmingLanguages.subject.next($event)
+  "
   (filterChanged)="filterStreams($event)"
   (refreshStream)="refreshStream.emit()"
   (layoutChanged)="changeLayout($event)"

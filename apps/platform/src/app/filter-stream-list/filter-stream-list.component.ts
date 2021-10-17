@@ -4,7 +4,7 @@ import {
   OnChanges,
 } from '@angular/core';
 import { Component, Input, Output } from '@angular/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import {
   FilterEventPayload,
   FilterEvents,
@@ -14,7 +14,7 @@ import { StreamInfo } from '../stream-info';
 import { filterStreamBySearchTerm, ProgrammingLanguage } from '../utils';
 import { LanguageCode } from '../filters/language-code';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { FilterService, StreamFilter } from '../filter.service';
+import { Filter, FilterService } from '../filter.service';
 import {
   filterByCategory,
   filterByLanguage,
@@ -44,46 +44,27 @@ export class FilterStreamListComponent implements OnChanges {
 
   layoutSetting = Layout.Default;
 
-  searchTerm = new BehaviorSubject<string | undefined>(undefined);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  filterSubjects: Record<string, Filter<any>> = {
+    searchTerm: this.filterService.createFilter<string | undefined>(undefined, {
+      obs: (obs) =>
+        obs.asObservable().pipe(debounceTime(200), distinctUntilChanged()),
+      filter: filterStreamBySearchTerm,
+    }),
+    categoryFilter: this.filterService.createFilter<FilterEvents>(
+      FilterEvents.MostPopular,
+      { filter: filterByCategory(this.twitchService) }
+    ),
+    streams: this.filterService.createFilter<StreamInfo[]>([]),
+    language: this.filterService.createFilter<string[] | null>(null, {
+      filter: filterByLanguage,
+    }),
+    programmingLanguages: this.filterService.createFilter<
+      ProgrammingLanguage[] | null
+    >(null, { filter: filterByProgrammingLanguages }),
+  };
 
-  categoryFilter = new BehaviorSubject<FilterEvents>(FilterEvents.MostPopular);
-
-  streamsSubject = new BehaviorSubject<StreamInfo[] | null>([]);
-
-  languageSubject = new BehaviorSubject<string[] | null>(null);
-
-  programmingLanguageSubject = new BehaviorSubject<
-    ProgrammingLanguage[] | null
-  >(null);
-
-  filters: StreamFilter[] = [
-    {
-      name: 'category',
-      attribute: this.categoryFilter.asObservable(),
-      filterSwitchMap: filterByCategory(this.twitchService),
-    },
-    {
-      name: 'searchTerm',
-      attribute: this.searchTerm
-        .asObservable()
-        .pipe(debounceTime(200), distinctUntilChanged()),
-      filterSwitchMap: (streams: StreamInfo[], searchTerm: string) =>
-        of(filterStreamBySearchTerm(streams, searchTerm)),
-    },
-    {
-      name: 'language',
-      attribute: this.languageSubject.asObservable(),
-      filterSwitchMap: filterByLanguage,
-    },
-    {
-      name: 'programmingLanguages',
-      attribute: this.programmingLanguageSubject.asObservable(),
-      filterSwitchMap: filterByProgrammingLanguages,
-    },
-    { name: 'streams', attribute: this.streamsSubject.asObservable() },
-  ];
-
-  filteredStreams = this.filterService.createFilters(this.filters);
+  filteredStreams = this.filterService.createFilters(this.filterSubjects);
 
   constructor(
     private filterService: FilterService,
@@ -91,15 +72,15 @@ export class FilterStreamListComponent implements OnChanges {
   ) {}
 
   ngOnChanges(): void {
-    this.streamsSubject.next(this.streamCategoryList);
+    this.filterSubjects.streams.subject.next(this.streamCategoryList);
   }
 
   filterStreams(event: FilterEventPayload) {
     if (event.type === FilterEvents.Search) {
-      this.searchTerm.next(event.value);
-      this.categoryFilter.next(event.type);
+      this.filterSubjects.searchTerm.subject.next(event.value);
+      this.filterSubjects.categoryFilter.subject.next(event.type);
     } else {
-      this.categoryFilter.next(event.type);
+      this.filterSubjects.categoryFilter.subject.next(event.type);
     }
   }
 
