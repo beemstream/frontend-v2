@@ -2,11 +2,11 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, shareReplay, switchMap, tap } from 'rxjs/operators';
-import { SeoService } from '../seo.service';
+import { SeoService } from '../../services/seo.service';
 import {
   StreamCategory,
   StreamCategoryService,
-} from '../stream-category.service';
+} from '../../services/stream-category.service';
 
 enum TemplateCategory {
   webdevelopment = 'Web Development',

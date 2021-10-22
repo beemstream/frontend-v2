@@ -1,4 +1,4 @@
-import { LanguageCode } from './filters/language-code';
+import { LanguageCode } from './shared/filter-stream-list/filters/language-code';
 
 export interface StreamInfo {
   game_id?: string;

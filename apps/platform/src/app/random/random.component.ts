@@ -2,7 +2,7 @@ import { Component, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { map, take } from 'rxjs/operators';
-import { StreamCategoryService } from '../stream-category.service';
+import { StreamCategoryService } from '../services/stream-category.service';
 
 @Component({
   selector: 'nbp-random',

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { StreamInfo } from '../stream-info';
+import { StreamInfo } from '../../stream-info';
 
 @Component({
   selector: 'nbp-stream-category-list',

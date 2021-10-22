@@ -9,11 +9,11 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { Observable, Subscription } from 'rxjs';
 import { share, tap } from 'rxjs/operators';
-import { environment } from '../../environments/environment';
+import { environment } from '../../../environments/environment';
 import {
   TwitchOauthService,
   TwitchValidateToken,
-} from '../twitch-oauth.service';
+} from '../../services/twitch-oauth.service';
 
 @Component({
   selector: 'nbp-navbar',

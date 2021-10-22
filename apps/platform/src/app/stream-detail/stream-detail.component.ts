@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap, tap } from 'rxjs/operators';
-import { StreamDetailService } from '../stream-detail.service';
+import { StreamDetailService } from '../services/stream-detail.service';
 import { faTv, faUser } from '@fortawesome/free-solid-svg-icons';
-import { SeoService } from '../seo.service';
+import { SeoService } from '../services/seo.service';
 import { ImgSizePipe } from '@frontend-v2/shared-ui';
 
 @Component({

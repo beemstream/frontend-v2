@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { faCode, faQuestion } from '@fortawesome/free-solid-svg-icons';
-import { ProgrammingLanguage } from '../utils';
+import { ProgrammingLanguage } from '../../../../utils';
 
 @Component({
   selector: 'nbp-dropdown-code-lang-select',

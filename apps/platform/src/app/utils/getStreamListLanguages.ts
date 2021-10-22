@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 import { mergeMap, scan, map, shareReplay } from 'rxjs/operators';
-import { LanguageCode } from '../filters/language-code';
+import { LanguageCode } from '../shared/filter-stream-list/filters/language-code';
 import { StreamInfo } from '../stream-info';
 
 export function getStreamListLanguages(

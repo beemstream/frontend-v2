@@ -3,9 +3,9 @@ import { Injectable } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { EMPTY, Observable, of, ReplaySubject, timer } from 'rxjs';
 import { concatMap, switchMap, tap } from 'rxjs/operators';
-import { environment } from '../environments/environment';
+import { environment } from '../../environments/environment';
 import { LocalstorageService } from './localstorage.service';
-import { getExpiryTime, isDateExpired } from './utils';
+import { getExpiryTime, isDateExpired } from '../utils';
 
 export interface StoredTwitchToken extends TwitchToken {
   expiry_time: string;

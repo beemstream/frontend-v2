@@ -1,11 +1,11 @@
 import { of } from 'rxjs';
-import { StreamInfo } from '../../stream-info';
+import { StreamInfo } from '../../../stream-info';
 import {
   KeywordMapKey,
   KEYWORD_MAP,
   ProgrammingLanguage,
   searchKeywords,
-} from '../../utils';
+} from '../../../utils';
 
 export const filterByProgrammingLanguages = (
   languageFilteredStreams: StreamInfo[],

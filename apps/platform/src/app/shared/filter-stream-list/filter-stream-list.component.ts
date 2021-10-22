@@ -9,18 +9,18 @@ import {
   FilterEventPayload,
   FilterEvents,
   Layout,
-} from '../filters/filters.component';
-import { StreamInfo } from '../stream-info';
-import { filterStreamBySearchTerm, ProgrammingLanguage } from '../utils';
-import { LanguageCode } from '../filters/language-code';
+} from './filters/filters.component';
+import { StreamInfo } from '../../stream-info';
+import { filterStreamBySearchTerm, ProgrammingLanguage } from '../../utils';
+import { LanguageCode } from './filters/language-code';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { Filter, FilterService } from '../filter.service';
+import { Filter, FilterService } from '../../services/filter.service';
 import {
   filterByCategory,
   filterByLanguage,
   filterByProgrammingLanguages,
 } from './attribute-filters';
-import { TwitchService } from '../twitch.service';
+import { TwitchService } from '../../services/twitch.service';
 
 @Component({
   selector: 'nbp-filter-stream-list',

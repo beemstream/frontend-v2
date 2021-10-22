@@ -7,11 +7,11 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { Observable, zip } from 'rxjs';
 import { mergeMap, scan, switchMap, take } from 'rxjs/operators';
-import { TemplateDescription } from '../browse-category-detail/browse-category-detail.component';
+import { TemplateDescription } from './browse-category-detail/browse-category-detail.component';
 import {
   StreamCategoryService,
   StreamCategory,
-} from '../stream-category.service';
+} from '../services/stream-category.service';
 import { StreamInfo } from '../stream-info';
 
 @Component({

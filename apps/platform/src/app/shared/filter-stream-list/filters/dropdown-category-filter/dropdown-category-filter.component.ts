@@ -5,7 +5,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { CategoryFilter } from '../filters/filters.component';
+import { CategoryFilter } from '../../filters/filters.component';
 
 @Component({
   selector: 'nbp-dropdown-category-filter',

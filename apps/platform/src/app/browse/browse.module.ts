@@ -10,13 +10,13 @@ import {
   StreamCardModule,
   EscapeHtmlPipe,
 } from '@frontend-v2/shared-ui';
-import { StreamCategoryListComponent } from '../stream-category-list/stream-category-list.component';
+import { StreamCategoryListComponent } from './stream-category-list/stream-category-list.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { CategoryHeaderComponent } from '../category-header/category-header.component';
-import { BrowseCategoryDetailComponent } from '../browse-category-detail/browse-category-detail.component';
-import { FiltersModule } from '../filters/filters.module';
-import { FilterStreamListModule } from '../filter-stream-list/filter-stream.module';
-import { StreamCategoryService } from '../stream-category.service';
+import { CategoryHeaderComponent } from './category-header/category-header.component';
+import { BrowseCategoryDetailComponent } from './browse-category-detail/browse-category-detail.component';
+import { FiltersModule } from '../shared/filter-stream-list/filters/filters.module';
+import { FilterStreamListModule } from '../shared/filter-stream-list/filter-stream.module';
+import { StreamCategoryService } from '../services/stream-category.service';
 
 @NgModule({
   declarations: [

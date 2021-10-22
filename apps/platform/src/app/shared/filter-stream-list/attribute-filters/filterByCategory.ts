@@ -1,8 +1,8 @@
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { FilterEvents } from '../../filters/filters.component';
-import { StreamInfo } from '../../stream-info';
-import { TwitchService } from '../../twitch.service';
+import { FilterEvents } from '../../../shared/filter-stream-list/filters/filters.component';
+import { StreamInfo } from '../../../stream-info';
+import { TwitchService } from '../../../services/twitch.service';
 
 const categoryFilterMap: Record<
   string,

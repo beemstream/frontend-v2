@@ -2,12 +2,15 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
 import { Observable, of, Subject, timer } from 'rxjs';
 import { map, retry, shareReplay, switchMap, takeUntil } from 'rxjs/operators';
-import { environment } from '../environments/environment';
-import { LanguageCode } from './filters/language-code';
-import { StreamInfo } from './stream-info';
-import { getAvailableProgrammingLanguages, ProgrammingLanguage } from './utils';
-import { filterStreamBySearchTerm } from './utils/filterStreamBySearchTerm';
-import { getStreamListLanguages } from './utils/getStreamListLanguages';
+import { environment } from '../../environments/environment';
+import { LanguageCode } from '../shared/filter-stream-list/filters/language-code';
+import { StreamInfo } from '../stream-info';
+import {
+  getAvailableProgrammingLanguages,
+  ProgrammingLanguage,
+} from '../utils';
+import { filterStreamBySearchTerm } from '../utils/filterStreamBySearchTerm';
+import { getStreamListLanguages } from '../utils/getStreamListLanguages';
 
 export enum StreamCategory {
   WebDevelopment = 'webdevelopment',

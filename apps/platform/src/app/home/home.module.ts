@@ -12,9 +12,9 @@ import {
 import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './home.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { FiltersModule } from '../filters/filters.module';
-import { FilterStreamListModule } from '../filter-stream-list/filter-stream.module';
-import { SeoService } from '../seo.service';
+import { FiltersModule } from '../shared/filter-stream-list/filters/filters.module';
+import { FilterStreamListModule } from '../shared/filter-stream-list/filter-stream.module';
+import { SeoService } from '../services/seo.service';
 
 @NgModule({
   declarations: [HomeComponent],

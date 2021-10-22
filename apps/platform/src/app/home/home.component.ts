@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { combineLatestWith, map, tap } from 'rxjs/operators';
-import { SeoService } from '../seo.service';
-import { StreamCategoryService } from '../stream-category.service';
-import { TwitchOauthService } from '../twitch-oauth.service';
+import { SeoService } from '../services/seo.service';
+import { StreamCategoryService } from '../services/stream-category.service';
+import { TwitchOauthService } from '../services/twitch-oauth.service';
 
 @Component({
   selector: 'nbp-home',

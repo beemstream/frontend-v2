@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { faQuestion } from '@fortawesome/free-solid-svg-icons';
-import { ProgrammingLanguage } from '../utils';
+import { ProgrammingLanguage } from '../../../../utils';
 
 @Component({
   selector: 'nbp-code-icon',

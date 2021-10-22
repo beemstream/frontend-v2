@@ -16,8 +16,8 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { Observable, of } from 'rxjs';
 import { LanguageCode } from './language-code';
-import { ProgrammingLanguage } from '../utils';
-import { TwitchOauthService } from '../twitch-oauth.service';
+import { ProgrammingLanguage } from '../../../utils';
+import { TwitchOauthService } from '../../../services/twitch-oauth.service';
 import { map } from 'rxjs/operators';
 
 export enum FilterEvents {

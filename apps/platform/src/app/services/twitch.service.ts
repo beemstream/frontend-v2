@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { EMPTY, Observable, ReplaySubject } from 'rxjs';
 import { share, switchMap, tap } from 'rxjs/operators';
-import { environment } from '../environments/environment';
+import { environment } from '../../environments/environment';
 import { TwitchOauthService } from './twitch-oauth.service';
 
 export interface UserFollow {

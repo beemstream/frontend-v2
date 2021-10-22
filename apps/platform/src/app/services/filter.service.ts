@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of, OperatorFunction } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { combineLatest } from 'rxjs';
-import { StreamInfo } from './stream-info';
+import { StreamInfo } from '../stream-info';
 
 export type FilterFn = (
   streams: StreamInfo[],

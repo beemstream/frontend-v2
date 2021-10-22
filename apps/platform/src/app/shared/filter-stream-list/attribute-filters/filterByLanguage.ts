@@ -1,5 +1,5 @@
 import { of } from 'rxjs';
-import { StreamInfo } from '../../stream-info';
+import { StreamInfo } from '../../../stream-info';
 
 export const filterByLanguage = (
   filteredStreams: StreamInfo[],

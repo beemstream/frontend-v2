@@ -6,7 +6,7 @@ import {
   SharedUiModule,
   StreamCardModule,
 } from '@frontend-v2/shared-ui';
-import { FiltersModule } from '../filters/filters.module';
+import { FiltersModule } from './filters/filters.module';
 import { FilterStreamListComponent } from './filter-stream-list.component';
 
 @NgModule({
