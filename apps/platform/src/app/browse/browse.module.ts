@@ -6,9 +6,9 @@ import { BrowseComponent } from './browse.component';
 import {
   ButtonModule,
   LinkModule,
-  SharedUiModule,
   StreamCardModule,
   EscapeHtmlPipe,
+  ImgSizePipeModule,
 } from '@frontend-v2/shared-ui';
 import { StreamCategoryListComponent } from './stream-category-list/stream-category-list.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -30,12 +30,12 @@ import { StreamCategoryService } from '../services/stream-category.service';
     CommonModule,
     BrowseRoutingModule,
     StreamCardModule,
-    SharedUiModule,
     FontAwesomeModule,
     ButtonModule,
     LinkModule,
     FiltersModule,
     FilterStreamListModule,
+    ImgSizePipeModule,
   ],
   providers: [StreamCategoryService],
 })

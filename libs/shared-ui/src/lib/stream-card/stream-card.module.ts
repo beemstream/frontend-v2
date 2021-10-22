@@ -5,8 +5,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { RouterModule } from '@angular/router';
 import { LinkModule } from '../link/link.module';
 import { StreamTagModule } from '../stream-tag/stream-tag.module';
-import { StreamUrlPipe } from '../pipes';
-import { SharedUiModule } from '../shared-ui.module';
+import { MapToPipeModule, StreamUrlPipe } from '../pipes';
 import { IconModule } from '../icon/icon.module';
 
 @NgModule({
@@ -17,8 +16,8 @@ import { IconModule } from '../icon/icon.module';
     RouterModule,
     LinkModule,
     StreamTagModule,
-    SharedUiModule,
     IconModule,
+    MapToPipeModule,
   ],
   exports: [StreamCardComponent],
 })

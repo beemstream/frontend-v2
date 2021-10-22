@@ -1,4 +1,5 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { NgModule, Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
   name: 'imgSize',
@@ -10,3 +11,10 @@ export class ImgSizePipe implements PipeTransform {
       .replace('{height}', `${height}`);
   }
 }
+
+@NgModule({
+  imports: [CommonModule],
+  declarations: [ImgSizePipe],
+  exports: [ImgSizePipe],
+})
+export class ImgSizePipeModule {}

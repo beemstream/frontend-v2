@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import {
   ButtonModule,
   LinkModule,
-  SharedUiModule,
   StreamCardModule,
   IconModule,
   HeaderModule,
@@ -25,7 +24,6 @@ import { SeoService } from '../services/seo.service';
     LinkModule,
     ButtonModule,
     FontAwesomeModule,
-    SharedUiModule,
     FiltersModule,
     FilterStreamListModule,
     IconModule,

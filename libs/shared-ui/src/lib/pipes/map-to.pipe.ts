@@ -1,4 +1,5 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { NgModule, Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
   name: 'mapTo',
@@ -8,3 +9,10 @@ export class MapToPipe implements PipeTransform {
     return map[value];
   }
 }
+
+@NgModule({
+  imports: [CommonModule],
+  declarations: [MapToPipe],
+  exports: [MapToPipe],
+})
+export class MapToPipeModule {}
