@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  NgModule,
+} from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'ui-stream-tag',
@@ -11,3 +18,10 @@ export class StreamTagComponent {
   @Input() tagId?: string;
   @Input() link?: string;
 }
+
+@NgModule({
+  declarations: [StreamTagComponent],
+  imports: [CommonModule, RouterModule],
+  exports: [StreamTagComponent],
+})
+export class StreamTagModule {}

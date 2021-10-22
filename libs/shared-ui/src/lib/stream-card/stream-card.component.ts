@@ -1,10 +1,18 @@
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   Input,
+  NgModule,
   OnChanges,
 } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faEye, faUser } from '@fortawesome/free-solid-svg-icons';
+import { MapToPipeModule, StreamUrlPipeModule } from '../../lib/pipes';
+import { IconModule } from '../icon/icon.component';
+import { LinkModule } from '../link/link.component';
+import { StreamTagModule } from '../stream-tag/stream-tag.component';
 
 const TagLink = {
   'web dev': '/browse/webdevelopment',
@@ -40,3 +48,19 @@ export class StreamCardComponent implements OnChanges {
     return tag;
   }
 }
+
+@NgModule({
+  declarations: [StreamCardComponent],
+  imports: [
+    CommonModule,
+    FontAwesomeModule,
+    RouterModule,
+    LinkModule,
+    StreamTagModule,
+    IconModule,
+    MapToPipeModule,
+    StreamUrlPipeModule,
+  ],
+  exports: [StreamCardComponent],
+})
+export class StreamCardModule {}

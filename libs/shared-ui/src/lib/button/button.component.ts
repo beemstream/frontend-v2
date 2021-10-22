@@ -1,8 +1,10 @@
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
+  NgModule,
   Output,
 } from '@angular/core';
 
@@ -25,3 +27,10 @@ export class ButtonComponent {
     this.clicked.emit();
   }
 }
+
+@NgModule({
+  declarations: [ButtonComponent],
+  imports: [CommonModule],
+  exports: [ButtonComponent],
+})
+export class ButtonModule {}

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, NgModule, OnInit } from '@angular/core';
 
 @Component({
   selector: 'ui-header',
@@ -10,3 +11,10 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {}
 }
+
+@NgModule({
+  declarations: [HeaderComponent],
+  imports: [CommonModule],
+  exports: [HeaderComponent],
+})
+export class HeaderModule {}

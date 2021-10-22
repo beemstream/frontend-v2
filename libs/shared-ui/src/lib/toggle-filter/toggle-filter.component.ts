@@ -1,10 +1,14 @@
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
+  NgModule,
   Output,
 } from '@angular/core';
+import { ButtonModule } from '../button/button.component';
+import { IconModule } from '../icon/icon.component';
 import { Icon } from '../programming-language-icon';
 
 @Component({
@@ -49,3 +53,10 @@ export class ToggleFilterComponent {
     return key;
   }
 }
+
+@NgModule({
+  declarations: [ToggleFilterComponent],
+  imports: [CommonModule, ButtonModule, IconModule],
+  exports: [ToggleFilterComponent],
+})
+export class ToggleFilterModule {}

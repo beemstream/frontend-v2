@@ -11,7 +11,6 @@ export class MapToPipe implements PipeTransform {
 }
 
 @NgModule({
-  imports: [CommonModule],
   declarations: [MapToPipe],
   exports: [MapToPipe],
 })

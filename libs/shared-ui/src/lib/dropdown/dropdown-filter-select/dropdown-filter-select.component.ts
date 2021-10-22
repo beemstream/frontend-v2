@@ -1,8 +1,11 @@
+import { DropdownModule } from '../dropdown/dropdown.component';
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
+  NgModule,
   OnChanges,
   OnInit,
   Output,
@@ -86,3 +89,10 @@ export class DropdownFilterSelectComponent implements OnInit, OnChanges {
     return i;
   }
 }
+
+@NgModule({
+  declarations: [DropdownFilterSelectComponent],
+  imports: [DropdownModule, CommonModule],
+  exports: [DropdownFilterSelectComponent],
+})
+export class DropdownFilterSelectModule {}

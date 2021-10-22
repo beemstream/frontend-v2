@@ -1,8 +1,11 @@
+import { DropdownOptionModule } from '../dropdown-option/dropdown-option.component';
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
+  NgModule,
   Output,
   TemplateRef,
 } from '@angular/core';
@@ -61,3 +64,10 @@ export class DropdownComponent {
     return JSON.stringify(item);
   }
 }
+
+@NgModule({
+  declarations: [DropdownComponent],
+  imports: [CommonModule, DropdownOptionModule],
+  exports: [DropdownComponent],
+})
+export class DropdownModule {}

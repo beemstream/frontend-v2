@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, Input, NgModule } from '@angular/core';
 
 @Component({
   selector: 'ui-dropdown-option',
@@ -9,3 +10,10 @@ export class DropdownOptionComponent {
   @Input()
   type: 'top' | 'middle' | 'bottom' = 'middle';
 }
+
+@NgModule({
+  declarations: [DropdownOptionComponent],
+  imports: [CommonModule],
+  exports: [DropdownOptionComponent],
+})
+export class DropdownOptionModule {}

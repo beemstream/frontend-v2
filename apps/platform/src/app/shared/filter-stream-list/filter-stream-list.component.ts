@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   EventEmitter,
+  NgModule,
   OnChanges,
 } from '@angular/core';
 import { Component, Input, Output } from '@angular/core';
@@ -21,6 +22,14 @@ import {
   filterByProgrammingLanguages,
 } from './attribute-filters';
 import { TwitchService } from '../../services/twitch.service';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import {
+  StreamCardModule,
+  ButtonModule,
+  ImgSizePipeModule,
+} from '@frontend-v2/shared-ui';
+import { FiltersModule } from './filters/filters.module';
 
 @Component({
   selector: 'nbp-filter-stream-list',
@@ -92,3 +101,17 @@ export class FilterStreamListComponent implements OnChanges {
     return `${item.id}-${item.viewer_count}`;
   }
 }
+
+@NgModule({
+  declarations: [FilterStreamListComponent],
+  imports: [
+    CommonModule,
+    RouterModule,
+    StreamCardModule,
+    FiltersModule,
+    ButtonModule,
+    ImgSizePipeModule,
+  ],
+  exports: [FilterStreamListComponent],
+})
+export class FilterStreamListModule {}

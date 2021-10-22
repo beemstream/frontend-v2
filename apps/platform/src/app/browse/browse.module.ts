@@ -15,8 +15,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CategoryHeaderComponent } from './category-header/category-header.component';
 import { BrowseCategoryDetailComponent } from './browse-category-detail/browse-category-detail.component';
 import { FiltersModule } from '../shared/filter-stream-list/filters/filters.module';
-import { FilterStreamListModule } from '../shared/filter-stream-list/filter-stream.module';
 import { StreamCategoryService } from '../services/stream-category.service';
+import { FilterStreamListModule } from '../shared/filter-stream-list/filter-stream-list.component';
 
 @NgModule({
   declarations: [

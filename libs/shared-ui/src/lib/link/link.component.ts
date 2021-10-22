@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  NgModule,
+} from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'ui-link',
@@ -13,3 +20,10 @@ export class LinkComponent {
   @Input() title?: string;
   @Input() target?: string;
 }
+
+@NgModule({
+  declarations: [LinkComponent],
+  imports: [RouterModule, CommonModule],
+  exports: [LinkComponent],
+})
+export class LinkModule {}

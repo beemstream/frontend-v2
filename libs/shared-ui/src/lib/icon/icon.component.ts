@@ -1,12 +1,15 @@
+import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
   Component,
   ElementRef,
   Input,
+  NgModule,
   OnInit,
   ViewChild,
 } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { IconService } from '../icon.service';
 import { Icon } from '../programming-language-icon';
@@ -46,3 +49,10 @@ export class IconComponent implements OnInit, AfterViewInit {
     }
   }
 }
+
+@NgModule({
+  declarations: [IconComponent],
+  imports: [FontAwesomeModule, CommonModule],
+  exports: [IconComponent],
+})
+export class IconModule {}
