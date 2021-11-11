@@ -7,7 +7,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LinkComponent {
-  @Input() routerLink?: string;
+  @Input() link?: string;
   @Input() linkType: 'href' | 'routerLink' = 'routerLink';
   @Input() linkName?: string;
   @Input() title?: string;

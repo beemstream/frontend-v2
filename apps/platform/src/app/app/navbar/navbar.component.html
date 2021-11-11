@@ -21,16 +21,16 @@
           >
             <div class="flex-none">
               <nbp-nav-button
-                routerLink="/"
+                link="/"
                 routeName="Discover"
                 [navOptions]="navOptions"
               ></nbp-nav-button>
               <nbp-nav-button
-                routerLink="/browse"
+                link="/browse"
                 routeName="Browse"
               ></nbp-nav-button>
               <nbp-nav-button
-                routerLink="/random"
+                link="/random"
                 routeName="Surprise Me!"
                 [icon]="faGift"
               ></nbp-nav-button>
@@ -58,7 +58,7 @@
               <nbp-nav-button
                 [ngClass]="{ 'mt-1 mr-2': (userDetails | async) !== null }"
                 linkType="href"
-                routerLink="https://forms.gle/q63LVvVshhXCHiDi8"
+                link="https://forms.gle/q63LVvVshhXCHiDi8"
                 routeName="Survey"
                 target="_blank"
                 [icon]="faList"
@@ -79,7 +79,7 @@
                   iconSource="beemstream"
                   linkType="href"
                   routeName="Sign In"
-                  [routerLink]="twitchOauthUrl"
+                  [link]="twitchOauthUrl"
                 ></nbp-nav-button>
               </ng-template>
             </div>
@@ -98,21 +98,21 @@
         <li class="p-3">
           <ui-link
             (click)="toggleMobileNav()"
-            routerLink="/"
+            link="/"
             linkName="Discover"
           ></ui-link>
         </li>
         <li class="p-3">
           <ui-link
             (click)="toggleMobileNav()"
-            routerLink="/browse"
+            link="/browse"
             linkName="Browse"
           ></ui-link>
         </li>
         <li class="p-3">
           <ui-link
             (click)="toggleMobileNav()"
-            routerLink="/random"
+            link="/random"
             linkType="routerLink"
             linkName="Surprise Me!"
           >
@@ -123,7 +123,7 @@
           <ui-link
             class="grid"
             linkType="href"
-            routerLink="https://forms.gle/q63LVvVshhXCHiDi8"
+            link="https://forms.gle/q63LVvVshhXCHiDi8"
             target="_blank"
             linkName="Survey"
           >
@@ -145,7 +145,7 @@
             <ui-link
               class="grid"
               linkType="href"
-              [routerLink]="twitchOauthUrl"
+              [link]="twitchOauthUrl"
               linkName="Sign In"
             >
             </ui-link>

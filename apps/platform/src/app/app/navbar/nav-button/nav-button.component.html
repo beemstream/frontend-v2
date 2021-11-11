@@ -1,6 +1,6 @@
 <a
   *ngIf="linkType === 'routerLink'; else nativeElem"
-  [routerLink]="routerLink"
+  [routerLink]="link"
   [routerLinkActiveOptions]="navOptions"
   routerLinkActive="outline-none text-white bg-red-800"
   class="
@@ -31,8 +31,6 @@
 <ng-template #nativeElem>
   <a
     *ngIf="linkType === 'href'"
-    [href]="routerLink"
-    [attr.target]="linkType === 'href' ? target : null"
     class="
       px-3
       py-2
