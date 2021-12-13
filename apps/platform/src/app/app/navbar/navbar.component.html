@@ -57,7 +57,16 @@
             <div class="flex inline-flex justify-end w-full">
               <nbp-nav-button
                 [ngClass]="{ 'mt-1 mr-2': (userDetails | async) !== null }"
-                linkType="href"
+                [linkType]="'href'"
+                link="https://discord.gg/qZ8Zw2RgHq"
+                routeName="Discord"
+                target="_blank"
+                iconSource="beemstream"
+                [icon]="'discord'"
+              ></nbp-nav-button>
+              <nbp-nav-button
+                [ngClass]="{ 'mt-1 mr-2': (userDetails | async) !== null }"
+                [linkType]="'href'"
                 link="https://forms.gle/q63LVvVshhXCHiDi8"
                 routeName="Survey"
                 target="_blank"
@@ -117,6 +126,17 @@
             linkName="Surprise Me!"
           >
             <fa-icon class="pr-2" [icon]="faGift"></fa-icon>
+          </ui-link>
+        </li>
+        <li class="p-3">
+          <ui-link
+            class="grid"
+            linkType="href"
+            link="https://discord.gg/qZ8Zw2RgHq"
+            target="_blank"
+            linkName="Discord"
+          >
+            <ui-icon class="pr-2 pt-1" [icon]="'discord'"></ui-icon>
           </ui-link>
         </li>
         <li class="p-3">
