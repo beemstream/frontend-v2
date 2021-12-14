@@ -1,4 +1,3 @@
-import { flatten } from '@angular/compiler';
 import { combineLatest, Observable, of, zip } from 'rxjs';
 import { filter, map, mergeMap, scan, switchMap } from 'rxjs/operators';
 import { StreamInfo } from '../stream-info';
@@ -137,6 +136,13 @@ export function filterByProgrammingLanguage(
     }, [])
   );
 }
+
+const flatten = <T>(elems: T[][]): T[] =>
+  Array.isArray(elems)
+    ? [].concat(
+        ...(elems.map((e) => flatten(e as unknown as T[][])) as never[])
+      )
+    : elems;
 
 export function filterByProgrammingLanguages(
   stream: Observable<StreamInfo[]>,

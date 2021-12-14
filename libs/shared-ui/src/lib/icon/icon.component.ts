@@ -19,7 +19,7 @@ import { Icon } from '../programming-language-icon';
 export class IconComponent implements OnInit, AfterViewInit {
   @Input() icon!: Icon | IconProp;
   @Input() iconSource: 'fa' | 'beemstream' = 'beemstream';
-  @Input() iconClass: string = '';
+  @Input() iconClass = '';
   finishedRender = false;
 
   svg!: SafeHtml;
