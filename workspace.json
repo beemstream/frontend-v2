@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "platform": {
+      "tags": []
+    },
+    "platform-e2e": {
+      "tags": [],
+      "implicitDependencies": ["platform"]
+    },
+    "shared-ui": {
+      "tags": []
+    }
+  }
+}

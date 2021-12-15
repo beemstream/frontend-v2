@@ -14,17 +14,17 @@ import { Icon } from '../programming-language-icon';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ToggleFilterComponent {
-  @Input() toggleFilters: any = [];
+  @Input() toggleFilters: Icon[] = [];
 
-  @Input() showValue?: boolean = undefined;
+  @Input() showValue?: boolean;
 
-  @Input() showIcon?: boolean = undefined;
+  @Input() showIcon?: boolean;
 
-  @Output() filterChanged = new EventEmitter<any | null>();
+  @Output() filterChanged = new EventEmitter<string | null>();
 
   filterMap: Record<string, boolean> = {};
 
-  emitFilter(filter: any) {
+  emitFilter(filter: string) {
     if (this.filterMap[filter]) {
       this.filterMap = {
         ...this.filterMap,
@@ -45,7 +45,7 @@ export class ToggleFilterComponent {
     }
   }
 
-  trackByKey(_index: number, key: Icon) {
+  trackByKey(_index: number, key: string) {
     return key;
   }
 }

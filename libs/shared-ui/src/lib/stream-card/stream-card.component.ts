@@ -30,7 +30,7 @@ export class StreamCardComponent implements OnChanges {
   faUser = faUser;
   faEye = faEye;
   tagLink = TagLink;
-  twitchUserLink: string = '';
+  twitchUserLink = '';
 
   ngOnChanges(): void {
     this.twitchUserLink = `https://twitch.tv/${this.username}`;

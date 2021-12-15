@@ -61,6 +61,6 @@
     class="pb-2 pr-2"
     *ngIf="languages | async as langs"
     (languagesChanged)="languageChanged.emit($event)"
-    [languages]="$any(langs)"
+    [languages]="langs"
   ></nbp-dropdown-lang-select>
 </div>
