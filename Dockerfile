@@ -1,16 +1,14 @@
-FROM node:14.15.4-alpine as builder
+FROM node:16.13.1-alpine as builder
 
 WORKDIR /app
 
-RUN npm install -g nx@12.7.1 && apk add gzip
-
-COPY package*.json /app/
-
-RUN npm i
+RUN npm install -g nx@13.3.4 && apk add gzip
 
 COPY ./ /app/
 
-RUN nx build --prod
+RUN npm i
+
+RUN nx build --configuration=production
 
 RUN gzip -k /app/dist/apps/platform/*.*
 
