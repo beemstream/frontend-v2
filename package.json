@@ -32,9 +32,6 @@
     "pre-commit": "lint-staged"
   },
   "private": true,
-  "resolutions": {
-    "webpack": "^5.0.0"
-  },
   "dependencies": {
     "@angular/animations": "13.1.0",
     "@angular/common": "13.1.0",
