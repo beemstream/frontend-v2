@@ -14,7 +14,7 @@ export class DropdownCodeLangSelectComponent {
   @Output()
   optionsSelectedChanged = new EventEmitter<ProgrammingLanguage[]>();
 
-  languageMappings = {
+  languageMappings: Record<ProgrammingLanguage, string> = {
     rust: 'Rust',
     typescript: 'TypeScript',
     python: 'Python',
@@ -25,6 +25,7 @@ export class DropdownCodeLangSelectComponent {
     cpp: 'C++',
     php: 'PHP',
     kotlin: 'Kotlin',
+    gdscript: 'GDScript',
     uncategorized: 'Uncategorized',
   };
 
