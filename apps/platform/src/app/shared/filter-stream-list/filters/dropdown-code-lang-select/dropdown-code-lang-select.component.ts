@@ -26,6 +26,7 @@ export class DropdownCodeLangSelectComponent {
     php: 'PHP',
     kotlin: 'Kotlin',
     uncategorized: 'Uncategorized',
+    gdscript: 'Godot',
   };
 
   faQuestion = faQuestion;

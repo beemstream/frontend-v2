@@ -46,6 +46,8 @@ const PHP = ['-w php'];
 
 const KOTLIN = ['-w kotlin'];
 
+const GD_SCRIPT = ['godot', 'gdscript'];
+
 export enum ProgrammingLanguage {
   Rust = 'rust',
   TypeScript = 'typescript',
@@ -57,6 +59,7 @@ export enum ProgrammingLanguage {
   CPP = 'cpp',
   PHP = 'php',
   Kotlin = 'kotlin',
+  GDScript = 'gdscript',
   Uncategorized = 'uncategorized',
 }
 
@@ -71,6 +74,7 @@ export const KEYWORD_MAP = {
   [ProgrammingLanguage.Java]: JAVA,
   [ProgrammingLanguage.PHP]: PHP,
   [ProgrammingLanguage.Kotlin]: KOTLIN,
+  [ProgrammingLanguage.GDScript]: GD_SCRIPT,
 };
 
 export function getAvailableProgrammingLanguages(
