@@ -50,7 +50,10 @@ export class DropdownFilterSelectComponent implements OnInit, OnChanges {
       ? this.options.slice(1, this.options.length)
       : this.options;
 
-    this.options = ['', ...changedOptions];
+    this.options = [
+      '',
+      ...new Set([...changedOptions, ...(this.selectedOptions ?? [])]),
+    ].sort();
   }
 
   handleSelection(item: string) {
