@@ -14,6 +14,9 @@ export class DropdownCodeLangSelectComponent {
   @Output()
   optionsSelectedChanged = new EventEmitter<ProgrammingLanguage[]>();
 
+  @Input()
+  selectedLangs?: ProgrammingLanguage[];
+
   languageMappings: Record<ProgrammingLanguage, string> = {
     rust: 'Rust',
     typescript: 'TypeScript',

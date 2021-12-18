@@ -3,6 +3,7 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnChanges,
   Output,
 } from '@angular/core';
 import {
@@ -18,7 +19,8 @@ import { Observable, of } from 'rxjs';
 import { LanguageCode } from './language-code';
 import { ProgrammingLanguage } from '../../../utils';
 import { TwitchOauthService } from '../../../services/twitch-oauth.service';
-import { map } from 'rxjs/operators';
+import { map, share, tap } from 'rxjs/operators';
+import { Filters } from '../../../services/filter.service';
 
 export enum FilterEvents {
   MostPopular = 'mostPopular',
@@ -51,7 +53,7 @@ export interface CategoryFilter {
   styleUrls: ['./filters.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FiltersComponent {
+export class FiltersComponent implements OnChanges {
   @Input() languages?: Observable<LanguageCode[]> = of([]);
 
   @Input() programmingLanguages: Observable<ProgrammingLanguage[]> = of([]);
@@ -66,6 +68,9 @@ export class FiltersComponent {
   @Output() refreshStream = new EventEmitter();
 
   @Output() layoutChanged = new EventEmitter<Layout>();
+
+  @Input()
+  selectedStates?: Filters;
 
   filtersStatus: Record<FilterEvents, boolean> = {
     ...this.initFilters(),
@@ -119,14 +124,32 @@ export class FiltersComponent {
             },
           ]
         : this.categoryFiltersDefaults;
-    })
+    }),
+    share()
   );
+
+  ngOnChanges() {
+    if (this.selectedStates?.categoryFilter) {
+      this.categoryFilters
+        .pipe(
+          tap((categoryFilters) => {
+            this.active =
+              categoryFilters
+                .filter((c) => c.event !== this.events.Search)
+                .find((c) => c.event === this.selectedStates?.categoryFilter) ||
+              this.active;
+          })
+        )
+        .subscribe();
+    }
+  }
+
+  constructor(private twitchOauthService: TwitchOauthService) {}
 
   handleFilter(filter: CategoryFilter) {
     this.active = filter;
     this.emitFilter(filter.event);
   }
-  constructor(private twitchOauthService: TwitchOauthService) {}
 
   emitFilter(event: FilterEvents, elemEvent?: Event) {
     this.resetFilters();

@@ -4,6 +4,7 @@
       aria-label="Search"
       (click)="emitFilter(events.Search, $event)"
       (keydown.enter)="emitFilter(events.Search, $event)"
+      [value]="!!selectedStates?.searchTerm ? selectedStates?.searchTerm : null"
       (input)="emitFilter(events.Search, $event)"
       type="text"
       class="
@@ -44,7 +45,8 @@
     class="pb-2 pr-2"
     *ngIf="programmingLanguages | async as langs"
     (optionsSelectedChanged)="programmingLanguagesChanged.emit($event)"
-    [options]="(programmingLanguages | async) || []"
+    [selectedLangs]="selectedStates?.programmingLanguages"
+    [options]="langs || []"
   >
   </nbp-dropdown-code-lang-select>
   <ng-template #template let-option>
@@ -60,6 +62,7 @@
   <nbp-dropdown-lang-select
     class="pb-2 pr-2"
     *ngIf="languages | async as langs"
+    [selectedLangs]="selectedStates?.language"
     (languagesChanged)="languageChanged.emit($event)"
     [languages]="langs"
   ></nbp-dropdown-lang-select>

@@ -13,14 +13,21 @@ import {
 import { StreamInfo } from '../../stream-info';
 import { filterStreamBySearchTerm, ProgrammingLanguage } from '../../utils';
 import { LanguageCode } from './filters/language-code';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { Filter, FilterService } from '../../services/filter.service';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  map,
+  switchMap,
+  tap,
+} from 'rxjs/operators';
+import { Filter, Filters, FilterService } from '../../services/filter.service';
 import {
   filterByCategory,
   filterByLanguage,
   filterByProgrammingLanguages,
 } from './attribute-filters';
 import { TwitchService } from '../../services/twitch.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'nbp-filter-stream-list',
@@ -66,10 +73,52 @@ export class FilterStreamListComponent implements OnChanges {
 
   filteredStreams = this.filterService.createFilters(this.filterSubjects);
 
+  selectedStates: Filters = {};
+
   constructor(
     private filterService: FilterService,
-    private twitchService: TwitchService
-  ) {}
+    private twitchService: TwitchService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router
+  ) {
+    const trackFilters = this.filterService.getFilters().pipe(
+      tap((filters) =>
+        this.router.navigate([], {
+          relativeTo: this.activatedRoute,
+          queryParamsHandling: 'merge',
+          queryParams: this.filterService.toQueryParams(filters),
+        })
+      )
+    );
+
+    const filterByQueryParams = this.activatedRoute.queryParams.pipe(
+      map((queryFilters) => this.filterService.fromQueryParams(queryFilters)),
+      tap((filterState) => (this.selectedStates = filterState)),
+      tap((filterState) => {
+        this.filterSubjects.searchTerm.subject.next(filterState.searchTerm);
+        this.filterSubjects.categoryFilter.subject.next(
+          filterState.categoryFilter
+        );
+        this.filterSubjects.programmingLanguages.subject.next(
+          filterState.programmingLanguages
+        );
+        this.filterSubjects.language.subject.next(filterState.language);
+      }),
+      switchMap(() => {
+        return trackFilters;
+      })
+    );
+
+    this.activatedRoute.queryParams
+      .pipe(
+        switchMap((queryParams) => {
+          return Object.keys(queryParams).length > 0
+            ? filterByQueryParams
+            : trackFilters;
+        })
+      )
+      .subscribe();
+  }
 
   ngOnChanges(): void {
     this.filterSubjects.streams.subject.next(this.streamCategoryList);
@@ -78,7 +127,6 @@ export class FilterStreamListComponent implements OnChanges {
   filterStreams(event: FilterEventPayload) {
     if (event.type === FilterEvents.Search) {
       this.filterSubjects.searchTerm.subject.next(event.value);
-      this.filterSubjects.categoryFilter.subject.next(event.type);
     } else {
       this.filterSubjects.categoryFilter.subject.next(event.type);
     }
