@@ -13,27 +13,22 @@ import {
 import { StreamInfo } from '../../stream-info';
 import { filterStreamBySearchTerm, ProgrammingLanguage } from '../../utils';
 import { LanguageCode } from './filters/language-code';
-import {
-  debounceTime,
-  distinctUntilChanged,
-  map,
-  switchMap,
-  tap,
-} from 'rxjs/operators';
-import { Filter, Filters, FilterService } from '../../services/filter.service';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { Filter, FilterService } from '../../services/filter.service';
 import {
   filterByCategory,
   filterByLanguage,
   filterByProgrammingLanguages,
 } from './attribute-filters';
 import { TwitchService } from '../../services/twitch.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { FilterQueryParamsService } from '../../services/filter-query-params.service';
 
 @Component({
   selector: 'nbp-filter-stream-list',
   templateUrl: './filter-stream-list.component.html',
   styleUrls: ['./filter-stream-list.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [FilterQueryParamsService],
 })
 export class FilterStreamListComponent implements OnChanges {
   @Input() streamCategoryList: StreamInfo[] | null = [];
@@ -73,49 +68,14 @@ export class FilterStreamListComponent implements OnChanges {
 
   filteredStreams = this.filterService.createFilters(this.filterSubjects);
 
-  selectedStates: Filters = {};
+  selectedStates = this.filterQueryParamsService.getSelectedStates();
 
   constructor(
     private filterService: FilterService,
     private twitchService: TwitchService,
-    private activatedRoute: ActivatedRoute,
-    private router: Router
+    private filterQueryParamsService: FilterQueryParamsService
   ) {
-    const trackFilters = this.filterService.getFilters().pipe(
-      tap((filters) =>
-        this.router.navigate([], {
-          relativeTo: this.activatedRoute,
-          queryParamsHandling: 'merge',
-          queryParams: this.filterService.toQueryParams(filters),
-        })
-      )
-    );
-
-    const filterByQueryParams = this.activatedRoute.queryParams.pipe(
-      map((queryFilters) => this.filterService.fromQueryParams(queryFilters)),
-      tap((filterState) => (this.selectedStates = filterState)),
-      tap((filterState) => {
-        this.filterSubjects.searchTerm.subject.next(filterState.searchTerm);
-        this.filterSubjects.categoryFilter.subject.next(
-          filterState.categoryFilter
-        );
-        this.filterSubjects.programmingLanguages.subject.next(
-          filterState.programmingLanguages
-        );
-        this.filterSubjects.language.subject.next(filterState.language);
-      }),
-      switchMap(() => trackFilters)
-    );
-
-    this.activatedRoute.queryParams
-      .pipe(
-        switchMap((queryParams) => {
-          return Object.keys(queryParams).length > 0
-            ? filterByQueryParams
-            : trackFilters;
-        })
-      )
-      .subscribe();
+    this.filterQueryParamsService.subscribe(this.filterSubjects);
   }
 
   ngOnChanges(): void {

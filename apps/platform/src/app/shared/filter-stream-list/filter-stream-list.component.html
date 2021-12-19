@@ -1,4 +1,5 @@
 <nbp-filters
+  *ngIf="selectedStates | async as selectedStates"
   [languages]="availableLanguages"
   [selectedStates]="selectedStates"
   [programmingLanguages]="availableProgrammingLanguages"

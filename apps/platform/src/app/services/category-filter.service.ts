@@ -6,16 +6,14 @@ import {
   faMale,
   faStar,
 } from '@fortawesome/free-solid-svg-icons';
-import { map } from 'rxjs';
+import { BehaviorSubject, map } from 'rxjs';
 import {
   CategoryFilter,
   FilterEvents,
 } from '../shared/filter-stream-list/filters/filters.component';
 import { TwitchOauthService } from './twitch-oauth.service';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class CategoryFilterService {
   events = FilterEvents;
 
@@ -47,6 +45,10 @@ export class CategoryFilterService {
     },
   ];
 
+  private currentfilter = new BehaviorSubject<CategoryFilter>(
+    this.categoryFiltersDefaults[0]
+  );
+
   constructor(private twitchOauthService: TwitchOauthService) {}
 
   findCategoryFilterByEvent(event?: FilterEvents): CategoryFilter {
@@ -69,5 +71,13 @@ export class CategoryFilterService {
           : this.categoryFiltersDefaults;
       })
     );
+  }
+
+  updateCurrentFilter(categoryFilter: CategoryFilter) {
+    this.currentfilter.next(categoryFilter);
+  }
+
+  getCurrentFilter() {
+    return this.currentfilter.asObservable();
   }
 }

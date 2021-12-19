@@ -8,7 +8,7 @@ import {
   Output,
 } from '@angular/core';
 import { faSync, IconDefinition } from '@fortawesome/free-solid-svg-icons';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { LanguageCode } from './language-code';
 import { ProgrammingLanguage } from '../../../utils';
 import { Filters } from '../../../services/filter.service';
@@ -44,11 +44,15 @@ export interface CategoryFilter {
   templateUrl: './filters.component.html',
   styleUrls: ['./filters.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [CategoryFilterService],
 })
 export class FiltersComponent implements OnChanges, OnInit {
   @Input() languages?: Observable<LanguageCode[]> = of([]);
 
   @Input() programmingLanguages: Observable<ProgrammingLanguage[]> = of([]);
+
+  @Input()
+  selectedStates?: Filters;
 
   @Output() filterChanged = new EventEmitter<FilterEventPayload>();
 
@@ -61,9 +65,6 @@ export class FiltersComponent implements OnChanges, OnInit {
 
   @Output() layoutChanged = new EventEmitter<Layout>();
 
-  @Input()
-  selectedStates?: Filters;
-
   filtersStatus: Record<FilterEvents, boolean> = {
     ...this.initFilters(),
     [FilterEvents.MostPopular]: true,
@@ -75,34 +76,30 @@ export class FiltersComponent implements OnChanges, OnInit {
 
   faSync = faSync;
 
-  currentfilter = new BehaviorSubject<CategoryFilter>(
-    this.categoryFilterService.categoryFiltersDefaults[0]
-  );
-
-  active = this.currentfilter.asObservable();
+  active = this.categoryFilterService.getCurrentFilter();
 
   categoryFilters = this.categoryFilterService.getCategoryFilters();
 
   ngOnInit() {
-    const filter = this.categoryFilterService.findCategoryFilterByEvent(
-      this.selectedStates?.categoryFilter
-    );
-    this.currentfilter.next(filter);
-    this.emitFilter(filter.event);
+    this.updateCategoryFilter();
   }
 
   ngOnChanges() {
-    const filter = this.categoryFilterService.findCategoryFilterByEvent(
-      this.selectedStates?.categoryFilter
-    );
-    this.currentfilter.next(filter);
-    this.emitFilter(filter.event);
+    this.updateCategoryFilter();
   }
 
   constructor(private categoryFilterService: CategoryFilterService) {}
 
+  private updateCategoryFilter() {
+    const filter = this.categoryFilterService.findCategoryFilterByEvent(
+      this.selectedStates?.categoryFilter
+    );
+    this.categoryFilterService.updateCurrentFilter(filter);
+    this.emitFilter(filter.event);
+  }
+
   handleFilter(filter: CategoryFilter) {
-    this.currentfilter.next(filter);
+    this.categoryFilterService.updateCurrentFilter(filter);
     this.emitFilter(filter.event);
   }
 
