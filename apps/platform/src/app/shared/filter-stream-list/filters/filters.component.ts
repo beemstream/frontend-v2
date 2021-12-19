@@ -4,23 +4,15 @@ import {
   EventEmitter,
   Input,
   OnChanges,
+  OnInit,
   Output,
 } from '@angular/core';
-import {
-  faHeart,
-  faFire,
-  faSync,
-  faRunning,
-  faMale,
-  faStar,
-  IconDefinition,
-} from '@fortawesome/free-solid-svg-icons';
-import { Observable, of } from 'rxjs';
+import { faSync, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { LanguageCode } from './language-code';
 import { ProgrammingLanguage } from '../../../utils';
-import { TwitchOauthService } from '../../../services/twitch-oauth.service';
-import { map, share, tap } from 'rxjs/operators';
 import { Filters } from '../../../services/filter.service';
+import { CategoryFilterService } from '../../../services/category-filter.service';
 
 export enum FilterEvents {
   MostPopular = 'mostPopular',
@@ -53,7 +45,7 @@ export interface CategoryFilter {
   styleUrls: ['./filters.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FiltersComponent implements OnChanges {
+export class FiltersComponent implements OnChanges, OnInit {
   @Input() languages?: Observable<LanguageCode[]> = of([]);
 
   @Input() programmingLanguages: Observable<ProgrammingLanguage[]> = of([]);
@@ -83,71 +75,34 @@ export class FiltersComponent implements OnChanges {
 
   faSync = faSync;
 
-  active = {
-    event: this.events.MostPopular,
-    icon: faFire,
-    value: 'Most Popular',
-  };
-
-  categoryFiltersDefaults: CategoryFilter[] = [
-    {
-      event: this.events.MostPopular,
-      icon: faFire,
-      value: 'Most Popular',
-    },
-    {
-      event: this.events.NeedsLove,
-      icon: faHeart,
-      value: 'Needs Love',
-    },
-    {
-      event: this.events.MarathonRunners,
-      icon: faRunning,
-      value: 'Marathon Runners',
-    },
-    {
-      event: this.events.Starters,
-      icon: faMale,
-      value: 'Slow Starters',
-    },
-  ];
-
-  categoryFilters = this.twitchOauthService.getAccessToken().pipe(
-    map((t) => {
-      return t
-        ? [
-            ...this.categoryFiltersDefaults,
-            {
-              event: this.events.Follows,
-              icon: faStar,
-              value: 'Followed',
-            },
-          ]
-        : this.categoryFiltersDefaults;
-    }),
-    share()
+  currentfilter = new BehaviorSubject<CategoryFilter>(
+    this.categoryFilterService.categoryFiltersDefaults[0]
   );
 
-  ngOnChanges() {
-    if (this.selectedStates?.categoryFilter) {
-      this.categoryFilters
-        .pipe(
-          tap((categoryFilters) => {
-            this.active =
-              categoryFilters
-                .filter((c) => c.event !== this.events.Search)
-                .find((c) => c.event === this.selectedStates?.categoryFilter) ||
-              this.active;
-          })
-        )
-        .subscribe();
-    }
+  active = this.currentfilter.asObservable();
+
+  categoryFilters = this.categoryFilterService.getCategoryFilters();
+
+  ngOnInit() {
+    const filter = this.categoryFilterService.findCategoryFilterByEvent(
+      this.selectedStates?.categoryFilter
+    );
+    this.currentfilter.next(filter);
+    this.emitFilter(filter.event);
   }
 
-  constructor(private twitchOauthService: TwitchOauthService) {}
+  ngOnChanges() {
+    const filter = this.categoryFilterService.findCategoryFilterByEvent(
+      this.selectedStates?.categoryFilter
+    );
+    this.currentfilter.next(filter);
+    this.emitFilter(filter.event);
+  }
+
+  constructor(private categoryFilterService: CategoryFilterService) {}
 
   handleFilter(filter: CategoryFilter) {
-    this.active = filter;
+    this.currentfilter.next(filter);
     this.emitFilter(filter.event);
   }
 

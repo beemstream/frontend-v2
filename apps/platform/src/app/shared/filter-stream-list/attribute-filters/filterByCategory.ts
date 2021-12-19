@@ -43,5 +43,7 @@ const categoryFilterMap: Record<
 export const filterByCategory =
   (twitchService: TwitchService) =>
   (streams: StreamInfo[], filter: FilterEvents) => {
-    return categoryFilterMap[filter](streams, { service: twitchService });
+    return categoryFilterMap[filter]
+      ? categoryFilterMap[filter](streams, { service: twitchService })
+      : of([]);
   };

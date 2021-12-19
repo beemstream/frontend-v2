@@ -104,9 +104,7 @@ export class FilterStreamListComponent implements OnChanges {
         );
         this.filterSubjects.language.subject.next(filterState.language);
       }),
-      switchMap(() => {
-        return trackFilters;
-      })
+      switchMap(() => trackFilters)
     );
 
     this.activatedRoute.queryParams

@@ -4,6 +4,7 @@ import { switchMap, tap } from 'rxjs/operators';
 import { combineLatest } from 'rxjs';
 import { StreamInfo } from '../stream-info';
 import { ProgrammingLanguage } from '../utils';
+import { FilterEvents } from '../shared/filter-stream-list/filters/filters.component';
 
 export type FilterFn = (
   streams: StreamInfo[],
@@ -24,14 +25,14 @@ export interface Filter<T = unknown> {
 
 export interface Filters {
   searchTerm?: string | null;
-  categoryFilter?: string;
+  categoryFilter?: FilterEvents;
   language?: string[];
   programmingLanguages?: ProgrammingLanguage[];
 }
 
 export interface FiltersQueryParams {
-  searchTerm?: string;
-  categoryFilter?: string;
+  searchTerm?: string | null;
+  categoryFilter?: FilterEvents;
   language?: string;
   programmingLanguages?: string;
 }
@@ -46,7 +47,7 @@ export class FilterService {
     return this.filters.asObservable();
   }
 
-  toQueryParams(filterState: Filters) {
+  toQueryParams(filterState: Filters): FiltersQueryParams {
     const { categoryFilter, language, programmingLanguages, searchTerm } =
       filterState;
 
@@ -63,6 +64,12 @@ export class FilterService {
   fromQueryParams(filterState: FiltersQueryParams): Filters {
     const { categoryFilter, language, programmingLanguages, searchTerm } =
       filterState;
+    if (!categoryFilter && !language && !programmingLanguages) {
+      return {
+        categoryFilter: FilterEvents.MostPopular,
+      };
+    }
+
     return {
       ...(categoryFilter && { categoryFilter }),
       ...(language && { language: language.split(',') }),
