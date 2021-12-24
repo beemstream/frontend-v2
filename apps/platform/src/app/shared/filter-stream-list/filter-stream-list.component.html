@@ -3,9 +3,9 @@
   [languages]="availableLanguages"
   [selectedStates]="selectedStates"
   [programmingLanguages]="availableProgrammingLanguages"
-  (languageChanged)="filterSubjects.language.subject.next($event)"
+  (languageChanged)="handleChangedFilter(filterKey.Language, $event)"
   (programmingLanguagesChanged)="
-    filterSubjects.programmingLanguages.subject.next($event)
+    handleChangedFilter(filterKey.ProgrammingLanguage, $event)
   "
   (filterChanged)="filterStreams($event)"
   (refreshStream)="refreshStream.emit()"

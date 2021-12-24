@@ -2,25 +2,18 @@ import {
   ChangeDetectionStrategy,
   EventEmitter,
   OnChanges,
+  OnInit,
 } from '@angular/core';
 import { Component, Input, Output } from '@angular/core';
-import { Observable, of } from 'rxjs';
 import {
   FilterEventPayload,
   FilterEvents,
   Layout,
 } from './filters/filters.component';
 import { StreamInfo } from '../../stream-info';
-import { filterStreamBySearchTerm, ProgrammingLanguage } from '../../utils';
+import { ProgrammingLanguage } from '../../utils';
 import { LanguageCode } from './filters/language-code';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { Filter, FilterService } from '../../services/filter.service';
-import {
-  filterByCategory,
-  filterByLanguage,
-  filterByProgrammingLanguages,
-} from './attribute-filters';
-import { TwitchService } from '../../services/twitch.service';
+import { FilterKey, FilterService } from '../../services/filter.service';
 import { FilterQueryParamsService } from '../../services/filter-query-params.service';
 
 @Component({
@@ -28,15 +21,14 @@ import { FilterQueryParamsService } from '../../services/filter-query-params.ser
   templateUrl: './filter-stream-list.component.html',
   styleUrls: ['./filter-stream-list.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [FilterQueryParamsService],
+  providers: [FilterService, FilterQueryParamsService],
 })
-export class FilterStreamListComponent implements OnChanges {
+export class FilterStreamListComponent implements OnInit, OnChanges {
   @Input() streamCategoryList: StreamInfo[] | null = [];
 
-  @Input() availableLanguages?: Observable<LanguageCode[]> = of([]);
+  @Input() availableLanguages?: LanguageCode[] | null = [];
 
-  @Input() availableProgrammingLanguages: Observable<ProgrammingLanguage[]> =
-    of([]);
+  @Input() availableProgrammingLanguages: ProgrammingLanguage[] | null = [];
 
   @Output() refreshStream = new EventEmitter<string>();
 
@@ -46,48 +38,54 @@ export class FilterStreamListComponent implements OnChanges {
 
   layoutSetting = Layout.Default;
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  filterSubjects: Record<string, Filter<any>> = {
-    searchTerm: this.filterService.createFilter<string | undefined>(undefined, {
-      obs: (obs) =>
-        obs.asObservable().pipe(debounceTime(200), distinctUntilChanged()),
-      filter: filterStreamBySearchTerm,
-    }),
-    categoryFilter: this.filterService.createFilter<FilterEvents>(
-      FilterEvents.MostPopular,
-      { filter: filterByCategory(this.twitchService) }
-    ),
-    streams: this.filterService.createFilter<StreamInfo[]>([]),
-    language: this.filterService.createFilter<string[] | null>(null, {
-      filter: filterByLanguage,
-    }),
-    programmingLanguages: this.filterService.createFilter<
-      ProgrammingLanguage[] | null
-    >(null, { filter: filterByProgrammingLanguages }),
-  };
-
-  filteredStreams = this.filterService.createFilters(this.filterSubjects);
+  filteredStreams = this.filterService.getFilteredStreams();
 
   selectedStates = this.filterQueryParamsService.getSelectedStates();
 
+  filterKey = FilterKey;
+
   constructor(
     private filterService: FilterService,
-    private twitchService: TwitchService,
     private filterQueryParamsService: FilterQueryParamsService
   ) {
-    this.filterQueryParamsService.subscribe(this.filterSubjects);
+    this.filterQueryParamsService.subscribe();
+  }
+
+  ngOnInit() {
+    this.filterService.updateSourceValue(
+      FilterKey.ProgrammingLanguage,
+      this.availableProgrammingLanguages
+    );
+    this.filterService.updateSourceValue(
+      FilterKey.Language,
+      this.availableLanguages
+    );
   }
 
   ngOnChanges(): void {
-    this.filterSubjects.streams.subject.next(this.streamCategoryList);
+    this.filterService.updateSourceValue(
+      FilterKey.Streams,
+      this.streamCategoryList
+    );
   }
 
   filterStreams(event: FilterEventPayload) {
     if (event.type === FilterEvents.Search) {
-      this.filterSubjects.searchTerm.subject.next(event.value);
+      this.filterService.updateSourceValue(FilterKey.SearchTerm, event.value);
     } else {
-      this.filterSubjects.categoryFilter.subject.next(event.type);
+      this.filterService.updateSourceValue(
+        FilterKey.CategoryFilter,
+        event.type
+      );
     }
+  }
+
+  handleChangedFilter(
+    filterKey: FilterKey,
+    value: LanguageCode[] | ProgrammingLanguage[]
+  ) {
+    console.log(value);
+    this.filterService.updateSourceValue(filterKey, value);
   }
 
   changeLayout(layout: Layout) {

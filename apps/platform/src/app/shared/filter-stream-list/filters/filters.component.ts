@@ -8,7 +8,6 @@ import {
   Output,
 } from '@angular/core';
 import { faSync, IconDefinition } from '@fortawesome/free-solid-svg-icons';
-import { Observable, of } from 'rxjs';
 import { LanguageCode } from './language-code';
 import { ProgrammingLanguage } from '../../../utils';
 import { Filters } from '../../../services/filter.service';
@@ -47,9 +46,9 @@ export interface CategoryFilter {
   providers: [CategoryFilterService],
 })
 export class FiltersComponent implements OnChanges, OnInit {
-  @Input() languages?: Observable<LanguageCode[]> = of([]);
+  @Input() languages?: LanguageCode[] | null = [];
 
-  @Input() programmingLanguages: Observable<ProgrammingLanguage[]> = of([]);
+  @Input() programmingLanguages: ProgrammingLanguage[] | null = [];
 
   @Input()
   selectedStates?: Filters;

@@ -13,10 +13,14 @@
       [innerHTML]="templateDesciption[category$] | escapeHtml"
     ></p>
     <nbp-filter-stream-list
+      *ngIf="{
+        programmingLangs: availableProgrammingLanauges | async,
+        langs: availableLanguages | async
+      } as attrs"
       [streamCategoryList]="templateStreams | async"
       (refreshStream)="forceRefresh(category$)"
-      [availableLanguages]="availableLanguages"
-      [availableProgrammingLanguages]="availableProgrammingLanauges"
+      [availableLanguages]="attrs.langs"
+      [availableProgrammingLanguages]="attrs.programmingLangs"
     ></nbp-filter-stream-list>
   </div>
 </div>

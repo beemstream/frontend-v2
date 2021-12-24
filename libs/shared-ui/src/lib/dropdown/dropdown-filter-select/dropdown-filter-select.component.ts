@@ -65,20 +65,20 @@ export class DropdownFilterSelectComponent implements OnInit, OnChanges {
       ...this.optionsSelected,
       [option]: !this.optionsSelected[option],
     };
-    this.emitLanguageSelectedChanged();
+    this.emitOptionsSelected();
   }
 
   selectAll() {
-    this.changeAllLanguageSelected(true);
-    this.emitLanguageSelectedChanged();
+    this.changeAllOptionsSelected(true);
+    this.emitOptionsSelected();
   }
 
   DeselectAll() {
-    this.changeAllLanguageSelected(false);
+    this.changeAllOptionsSelected(false);
     this.optionsSelectedChanged.emit([]);
   }
 
-  changeAllLanguageSelected(state: boolean) {
+  changeAllOptionsSelected(state: boolean) {
     this.optionsSelected = Object.keys(this.optionsSelected).reduce(
       (acc, key) => {
         return { ...acc, [key]: state };
@@ -87,7 +87,7 @@ export class DropdownFilterSelectComponent implements OnInit, OnChanges {
     );
   }
 
-  emitLanguageSelectedChanged() {
+  emitOptionsSelected() {
     this.optionsSelectedChanged.emit(
       Object.keys(this.optionsSelected).filter(
         (key) => !!key && this.optionsSelected[key]
