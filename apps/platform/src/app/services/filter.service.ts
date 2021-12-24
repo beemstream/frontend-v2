@@ -77,7 +77,7 @@ type FilterObs = {
   [key in keyof StreamFilters]: ReturnType<StreamFilters[key]['obs']>;
 };
 
-type FilterObsValues = {
+export type FilterObsValues = {
   [key in keyof StreamFilters]: GetInnerObs<
     ReturnType<StreamFilters[key]['obs']>
   >;
@@ -127,49 +127,6 @@ export class FilterService {
 
   getFilters(): Observable<FilterObsValues> {
     return this.filters;
-  }
-
-  toQueryParams(filterState: FilterObsValues): FiltersQueryParams {
-    const { categoryFilter, language, programmingLanguages, searchTerm } =
-      filterState;
-
-    return {
-      ...(categoryFilter && { categoryFilter }),
-      ...(language && {
-        language: language.length === 0 ? '[]' : language.toString(),
-      }),
-      ...(programmingLanguages && {
-        programmingLanguages:
-          programmingLanguages.length === 0
-            ? '[]'
-            : programmingLanguages.toString(),
-      }),
-      ...(searchTerm && { searchTerm }),
-    };
-  }
-
-  fromQueryParams(filterState: FiltersQueryParams): Filters {
-    const { categoryFilter, language, programmingLanguages, searchTerm } =
-      filterState;
-    if (!categoryFilter && !language && !programmingLanguages && !searchTerm) {
-      return {
-        categoryFilter: FilterEvents.MostPopular,
-      };
-    }
-
-    return {
-      ...(categoryFilter && { categoryFilter }),
-      ...(language && {
-        language: language === '[]' ? [] : language.split(','),
-      }),
-      ...(programmingLanguages && {
-        programmingLanguages:
-          programmingLanguages === '[]'
-            ? []
-            : (programmingLanguages.split(',') as ProgrammingLanguage[]),
-      }),
-      ...(searchTerm && { searchTerm }),
-    };
   }
 
   createFilter<T>(
