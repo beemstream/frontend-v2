@@ -1,8 +1,17 @@
 <a
+  *ngIf="linkType === 'routerLink'; else hrefElem"
   class="text-white cursor-pointer text-md hover:text-red-700 inline-flex"
-  [attr.routerLink]="linkType === 'routerLink' ? link : null"
-  [attr.href]="linkType === 'href' ? link : null"
+  [routerLink]="link"
   [attr.title]="linkName || title"
   [attr.target]="target"
   ><ng-content></ng-content> <span>{{ linkName }}</span></a
 >
+<ng-template #hrefElem>
+  <a
+    class="text-white cursor-pointer text-md hover:text-red-700 inline-flex"
+    [attr.href]="link"
+    [attr.title]="linkName || title"
+    [attr.target]="target"
+    ><ng-content></ng-content> <span>{{ linkName }}</span></a
+  >
+</ng-template>

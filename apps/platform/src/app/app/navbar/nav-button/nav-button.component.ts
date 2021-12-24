@@ -9,7 +9,7 @@ import { Icon } from '@frontend-v2/shared-ui';
 })
 export class NavButtonComponent {
   @Input() routeName?: string;
-  @Input() link?: string | [string, Record<string, unknown>];
+  @Input() link?: string;
   @Input() linkType: 'href' | 'routerLink' = 'routerLink';
   @Input() icon?: IconProp | Icon;
   @Input() iconSource: 'fa' | 'beemstream' = 'fa';

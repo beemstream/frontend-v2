@@ -1,10 +1,16 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BehaviorSubject, combineLatest, map, switchMap, tap } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  map,
+  Subscription,
+  switchMap,
+  tap,
+} from 'rxjs';
 import { FilterEvents } from '../shared/filter-stream-list/filters/filters.component';
 import { ProgrammingLanguage } from '../utils';
 import {
-  FilterKey,
   FilterObsValues,
   Filters,
   FilterService,
@@ -13,7 +19,9 @@ import {
 import { StreamCategoryService } from './stream-category.service';
 
 @Injectable()
-export class FilterQueryParamsService {
+export class FilterQueryParamsService implements OnDestroy {
+  subscription?: Subscription;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private filterService: FilterService,
@@ -93,6 +101,8 @@ export class FilterQueryParamsService {
         allLanguages,
       })),
       tap(({ filterState, allProgrammingLanguages, allLanguages }) => {
+        console.log('triggered', allProgrammingLanguages.length);
+        console.log('triggered', allLanguages.length);
         this.filterService.updateSourceValues({
           searchTerm: filterState.searchTerm,
           categoryFilter: filterState.categoryFilter,
@@ -105,7 +115,7 @@ export class FilterQueryParamsService {
       switchMap(() => trackFilters)
     );
 
-    this.activatedRoute.queryParams
+    this.subscription = this.activatedRoute.queryParams
       .pipe(
         switchMap((queryParams) => {
           return Object.keys(queryParams).length > 0
@@ -114,5 +124,9 @@ export class FilterQueryParamsService {
         })
       )
       .subscribe();
+  }
+
+  ngOnDestroy() {
+    this.subscription?.unsubscribe();
   }
 }

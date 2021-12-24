@@ -62,7 +62,7 @@ export class StreamCategoryService implements OnDestroy {
   }
 
   getAvailableLanguages(): Observable<LanguageCode[]> {
-    return getStreamListLanguages(this.streams).pipe(share());
+    return getStreamListLanguages(this.streams);
   }
 
   getAvailableProgrammingLanguages(): Observable<ProgrammingLanguage[]> {

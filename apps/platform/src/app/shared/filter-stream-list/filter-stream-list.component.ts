@@ -84,7 +84,6 @@ export class FilterStreamListComponent implements OnInit, OnChanges {
     filterKey: FilterKey,
     value: LanguageCode[] | ProgrammingLanguage[]
   ) {
-    console.log(value);
     this.filterService.updateSourceValue(filterKey, value);
   }
 

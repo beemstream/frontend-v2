@@ -28,6 +28,7 @@
               <nbp-nav-button
                 link="/browse"
                 routeName="Browse"
+                [navOptions]="navOptions"
               ></nbp-nav-button>
               <nbp-nav-button
                 link="/random"
@@ -108,6 +109,7 @@
           <ui-link
             (click)="toggleMobileNav()"
             link="/"
+            linkType="routerLink"
             linkName="Discover"
           ></ui-link>
         </li>
