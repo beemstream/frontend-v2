@@ -1,6 +1,6 @@
 <a
   *ngIf="linkType === 'routerLink'; else hrefElem"
-  class="text-white cursor-pointer text-md hover:text-red-700 inline-flex"
+  [class]="defaultClasses + ' ' + class"
   [routerLink]="link"
   [attr.title]="linkName || title"
   [attr.target]="target"
@@ -8,7 +8,7 @@
 >
 <ng-template #hrefElem>
   <a
-    class="text-white cursor-pointer text-md hover:text-red-700 inline-flex"
+    [class]="defaultClasses + ' ' + class"
     [attr.href]="link"
     [attr.title]="linkName || title"
     [attr.target]="target"

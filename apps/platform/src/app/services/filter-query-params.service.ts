@@ -101,8 +101,6 @@ export class FilterQueryParamsService implements OnDestroy {
         allLanguages,
       })),
       tap(({ filterState, allProgrammingLanguages, allLanguages }) => {
-        console.log('triggered', allProgrammingLanguages.length);
-        console.log('triggered', allLanguages.length);
         this.filterService.updateSourceValues({
           searchTerm: filterState.searchTerm,
           categoryFilter: filterState.categoryFilter,

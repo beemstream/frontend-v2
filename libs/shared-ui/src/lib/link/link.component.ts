@@ -12,4 +12,6 @@ export class LinkComponent {
   @Input() linkName?: string;
   @Input() title?: string;
   @Input() target?: string;
+  @Input() class?: string;
+  defaultClasses = 'text-white cursor-pointer text-md hover:text-red-700';
 }
