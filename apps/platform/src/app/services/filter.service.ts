@@ -125,6 +125,16 @@ export class FilterService {
     );
   }
 
+  updateSourceValues(
+    values: { [key in Exclude<FilterKey, 'streams'>]: FilterValues }
+  ) {
+    (Object.keys(values) as FilterKey[]).forEach((k) => {
+      this.filterSubjects[k].subject.next(
+        values[k as FilterValues & null & undefined]
+      );
+    });
+  }
+
   getFilters(): Observable<FilterObsValues> {
     return this.filters;
   }

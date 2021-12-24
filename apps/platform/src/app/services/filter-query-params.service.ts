@@ -23,49 +23,6 @@ export class FilterQueryParamsService {
 
   selectedStates = new BehaviorSubject<Filters>({});
 
-  trackFilters = this.filterService.getFilters().pipe(
-    tap((filters) => {
-      this.router.navigate([], {
-        relativeTo: this.activatedRoute,
-        queryParamsHandling: 'merge',
-        queryParams: this.toQueryParams(filters),
-      });
-    })
-  );
-
-  filterByQueryParams = combineLatest({
-    queryParams: this.activatedRoute.queryParams,
-    allProgrammingLanguages:
-      this.streamsService.getAvailableProgrammingLanguages(),
-    allLanguages: this.streamsService.getAvailableLanguages(),
-  }).pipe(
-    map(({ queryParams, allProgrammingLanguages, allLanguages }) => ({
-      filterState: this.fromQueryParams(queryParams),
-      allProgrammingLanguages,
-      allLanguages,
-    })),
-    tap(({ filterState, allProgrammingLanguages, allLanguages }) => {
-      this.filterService.updateSourceValue(
-        FilterKey.SearchTerm,
-        filterState.searchTerm
-      );
-      this.filterService.updateSourceValue(
-        FilterKey.CategoryFilter,
-        filterState.categoryFilter
-      );
-      this.filterService.updateSourceValue(
-        FilterKey.ProgrammingLanguage,
-        filterState.programmingLanguages || allProgrammingLanguages
-      );
-      this.filterService.updateSourceValue(
-        FilterKey.Language,
-        filterState.language || allLanguages
-      );
-      this.selectedStates.next(filterState);
-    }),
-    switchMap(() => this.trackFilters)
-  );
-
   getSelectedStates() {
     return this.selectedStates.asObservable();
   }
@@ -114,12 +71,46 @@ export class FilterQueryParamsService {
   }
 
   subscribe() {
+    const trackFilters = this.filterService.getFilters().pipe(
+      tap((filters) => {
+        this.router.navigate([], {
+          relativeTo: this.activatedRoute,
+          queryParamsHandling: 'merge',
+          queryParams: this.toQueryParams(filters),
+        });
+      })
+    );
+
+    const filterByQueryParams = combineLatest({
+      queryParams: this.activatedRoute.queryParams,
+      allProgrammingLanguages:
+        this.streamsService.getAvailableProgrammingLanguages(),
+      allLanguages: this.streamsService.getAvailableLanguages(),
+    }).pipe(
+      map(({ queryParams, allProgrammingLanguages, allLanguages }) => ({
+        filterState: this.fromQueryParams(queryParams),
+        allProgrammingLanguages,
+        allLanguages,
+      })),
+      tap(({ filterState, allProgrammingLanguages, allLanguages }) => {
+        this.filterService.updateSourceValues({
+          searchTerm: filterState.searchTerm,
+          categoryFilter: filterState.categoryFilter,
+          programmingLanguages:
+            filterState.programmingLanguages || allProgrammingLanguages,
+          language: filterState.language || allLanguages,
+        });
+        this.selectedStates.next(filterState);
+      }),
+      switchMap(() => trackFilters)
+    );
+
     this.activatedRoute.queryParams
       .pipe(
         switchMap((queryParams) => {
           return Object.keys(queryParams).length > 0
-            ? this.filterByQueryParams
-            : this.trackFilters;
+            ? filterByQueryParams
+            : trackFilters;
         })
       )
       .subscribe();
