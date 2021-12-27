@@ -29,10 +29,7 @@
       class="container font-bold text-white hover:text-red-800"
       [class.truncate]="shouldDisplayImage"
     >
-      <ui-link
-        [routerLink]="username | streamUrl"
-        [linkName]="streamTitle"
-      ></ui-link>
+      <ui-link [link]="username | streamUrl" [linkName]="streamTitle"></ui-link>
     </div>
   </div>
   <div class="pl-6 pr-6">
@@ -48,7 +45,7 @@
         <div class="inline-block">
           <fa-icon [icon]="faUser"></fa-icon>
           <ui-link
-            class="px-1"
+            class="px-1 inline-flex"
             linkType="href"
             [link]="twitchUserLink"
             target="_blank"

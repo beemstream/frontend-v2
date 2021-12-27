@@ -4,8 +4,8 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'streamUrl',
 })
 export class StreamUrlPipe implements PipeTransform {
-  transform(value?: string): string | undefined {
+  transform(value?: string): string {
     if (!value) return '';
-    return `/stream/t/${encodeURIComponent(value)}`;
+    return `/stream/t/${value}`;
   }
 }
