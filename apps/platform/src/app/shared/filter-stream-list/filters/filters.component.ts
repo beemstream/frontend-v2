@@ -3,22 +3,15 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnChanges,
+  OnInit,
   Output,
 } from '@angular/core';
-import {
-  faHeart,
-  faFire,
-  faSync,
-  faRunning,
-  faMale,
-  faStar,
-  IconDefinition,
-} from '@fortawesome/free-solid-svg-icons';
-import { Observable, of } from 'rxjs';
+import { faSync, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { LanguageCode } from './language-code';
 import { ProgrammingLanguage } from '../../../utils';
-import { TwitchOauthService } from '../../../services/twitch-oauth.service';
-import { map } from 'rxjs/operators';
+import { Filters } from '../../../services/filter.service';
+import { CategoryFilterService } from '../../../services/category-filter.service';
 
 export enum FilterEvents {
   MostPopular = 'mostPopular',
@@ -50,11 +43,15 @@ export interface CategoryFilter {
   templateUrl: './filters.component.html',
   styleUrls: ['./filters.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [CategoryFilterService],
 })
-export class FiltersComponent {
-  @Input() languages?: Observable<LanguageCode[]> = of([]);
+export class FiltersComponent implements OnChanges, OnInit {
+  @Input() languages?: LanguageCode[] | null = [];
 
-  @Input() programmingLanguages: Observable<ProgrammingLanguage[]> = of([]);
+  @Input() programmingLanguages: ProgrammingLanguage[] | null = [];
+
+  @Input()
+  selectedStates?: Filters;
 
   @Output() filterChanged = new EventEmitter<FilterEventPayload>();
 
@@ -78,55 +75,32 @@ export class FiltersComponent {
 
   faSync = faSync;
 
-  active = {
-    event: this.events.MostPopular,
-    icon: faFire,
-    value: 'Most Popular',
-  };
+  active = this.categoryFilterService.getCurrentFilter();
 
-  categoryFiltersDefaults: CategoryFilter[] = [
-    {
-      event: this.events.MostPopular,
-      icon: faFire,
-      value: 'Most Popular',
-    },
-    {
-      event: this.events.NeedsLove,
-      icon: faHeart,
-      value: 'Needs Love',
-    },
-    {
-      event: this.events.MarathonRunners,
-      icon: faRunning,
-      value: 'Marathon Runners',
-    },
-    {
-      event: this.events.Starters,
-      icon: faMale,
-      value: 'Slow Starters',
-    },
-  ];
+  categoryFilters = this.categoryFilterService.getCategoryFilters();
 
-  categoryFilters = this.twitchOauthService.getAccessToken().pipe(
-    map((t) => {
-      return t
-        ? [
-            ...this.categoryFiltersDefaults,
-            {
-              event: this.events.Follows,
-              icon: faStar,
-              value: 'Followed',
-            },
-          ]
-        : this.categoryFiltersDefaults;
-    })
-  );
+  ngOnInit() {
+    this.updateCategoryFilter();
+  }
 
-  handleFilter(filter: CategoryFilter) {
-    this.active = filter;
+  ngOnChanges() {
+    this.updateCategoryFilter();
+  }
+
+  constructor(private categoryFilterService: CategoryFilterService) {}
+
+  private updateCategoryFilter() {
+    const filter = this.categoryFilterService.findCategoryFilterByEvent(
+      this.selectedStates?.categoryFilter
+    );
+    this.categoryFilterService.updateCurrentFilter(filter);
     this.emitFilter(filter.event);
   }
-  constructor(private twitchOauthService: TwitchOauthService) {}
+
+  handleFilter(filter: CategoryFilter) {
+    this.categoryFilterService.updateCurrentFilter(filter);
+    this.emitFilter(filter.event);
+  }
 
   emitFilter(event: FilterEvents, elemEvent?: Event) {
     this.resetFilters();

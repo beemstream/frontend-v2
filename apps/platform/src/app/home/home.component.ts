@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { combineLatestWith, map, tap } from 'rxjs/operators';
+import { combineLatestWith, map, tap, withLatestFrom } from 'rxjs/operators';
 import { SeoService } from '../services/seo.service';
 import { StreamCategoryService } from '../services/stream-category.service';
 import { TwitchOauthService } from '../services/twitch-oauth.service';
@@ -18,6 +18,11 @@ export class HomeComponent {
 
   availableProgrammingLanguages =
     this.streamCategoryService.getAvailableProgrammingLanguages();
+
+  attrs = this.availableLanguages.pipe(
+    withLatestFrom(this.availableProgrammingLanguages),
+    map(([langs, programmingLangs]) => ({ langs, programmingLangs }))
+  );
 
   templateStreams = this.streams;
 

@@ -13,9 +13,10 @@
     development categories.
   </p>
   <nbp-filter-stream-list
+    *ngIf="attrs | async as attrs"
     [streamCategoryList]="templateStreams | async"
-    [availableLanguages]="availableLanguages"
-    [availableProgrammingLanguages]="availableProgrammingLanguages"
+    [availableLanguages]="attrs.langs"
+    [availableProgrammingLanguages]="attrs.programmingLangs"
     (refreshStream)="forceRefresh()"
   ></nbp-filter-stream-list>
 </div>

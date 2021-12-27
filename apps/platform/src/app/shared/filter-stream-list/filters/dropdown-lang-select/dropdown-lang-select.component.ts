@@ -14,6 +14,9 @@ export class DropdownLangSelectComponent {
   @Output()
   languagesChanged = new EventEmitter();
 
+  @Input()
+  selectedLangs?: string[];
+
   languageMappings = ISO_LANGUAGE;
 
   faGlobe = faGlobe;

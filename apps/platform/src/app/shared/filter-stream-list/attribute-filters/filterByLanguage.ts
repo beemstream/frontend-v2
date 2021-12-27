@@ -6,7 +6,7 @@ export const filterByLanguage = (
   language: string[] | null
 ) => {
   return !language
-    ? of(filteredStreams)
+    ? of([])
     : of(
         filteredStreams.filter((s) => {
           return language.some((l) => s.language === l);

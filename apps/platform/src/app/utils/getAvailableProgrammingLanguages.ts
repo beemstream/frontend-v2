@@ -1,5 +1,5 @@
-import { combineLatest, Observable, of, zip } from 'rxjs';
-import { filter, map, mergeMap, scan, switchMap } from 'rxjs/operators';
+import { combineLatest, Observable, of } from 'rxjs';
+import { map, mergeMap, switchMap } from 'rxjs/operators';
 import { StreamInfo } from '../stream-info';
 import { compareStr } from './compareStr';
 
@@ -83,15 +83,24 @@ export function getAvailableProgrammingLanguages(
   return stream.pipe(
     switchMap(() => {
       return of(Object.values(ProgrammingLanguage)).pipe(
-        switchMap((ls) => ls),
-        map((l) => zip(filterByProgrammingLanguage(stream, l), of(l))),
-        mergeMap((l) => l),
-        filter(([s]) => s.length > 0),
-        map(([, l]) => l),
-        scan((acc: ProgrammingLanguage[], curr) => {
-          acc.push(curr);
-          return acc;
-        }, [])
+        mergeMap((programmingLangs) => {
+          return combineLatest(
+            programmingLangs.reduce((acc, l) => {
+              return {
+                ...acc,
+                [l]: filterByProgrammingLanguage(stream, l),
+              };
+            }, {})
+          );
+        }),
+        map((s: { [index in ProgrammingLanguage]: StreamInfo[] }) => {
+          return (Object.keys(s) as ProgrammingLanguage[]).reduce((acc, k) => {
+            if (s[k].length > 0) {
+              return [...acc, k];
+            }
+            return acc;
+          }, [] as ProgrammingLanguage[]);
+        })
       );
     })
   );
@@ -117,27 +126,21 @@ export function filterByProgrammingLanguage(
   language: ProgrammingLanguage
 ) {
   return stream.pipe(
-    mergeMap((s) => s),
-    filter((s) => {
-      if (language === ProgrammingLanguage.Uncategorized) {
-        return Object.keys(KEYWORD_MAP)
-          .filter((k) => k !== ProgrammingLanguage.Uncategorized)
-          .every(
-            (k) =>
-              KEYWORD_MAP[k as KeywordMapKey].some((keyword: string) =>
-                searchKeywords(keyword, s)
-              ) === false
-          );
-      }
-      return KEYWORD_MAP[language].some((k) => searchKeywords(k, s));
-    }),
-    scan((acc: StreamInfo[], value) => {
-      const isAdded = acc.some((k) => k.id === value.id);
-      if (!isAdded) {
-        acc.push(value);
-      }
-      return acc;
-    }, [])
+    map((streams) => {
+      return streams.filter((s) => {
+        if (language === ProgrammingLanguage.Uncategorized) {
+          return Object.keys(KEYWORD_MAP)
+            .filter((k) => k !== ProgrammingLanguage.Uncategorized)
+            .every(
+              (k) =>
+                KEYWORD_MAP[k as KeywordMapKey].some((keyword: string) =>
+                  searchKeywords(keyword, s)
+                ) === false
+            );
+        }
+        return KEYWORD_MAP[language].some((k) => searchKeywords(k, s));
+      });
+    })
   );
 }
 

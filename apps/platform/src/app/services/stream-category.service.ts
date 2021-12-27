@@ -1,7 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
 import { Observable, of, Subject, timer } from 'rxjs';
-import { map, retry, shareReplay, switchMap, takeUntil } from 'rxjs/operators';
+import {
+  map,
+  retry,
+  share,
+  shareReplay,
+  switchMap,
+  takeUntil,
+} from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { LanguageCode } from '../shared/filter-stream-list/filters/language-code';
 import { StreamInfo } from '../stream-info';
@@ -59,7 +66,7 @@ export class StreamCategoryService implements OnDestroy {
   }
 
   getAvailableProgrammingLanguages(): Observable<ProgrammingLanguage[]> {
-    return getAvailableProgrammingLanguages(this.streams);
+    return getAvailableProgrammingLanguages(this.streams).pipe(share());
   }
 
   getNewStreams(

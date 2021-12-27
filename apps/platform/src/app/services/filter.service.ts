@@ -1,54 +1,182 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of, OperatorFunction } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { combineLatest } from 'rxjs';
 import { StreamInfo } from '../stream-info';
+import { filterStreamBySearchTerm, ProgrammingLanguage } from '../utils';
+import { FilterEvents } from '../shared/filter-stream-list/filters/filters.component';
+import {
+  filterByCategory,
+  filterByLanguage,
+  filterByProgrammingLanguages,
+} from '../shared/filter-stream-list/attribute-filters';
+import { TwitchService } from './twitch.service';
 
-export type FilterFn = (
+export type FilterFn<T> = (
   streams: StreamInfo[],
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  filter: any
+  filter: T
 ) => Observable<StreamInfo[]>;
 
-export interface FilterOptions {
-  obs?: (obs: BehaviorSubject<unknown>) => Observable<unknown>;
-  filter?: FilterFn;
+export interface FilterOptions<T> {
+  obs?: (obs: BehaviorSubject<T>) => Observable<T>;
+  filter?: FilterFn<T>;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export interface Filter<T = any> {
+export interface Filter<T = unknown> {
   subject: BehaviorSubject<T>;
   obs: (obs: BehaviorSubject<T>) => Observable<T>;
-  filter?: FilterFn;
+  filter: FilterFn<T>;
 }
 
-@Injectable({
-  providedIn: 'root',
-})
+export interface Filters {
+  searchTerm?: string | null;
+  categoryFilter?: FilterEvents;
+  streams?: StreamInfo[];
+  language?: string[];
+  programmingLanguages?: ProgrammingLanguage[];
+}
+
+export interface FiltersQueryParams {
+  searchTerm?: string | null;
+  categoryFilter?: FilterEvents;
+  language?: string;
+  programmingLanguages?: string;
+}
+
+export enum FilterKey {
+  SearchTerm = 'searchTerm',
+  CategoryFilter = 'categoryFilter',
+  Streams = 'streams',
+  Language = 'language',
+  ProgrammingLanguage = 'programmingLanguages',
+}
+
+export interface StreamFilters {
+  searchTerm: Filter<string | undefined>;
+  categoryFilter: Filter<FilterEvents>;
+  streams: Filter<StreamInfo[]>;
+  language: Filter<string[] | null>;
+  programmingLanguages: Filter<ProgrammingLanguage[] | null>;
+}
+
+type UnionToIntersection<U> = (
+  U extends unknown ? (k: U) => void : never
+) extends (k: infer I) => void
+  ? I
+  : never;
+
+type GetInnerFilter<S> = S extends Filter<infer T> ? T : never;
+
+type AllStreamFilter = StreamFilters[keyof StreamFilters];
+
+type StreamSubject = UnionToIntersection<AllStreamFilter['subject']>;
+
+type GetInnerObs<S> = S extends Observable<infer T> ? T : never;
+
+type FilterObs = {
+  [key in keyof StreamFilters]: ReturnType<StreamFilters[key]['obs']>;
+};
+
+export type FilterObsValues = {
+  [key in keyof StreamFilters]: GetInnerObs<
+    ReturnType<StreamFilters[key]['obs']>
+  >;
+};
+
+type StreamFilter = Exclude<
+  Filters[keyof Filters],
+  undefined | null | string | string[] | StreamInfo[]
+>;
+
+type FilterValues = GetInnerFilter<AllStreamFilter>;
+
+@Injectable()
 export class FilterService {
-  createFilter<T>(subject: T, { obs, filter }: FilterOptions = {}) {
+  private filters: Observable<FilterObsValues> = of();
+
+  filterSubjects: StreamFilters = {
+    searchTerm: this.createFilter<string | undefined>(undefined, {
+      obs: (obs) =>
+        obs.asObservable().pipe(debounceTime(200), distinctUntilChanged()),
+      filter: filterStreamBySearchTerm,
+    }),
+    categoryFilter: this.createFilter<FilterEvents>(FilterEvents.MostPopular, {
+      filter: filterByCategory(this.twitchService),
+    }),
+    streams: this.createFilter<StreamInfo[]>([]),
+    language: this.createFilter<string[] | null>(null, {
+      filter: filterByLanguage,
+    }),
+    programmingLanguages: this.createFilter<ProgrammingLanguage[] | null>(
+      null,
+      { filter: filterByProgrammingLanguages }
+    ),
+  };
+
+  constructor(private twitchService: TwitchService) {}
+
+  getFilteredStreams(): Observable<StreamInfo[]> {
+    return this.createFilters(this.filterSubjects);
+  }
+
+  updateSourceValue(key: FilterKey, value: FilterValues) {
+    this.filterSubjects[key].subject.next(
+      value as FilterValues & null & undefined
+    );
+  }
+
+  updateSourceValues(
+    values: { [key in Exclude<FilterKey, 'streams'>]: FilterValues }
+  ) {
+    (Object.keys(values) as FilterKey[]).forEach((k) => {
+      this.filterSubjects[k].subject.next(
+        values[k as FilterValues & null & undefined]
+      );
+    });
+  }
+
+  getFilters(): Observable<FilterObsValues> {
+    return this.filters;
+  }
+
+  createFilter<T>(
+    subject: T,
+    { obs, filter }: FilterOptions<T> = {}
+  ): Filter<T> {
     return {
       subject: new BehaviorSubject<T>(subject),
       obs: obs ? obs : (obs: BehaviorSubject<T>) => obs.asObservable(),
-      ...(filter && { filter }),
+      filter: filter ? filter : (s: StreamInfo[]) => of(s),
     };
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  createFilters(filters: Record<string, Filter<any>>) {
-    const allFilters = Object.keys(filters).reduce((acc, key) => {
-      acc[key] = filters[key].obs(filters[key].subject);
-      return acc;
-    }, {} as Record<string, Observable<unknown>>);
+  createFilters(filters: StreamFilters) {
+    const allFilters = (Object.keys(filters) as (keyof StreamFilters)[]).reduce(
+      (acc, key) => {
+        (acc[key] as ReturnType<AllStreamFilter['obs']>) = filters[key].obs(
+          filters[key].subject as StreamSubject
+        );
+        return acc;
+      },
+      {} as FilterObs
+    );
 
-    return combineLatest(allFilters).pipe(
-      switchMap(({ streams, ...rest }) => {
-        const operators = Object.keys(rest).map((k) => {
-          return switchMap((s) =>
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            filters[k].filter!(s as StreamInfo[], rest[k])
-          );
-        });
+    this.filters = combineLatest(allFilters);
+
+    return this.filters.pipe(
+      switchMap(({ streams, ...filterState }) => {
+        const operators = (Object.keys(filterState) as (keyof FilterObs)[]).map(
+          (k: keyof FilterObs) => {
+            return switchMap((s) =>
+              filters[k].filter(
+                s as StreamInfo[],
+                filterState[
+                  k as keyof Omit<StreamFilters, 'streams'>
+                ] as StreamFilter
+              )
+            );
+          }
+        );
 
         return of(streams ?? []).pipe(
           ...(operators as [OperatorFunction<unknown, StreamInfo[]>])

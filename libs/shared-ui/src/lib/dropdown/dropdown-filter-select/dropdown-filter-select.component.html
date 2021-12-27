@@ -16,16 +16,28 @@
       [ngTemplateOutletContext]="{ $implicit: option }"
     ></ng-container>
   </div>
-  <span>
+  <span *ngIf="selectedOptions; else default">
     <input
       class="float-right mt-2 rounded-md"
       style="width: 15px; height: 15px; padding-top: 2px"
       type="checkbox"
-      [checked]="optionsSelected[option]"
+      [checked]="selectedOptions.includes(option)"
       [id]="option"
       [name]="option"
     />
   </span>
+  <ng-template #default>
+    <span>
+      <input
+        class="float-right mt-2 rounded-md"
+        style="width: 15px; height: 15px; padding-top: 2px"
+        type="checkbox"
+        [checked]="optionsSelected[option]"
+        [id]="option"
+        [name]="option"
+      />
+    </span>
+  </ng-template>
 </ng-template>
 
 <ui-dropdown

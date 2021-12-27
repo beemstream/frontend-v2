@@ -30,9 +30,15 @@ export class DropdownFilterSelectComponent implements OnInit, OnChanges {
 
   optionsSelected!: Record<string, boolean>;
 
+  @Input()
+  selectedOptions?: string[];
+
   ngOnInit() {
     this.optionsSelected = this.options.reduce((acc, key) => {
       if (acc[key] === undefined) {
+        if (this.selectedOptions) {
+          return { ...acc, [key]: this.selectedOptions.includes(key) };
+        }
         return { ...acc, [key]: true };
       }
       return acc;
@@ -40,7 +46,14 @@ export class DropdownFilterSelectComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
-    this.options = ['', ...this.options];
+    const changedOptions = this.options.includes('')
+      ? this.options.slice(1, this.options.length)
+      : this.options;
+
+    this.options = [
+      '',
+      ...new Set([...changedOptions, ...(this.selectedOptions ?? [])]),
+    ].sort();
   }
 
   handleSelection(item: string) {
@@ -52,20 +65,20 @@ export class DropdownFilterSelectComponent implements OnInit, OnChanges {
       ...this.optionsSelected,
       [option]: !this.optionsSelected[option],
     };
-    this.emitLanguageSelectedChanged();
+    this.emitOptionsSelected();
   }
 
   selectAll() {
-    this.changeAllLanguageSelected(true);
-    this.emitLanguageSelectedChanged();
+    this.changeAllOptionsSelected(true);
+    this.emitOptionsSelected();
   }
 
   DeselectAll() {
-    this.changeAllLanguageSelected(false);
+    this.changeAllOptionsSelected(false);
     this.optionsSelectedChanged.emit([]);
   }
 
-  changeAllLanguageSelected(state: boolean) {
+  changeAllOptionsSelected(state: boolean) {
     this.optionsSelected = Object.keys(this.optionsSelected).reduce(
       (acc, key) => {
         return { ...acc, [key]: state };
@@ -74,7 +87,7 @@ export class DropdownFilterSelectComponent implements OnInit, OnChanges {
     );
   }
 
-  emitLanguageSelectedChanged() {
+  emitOptionsSelected() {
     this.optionsSelectedChanged.emit(
       Object.keys(this.optionsSelected).filter(
         (key) => !!key && this.optionsSelected[key]

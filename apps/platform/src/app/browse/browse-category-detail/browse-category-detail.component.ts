@@ -1,7 +1,13 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map, shareReplay, switchMap, tap } from 'rxjs/operators';
+import {
+  map,
+  shareReplay,
+  switchMap,
+  tap,
+  withLatestFrom,
+} from 'rxjs/operators';
 import { SeoService } from '../../services/seo.service';
 import {
   StreamCategory,
@@ -76,8 +82,13 @@ export class BrowseCategoryDetailComponent {
     switchMap(() => this.categoryService.getAvailableLanguages())
   );
 
-  availableProgrammingLanauges = this.streamCategoryList.pipe(
+  availableProgrammingLanguages = this.streamCategoryList.pipe(
     switchMap(() => this.categoryService.getAvailableProgrammingLanguages())
+  );
+
+  attrs = this.availableLanguages.pipe(
+    withLatestFrom(this.availableProgrammingLanguages),
+    map(([langs, programmingLangs]) => ({ langs, programmingLangs }))
   );
 
   templateStreams = this.streamCategoryList;

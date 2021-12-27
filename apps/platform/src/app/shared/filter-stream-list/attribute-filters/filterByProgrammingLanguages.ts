@@ -12,7 +12,7 @@ export const filterByProgrammingLanguages = (
   programmingLanguages: ProgrammingLanguage[] | null
 ) => {
   return !programmingLanguages
-    ? of(languageFilteredStreams)
+    ? of([])
     : of(
         languageFilteredStreams.filter((s) => {
           return programmingLanguages.some((programmingLanguage) => {

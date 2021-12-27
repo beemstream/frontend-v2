@@ -9,6 +9,7 @@
 
 <ui-dropdown-filter-select
   [options]="languages"
+  [selectedOptions]="selectedLangs"
   [titleTemplate]="titleTemplate"
   [optionTemplate]="optionTemplate"
   (optionsSelectedChanged)="languagesChanged.emit($event)"
