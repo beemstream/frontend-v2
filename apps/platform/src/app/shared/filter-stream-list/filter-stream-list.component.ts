@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   EventEmitter,
   OnChanges,
-  OnInit,
 } from '@angular/core';
 import { Component, Input, Output } from '@angular/core';
 import {
@@ -23,7 +22,7 @@ import { FilterQueryParamsService } from '../../services/filter-query-params.ser
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [FilterService, FilterQueryParamsService],
 })
-export class FilterStreamListComponent implements OnInit, OnChanges {
+export class FilterStreamListComponent implements OnChanges {
   @Input() streamCategoryList: StreamInfo[] | null = [];
 
   @Input() availableLanguages?: LanguageCode[] | null = [];
@@ -49,17 +48,6 @@ export class FilterStreamListComponent implements OnInit, OnChanges {
     private filterQueryParamsService: FilterQueryParamsService
   ) {
     this.filterQueryParamsService.subscribe();
-  }
-
-  ngOnInit() {
-    this.filterService.updateSourceValue(
-      FilterKey.ProgrammingLanguage,
-      this.availableProgrammingLanguages
-    );
-    this.filterService.updateSourceValue(
-      FilterKey.Language,
-      this.availableLanguages
-    );
   }
 
   ngOnChanges(): void {
