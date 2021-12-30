@@ -1,16 +1,16 @@
 <div class="grid grid-cols-2">
   <div class="mb-5">
     <ui-link class="font-semibold" [routerLink]="link" [linkName]="title"
-      ><fa-icon
+      ><ui-icon
         class="text-xl pr-2"
         *ngIf="titleIcon"
         [icon]="titleIcon"
-      ></fa-icon
+      ></ui-icon
     ></ui-link>
   </div>
   <div class="absolute right-10" *ngIf="showLink">
     <ui-button [routerLink]="link"
-      ><fa-icon [icon]="faArrowRight"></fa-icon
+      ><ui-icon [icon]="faArrowRight"></ui-icon
     ></ui-button>
   </div>
 </div>

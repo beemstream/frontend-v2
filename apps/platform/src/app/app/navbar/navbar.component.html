@@ -76,10 +76,10 @@
                 class="flex"
                 *ngIf="userDetails | async as userDetails$; else loginButton"
               >
-                <fa-icon class="text-xl" [icon]="faUserCircle"></fa-icon>
+                <ui-icon class="text-xl" [icon]="faUserCircle"></ui-icon>
                 <span class="self-center pl-2">{{ userDetails$?.login }}</span>
                 <button (click)="logout()">
-                  <fa-icon class="pl-2 text-xl" [icon]="faSignOutAlt"></fa-icon>
+                  <ui-icon class="pl-2 text-xl" [icon]="faSignOutAlt"></ui-icon>
                 </button>
               </div>
               <ng-template #loginButton>
@@ -98,7 +98,7 @@
         class="block p-5 text-white cursor-pointer md:block lg:hidden"
         (click)="toggleMobileNav()"
       >
-        <fa-icon class="text-xl" [icon]="icon"></fa-icon>
+        <ui-icon class="text-xl" [icon]="icon"></ui-icon>
       </div>
     </div>
     <div [class.hidden]="!isNavActive" class="pb-4 text-white lg:hidden">
@@ -125,7 +125,7 @@
             linkType="routerLink"
             linkName="Surprise Me!"
           >
-            <fa-icon class="pr-2" [icon]="faGift"></fa-icon>
+            <ui-icon class="pr-2" [icon]="faGift"></ui-icon>
           </ui-link>
         </li>
         <li class="p-3">
@@ -147,7 +147,7 @@
             target="_blank"
             linkName="Survey"
           >
-            <fa-icon class="pr-2" [icon]="faList"></fa-icon>
+            <ui-icon class="pr-2" [icon]="faList"></ui-icon>
           </ui-link>
         </li>
         <li class="p-3">
@@ -155,10 +155,10 @@
             class="flex"
             *ngIf="userDetails | async as userDetails$; else mobileLogin"
           >
-            <fa-icon class="text-xl" [icon]="faUserCircle"></fa-icon>
+            <ui-icon class="text-xl" [icon]="faUserCircle"></ui-icon>
             <span class="self-center pl-2">{{ userDetails$?.login }}</span>
             <button (click)="logout()">
-              <fa-icon class="pl-2 text-xl" [icon]="faSignOutAlt"></fa-icon>
+              <ui-icon class="pl-2 text-xl" [icon]="faSignOutAlt"></ui-icon>
             </button>
           </div>
           <ng-template #mobileLogin>

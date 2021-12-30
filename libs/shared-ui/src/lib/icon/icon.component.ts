@@ -25,7 +25,7 @@ export class IconComponent implements OnInit, AfterViewInit {
 
   svg!: SafeHtml;
 
-  @ViewChild('svgContainer') svgContainerElem!: ElementRef;
+  @ViewChild('svgContainer') svgContainerElem!: ElementRef<HTMLDivElement>;
 
   constructor(
     private sanitzer: DomSanitizer,
@@ -34,8 +34,9 @@ export class IconComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     if (this.isBeemStreamSource) {
-      const svg = this.svgContainerElem.nativeElement.querySelector('svg');
-      svg.setAttribute('class', `fill-current ${this.iconClass}`);
+      this.svgContainerElem.nativeElement
+        .querySelector('svg')
+        ?.setAttribute('class', `fill-current ${this.iconClass}`);
     }
   }
 
