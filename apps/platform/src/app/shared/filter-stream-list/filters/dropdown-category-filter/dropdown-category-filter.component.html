@@ -1,13 +1,13 @@
 <ng-template #template let-option>
   <div>
     <a>
-      <fa-icon [icon]="option.icon" class="pr-2"></fa-icon> {{ option.value }}
+      <ui-icon [icon]="option.icon" class="pr-2"></ui-icon> {{ option.value }}
     </a>
   </div>
 </ng-template>
 
 <ng-template #titleTemplate>
-  <fa-icon class="pr-2" [icon]="active.icon"></fa-icon
+  <ui-icon class="pr-2" [icon]="active.icon"></ui-icon
   ><span>{{ active.value }}</span>
 </ng-template>
 
