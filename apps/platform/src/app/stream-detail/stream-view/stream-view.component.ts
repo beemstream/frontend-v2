@@ -2,28 +2,28 @@ import { ViewChild } from '@angular/core';
 import { ElementRef } from '@angular/core';
 import { AfterViewInit, Component, Input } from '@angular/core';
 import { faTv } from '@fortawesome/free-solid-svg-icons';
+import { TwitchEmbedService } from '../../services/twitch-embed.service';
 
 @Component({
   selector: 'nbp-stream-view',
   templateUrl: './stream-view.component.html',
   styleUrls: ['./stream-view.component.css'],
+  providers: [TwitchEmbedService],
 })
 export class StreamViewComponent implements AfterViewInit {
-  @Input() channel?: string;
-  @Input() channelImg?: string;
+  @Input() channel!: string;
+  @Input() channelImg!: string;
 
   faTv = faTv;
 
-  @ViewChild('twitchEmbed') twitchEmbedElem?: ElementRef;
+  @ViewChild('twitchEmbed') twitchEmbedElem!: ElementRef;
+
+  constructor(private twitchEmbedService: TwitchEmbedService) {}
 
   ngAfterViewInit(): void {
-    if (this.channel) {
-      new Twitch.Embed(this.twitchEmbedElem?.nativeElement, {
-        width: '100%',
-        height: '100%',
-        channel: this.channel,
-        theme: 'dark',
-      });
-    }
+    this.twitchEmbedService.createEmbed(
+      this.twitchEmbedElem.nativeElement,
+      this.channel
+    );
   }
 }
