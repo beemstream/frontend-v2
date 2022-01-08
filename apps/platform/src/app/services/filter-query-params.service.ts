@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import {
   BehaviorSubject,
   combineLatest,
+  EMPTY,
   map,
   Subscription,
   switchMap,
@@ -116,6 +117,8 @@ export class FilterQueryParamsService implements OnDestroy {
     this.subscription = this.activatedRoute.queryParams
       .pipe(
         switchMap((queryParams) => {
+          if (queryParams.code) return EMPTY;
+
           return Object.keys(queryParams).length > 0
             ? filterByQueryParams
             : trackFilters;
