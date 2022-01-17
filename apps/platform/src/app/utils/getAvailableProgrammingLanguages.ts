@@ -106,17 +106,17 @@ export function getAvailableProgrammingLanguages(
   );
 }
 
-export const searchKeywords = (k: string, s: StreamInfo) => {
+export const searchKeywords = (k: string, word: string) => {
   if (k.includes('-w')) {
     const keyword = k.split('-w')[1].trim();
-    const lower = s.title.toLowerCase();
+    const lower = word.toLowerCase();
 
     return !!lower.match(new RegExp(String.raw`\b${keyword}\b`, 'g'));
   }
   if (k.includes('-')) {
-    return !compareStr(s.title, k);
+    return !compareStr(word, k);
   }
-  return compareStr(s.title, k);
+  return compareStr(word, k);
 };
 
 export type KeywordMapKey = keyof typeof KEYWORD_MAP;
@@ -128,17 +128,22 @@ export function filterByProgrammingLanguage(
   return stream.pipe(
     map((streams) => {
       return streams.filter((s) => {
+        const allTags = s.tag_ids.join(' ');
         if (language === ProgrammingLanguage.Uncategorized) {
           return Object.keys(KEYWORD_MAP)
             .filter((k) => k !== ProgrammingLanguage.Uncategorized)
             .every(
               (k) =>
-                KEYWORD_MAP[k as KeywordMapKey].some((keyword: string) =>
-                  searchKeywords(keyword, s)
+                KEYWORD_MAP[k as KeywordMapKey].some(
+                  (keyword: string) =>
+                    searchKeywords(keyword, s.title) ||
+                    searchKeywords(keyword, allTags)
                 ) === false
             );
         }
-        return KEYWORD_MAP[language].some((k) => searchKeywords(k, s));
+        return KEYWORD_MAP[language].some(
+          (k) => searchKeywords(k, s.title) || searchKeywords(k, allTags)
+        );
       });
     })
   );
