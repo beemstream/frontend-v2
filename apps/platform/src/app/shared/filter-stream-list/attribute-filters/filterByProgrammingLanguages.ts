@@ -15,19 +15,22 @@ export const filterByProgrammingLanguages = (
     ? of([])
     : of(
         languageFilteredStreams.filter((s) => {
+          const allTags = s.tag_ids.join(' ');
           return programmingLanguages.some((programmingLanguage) => {
             if (programmingLanguage === ProgrammingLanguage.Uncategorized) {
               return Object.keys(KEYWORD_MAP)
                 .filter((k) => k !== ProgrammingLanguage.Uncategorized)
                 .every(
                   (k) =>
-                    !KEYWORD_MAP[k as KeywordMapKey].some((keyword: string) =>
-                      searchKeywords(keyword, s)
+                    !KEYWORD_MAP[k as KeywordMapKey].some(
+                      (keyword: string) =>
+                        searchKeywords(keyword, s.title) ||
+                        searchKeywords(keyword, allTags)
                     )
                 );
             }
-            return KEYWORD_MAP[programmingLanguage].some((k) =>
-              searchKeywords(k, s)
+            return KEYWORD_MAP[programmingLanguage].some(
+              (k) => searchKeywords(k, s.title) || searchKeywords(k, allTags)
             );
           });
         })
