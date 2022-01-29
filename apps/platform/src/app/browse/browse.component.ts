@@ -6,7 +6,7 @@ import {
   faMobileAlt,
 } from '@fortawesome/free-solid-svg-icons';
 import { Observable, zip } from 'rxjs';
-import { mergeMap, scan, switchMap, take } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { TemplateDescription } from './browse-category-detail/browse-category-detail.component';
 import {
   StreamCategory,
@@ -77,14 +77,7 @@ export class BrowseComponent {
   constructor(private streamService: StreamCategoryService) {}
 
   limitLength(stream: Observable<StreamInfo[]>) {
-    const limit = stream.pipe(
-      mergeMap((s) => s),
-      take(this.limit),
-      scan((a, c) => {
-        a.push(c);
-        return a;
-      }, [] as StreamInfo[])
-    );
+    const limit = stream.pipe(map((s) => s.slice(0, this.limit)));
 
     return stream.pipe(switchMap((s) => (s.length > 0 ? limit : stream)));
   }

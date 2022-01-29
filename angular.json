@@ -76,13 +76,13 @@
         "serve-ssr": {
           "builder": "@nguniversal/builders:ssr-dev-server",
           "options": {
-            "browserTarget": "common:build",
-            "serverTarget": "common:server"
+            "browserTarget": "platform:build",
+            "serverTarget": "platform:server"
           },
           "configurations": {
             "production": {
-              "browserTarget": "common:build:production",
-              "serverTarget": "common:server:production"
+              "browserTarget": "platform:build:production",
+              "serverTarget": "platform:server:production"
             }
           }
         },
@@ -104,6 +104,19 @@
               ],
               "sourceMap": false,
               "optimization": true
+            }
+          }
+        },
+        "prerender": {
+          "builder": "@nguniversal/builders:prerender",
+          "options": {
+            "browserTarget": "platform:build",
+            "serverTarget": "platform:server"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "platform:build:production",
+              "serverTarget": "platform:server:production"
             }
           }
         },
