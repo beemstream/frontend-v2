@@ -23,7 +23,7 @@ import { BuyMeACoffeeComponent } from './app/buy-me-a-coffee/buy-me-a-coffee.com
     BuyMeACoffeeComponent,
   ],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     HttpClientModule,
     AppRoutingModule,
     FontAwesomeModule,

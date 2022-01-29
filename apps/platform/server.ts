@@ -9,7 +9,7 @@ import { APP_BASE_HREF } from '@angular/common';
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
   const server = express();
-  const distFolder = join(process.cwd(), 'dist/common/browser');
+  const distFolder = join(process.cwd(), 'dist/platform/browser');
   const indexHtml = join(distFolder, 'index.html');
 
   const commonEngine = new CommonEngine();
