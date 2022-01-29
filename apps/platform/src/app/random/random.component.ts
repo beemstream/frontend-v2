@@ -2,13 +2,16 @@ import { Component, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { map, take } from 'rxjs/operators';
-import { StreamCategoryService } from '../services/stream-category.service';
+import {
+  StreamCategoryService,
+  StreamCategoryServiceProvider,
+} from '../services/stream-category.service';
 
 @Component({
   selector: 'nbp-random',
   templateUrl: './random.component.html',
   styleUrls: ['./random.component.css'],
-  providers: [StreamCategoryService],
+  providers: [StreamCategoryServiceProvider],
 })
 export class RandomComponent implements OnDestroy {
   readonly subscription: Subscription;

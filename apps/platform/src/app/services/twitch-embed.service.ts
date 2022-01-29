@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { Injectable, PLATFORM_ID } from '@angular/core';
 
 @Injectable()
 export class TwitchEmbedService {
@@ -11,3 +12,13 @@ export class TwitchEmbedService {
     });
   }
 }
+
+export const TwitchEmbedServiceProvider = {
+  provide: TwitchEmbedService,
+  useFactory: (platformId: string) =>
+    isPlatformBrowser(platformId)
+      ? TwitchEmbedService
+      : // eslint-disable-next-line @typescript-eslint/no-empty-function
+        { createEmbed: (_element: HTMLElement, _channel: string) => {} },
+  deps: [PLATFORM_ID],
+};

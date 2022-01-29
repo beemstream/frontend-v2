@@ -1,5 +1,6 @@
+import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, PLATFORM_ID } from '@angular/core';
 import { Observable, of, Subject, timer } from 'rxjs';
 import {
   map,
@@ -79,7 +80,7 @@ export class StreamCategoryService implements OnDestroy {
       .pipe(shareReplay(1));
   }
 
-  private pollStreams(category?: StreamCategory): Observable<StreamInfo[]> {
+  pollStreams(category?: StreamCategory): Observable<StreamInfo[]> {
     return timer(0, this.refreshTime).pipe(
       switchMap(() => this.getNewStreams(category)),
       takeUntil(this.stopPolling),
@@ -88,3 +89,19 @@ export class StreamCategoryService implements OnDestroy {
     );
   }
 }
+
+@Injectable()
+export class StreamCategoryServiceServer extends StreamCategoryService {
+  pollStreams() {
+    return this.getNewStreams().pipe(retry());
+  }
+}
+
+export const StreamCategoryServiceProvider = {
+  provide: StreamCategoryService,
+  useFactory: (platformId: object) =>
+    isPlatformBrowser(platformId)
+      ? StreamCategoryService
+      : StreamCategoryServiceServer,
+  deps: [PLATFORM_ID],
+};

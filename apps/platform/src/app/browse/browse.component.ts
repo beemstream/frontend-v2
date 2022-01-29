@@ -9,8 +9,9 @@ import { Observable, zip } from 'rxjs';
 import { mergeMap, scan, switchMap, take } from 'rxjs/operators';
 import { TemplateDescription } from './browse-category-detail/browse-category-detail.component';
 import {
-  StreamCategoryService,
   StreamCategory,
+  StreamCategoryService,
+  StreamCategoryServiceProvider,
 } from '../services/stream-category.service';
 import { StreamInfo } from '../stream-info';
 
@@ -18,7 +19,7 @@ import { StreamInfo } from '../stream-info';
   selector: 'nbp-browse',
   templateUrl: './browse.component.html',
   styleUrls: ['./browse.component.css'],
-  providers: [StreamCategoryService],
+  providers: [StreamCategoryServiceProvider],
 })
 export class BrowseComponent {
   limit = 5;

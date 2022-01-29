@@ -16,7 +16,7 @@ import { CategoryHeaderComponent } from './category-header/category-header.compo
 import { BrowseCategoryDetailComponent } from './browse-category-detail/browse-category-detail.component';
 import { FiltersModule } from '../shared/filter-stream-list/filters/filters.module';
 import { FilterStreamListModule } from '../shared/filter-stream-list/filter-stream.module';
-import { StreamCategoryService } from '../services/stream-category.service';
+import { StreamCategoryServiceProvider } from '../services/stream-category.service';
 
 @NgModule({
   declarations: [
@@ -37,6 +37,6 @@ import { StreamCategoryService } from '../services/stream-category.service';
     FilterStreamListModule,
     ImgSizePipeModule,
   ],
-  providers: [StreamCategoryService],
+  providers: [StreamCategoryServiceProvider],
 })
 export class BrowseModule {}

@@ -2,14 +2,17 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { combineLatestWith, map, tap, withLatestFrom } from 'rxjs/operators';
 import { SeoService } from '../services/seo.service';
-import { StreamCategoryService } from '../services/stream-category.service';
+import {
+  StreamCategoryService,
+  StreamCategoryServiceProvider,
+} from '../services/stream-category.service';
 import { TwitchOauthService } from '../services/twitch-oauth.service';
 
 @Component({
   selector: 'nbp-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
-  providers: [StreamCategoryService],
+  providers: [StreamCategoryServiceProvider],
 })
 export class HomeComponent {
   streams = this.streamCategoryService.getStreams();
