@@ -73,6 +73,40 @@
           },
           "defaultConfiguration": "development"
         },
+        "serve-ssr": {
+          "builder": "@nguniversal/builders:ssr-dev-server",
+          "options": {
+            "browserTarget": "common:build",
+            "serverTarget": "common:server"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "common:build:production",
+              "serverTarget": "common:server:production"
+            }
+          }
+        },
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "progress": false,
+            "outputPath": "dist/platform/server",
+            "main": "./apps/platform/server.ts",
+            "tsConfig": "./apps/platform/tsconfig.server.json"
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "sourceMap": false,
+              "optimization": true
+            }
+          }
+        },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
