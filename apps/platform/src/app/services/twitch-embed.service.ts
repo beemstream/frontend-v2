@@ -17,7 +17,7 @@ export const TwitchEmbedServiceProvider = {
   provide: TwitchEmbedService,
   useFactory: (platformId: string) =>
     isPlatformBrowser(platformId)
-      ? TwitchEmbedService
+      ? new TwitchEmbedService()
       : // eslint-disable-next-line @typescript-eslint/no-empty-function
         { createEmbed: (_element: HTMLElement, _channel: string) => {} },
   deps: [PLATFORM_ID],

@@ -1,6 +1,12 @@
 import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Injectable, OnDestroy, PLATFORM_ID } from '@angular/core';
+import {
+  Injectable,
+  Injector,
+  INJECTOR,
+  OnDestroy,
+  PLATFORM_ID,
+} from '@angular/core';
 import { Observable, of, Subject, timer } from 'rxjs';
 import {
   map,
@@ -99,9 +105,10 @@ export class StreamCategoryServiceServer extends StreamCategoryService {
 
 export const StreamCategoryServiceProvider = {
   provide: StreamCategoryService,
-  useFactory: (platformId: object) =>
-    isPlatformBrowser(platformId)
-      ? StreamCategoryService
-      : StreamCategoryServiceServer,
-  deps: [PLATFORM_ID],
+  useFactory: (platformId: object, inject: Injector) => {
+    return isPlatformBrowser(platformId)
+      ? new StreamCategoryService(inject.get(HttpClient))
+      : new StreamCategoryServiceServer(inject.get(HttpClient));
+  },
+  deps: [PLATFORM_ID, INJECTOR],
 };
